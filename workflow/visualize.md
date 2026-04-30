@@ -1,0 +1,75 @@
+# Visualize
+
+The **Visualize** dropdown gives you publication-ready statistical charts driven by your processed data. Each chart is interactive Plotly — zoom, hover, export to PNG.
+
+> [Screenshot: PCA plot colored by sample groups]
+
+## Open a visualization
+
+Click the **Visualize** tab dropdown in the top action bar. Pick a chart type from the menu.
+
+## Available charts
+
+| Chart | What it shows | Best for |
+|-------|---------------|----------|
+| **PCA** | Principal component analysis in 2D or 3D | Sample clustering, outlier detection |
+| **Correlation** | Sample-to-sample correlation matrix heatmap | QC — replicates should correlate |
+| **Heatmap** | Metabolite intensity matrix with hierarchical clustering | Pattern discovery across many compounds |
+| **Box Plot** | Distribution of intensities by sample or metabolite | Spotting outliers per compound |
+| **Dendrogram** | Hierarchical clustering tree | Sample or metabolite relationships |
+| **Volcano** | Log2 fold-change vs −log10 p-value | Differential analysis between two groups |
+| **QC Dashboard** | Detection rates + verdict distribution + scoring summary | Top-line health check |
+| **Metabolite Network** | Correlation-based network of co-regulated metabolites | Module detection |
+| **Sample Network** | Similarity network of samples | Replicate consistency at a glance |
+| **Bipartite Network** | Sample-to-metabolite connection graph | Top contributors per sample |
+| **Pathway Network** | KEGG pathway mapping | Biological context |
+
+## Settings sidebar
+
+Each chart has a collapsible **Settings** sidebar on the right with chart-specific options. Common ones:
+
+| Setting | Where it appears | What it does |
+|---------|------------------|--------------|
+| **Normalization** | Heatmap, PCA, networks | Z-score, log2, raw, or median centering |
+| **Clustering** | Heatmap, dendrogram | Linkage method (ward, complete, average) and metric (euclidean, correlation) |
+| **Group coloring** | Most charts | Color points by the sample groups you defined in the sidebar |
+| **Threshold sliders** | Volcano, networks | Fold-change cutoff, p-value cutoff, edge threshold |
+| **2D / 3D** | PCA | Toggle dimensionality |
+
+## Volcano plot — special requirements
+
+Volcano needs **exactly two sample groups**. Set them up first:
+
+1. Open the sample selector sidebar from the **Peak Picking** view
+2. Use the lightning-bolt button to auto-group, or manually assign samples to two groups (e.g., `WT` and `KO`)
+3. Switch to **Visualize → Volcano**
+4. Configure the fold-change and p-value cutoffs in the sidebar
+
+Compounds passing both thresholds appear as colored points. Hover any point for the compound name and stats.
+
+> [Screenshot: volcano plot with significant compounds highlighted]
+
+## Network charts
+
+The four network types use different inputs:
+
+- **Metabolite network** — edges are pairwise correlations between metabolites
+- **Sample network** — edges are pairwise correlations between samples
+- **Bipartite network** — edges connect samples to their top contributing metabolites
+- **Pathway network** — edges come from KEGG pathway membership
+
+Adjust the edge threshold slider to control density. Drag nodes to rearrange.
+
+## Exporting charts
+
+Plotly's built-in toolbar (top-right of each chart) has:
+
+- 📷 **Camera** — download as PNG
+- 🔍 **Zoom**, pan, reset
+- 📏 **Box select** — for downstream filtering
+
+For publication-quality SVG export, use your browser's screenshot or print-to-PDF — Plotly's PNG export is currently raster only.
+
+## Next step
+
+→ [Export your data](/workflow/export)
