@@ -99,6 +99,30 @@ export default defineConfig({
       ],
       '/scripting/': [
         {
+          text: 'Overview',
+          items: [
+            { text: 'When to use scripting', link: '/scripting/' },
+          ],
+        },
+        {
+          text: 'Command line',
+          items: [
+            { text: 'Overview', link: '/scripting/cli/overview' },
+            { text: 'leaf webui', link: '/scripting/cli/webui' },
+            { text: 'leaf targeted', link: '/scripting/cli/targeted' },
+            { text: 'leaf untargeted', link: '/scripting/cli/untargeted' },
+            { text: 'leaf watch', link: '/scripting/cli/watch' },
+            { text: 'Configuration', link: '/scripting/cli/configuration' },
+          ],
+        },
+        {
+          text: 'Python package',
+          items: [
+            { text: 'Overview & install', link: '/scripting/python/overview' },
+            { text: 'Recipes', link: '/scripting/python/recipes' },
+          ],
+        },
+        {
           text: 'RAW reader',
           items: [
             { text: 'SEED (macOS / Linux)', link: '/scripting/reader' },
