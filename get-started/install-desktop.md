@@ -2,7 +2,7 @@
 
 LEAF runs as a local web application. After installation, the server is launched on demand from the command line and accessed in a browser at `127.0.0.1`. All processing and storage occur on the local machine.
 
-> [Screenshot: LEAF home page in a browser after running `leaf serve`]
+> [Screenshot: LEAF home page in a browser after running `leaf webui run`]
 
 ## Requirements
 
@@ -46,19 +46,20 @@ The wheel bundles everything LEAF needs: the Python backend, the Rust extraction
 Open a terminal and run:
 
 ```bash
-leaf serve
+leaf webui run
 ```
 
-You should see:
+LEAF starts in the foreground and prints a uvicorn banner ending in:
 
 ```
-LEAF v0.5.0 ready at http://127.0.0.1:18008
-Press Ctrl+C to stop.
+Uvicorn running on http://127.0.0.1:18008 (Press CTRL+C to quit)
 ```
 
-Open the URL in your browser and you'll see the LEAF home page.
+Open `http://127.0.0.1:18008` in your browser and you'll see the LEAF home page.
 
-> [Screenshot: terminal showing `leaf serve` startup output]
+> [Screenshot: terminal showing `leaf webui run` startup output]
+
+To run LEAF in the background instead, use `leaf webui start` (and `leaf webui stop` to terminate). See [`leaf webui`](/cli/serve) for full options.
 
 ## Stop
 
@@ -69,7 +70,7 @@ Press **Ctrl+C** in the terminal window. Closing the browser tab does not stop L
 | Problem | Fix |
 |---------|-----|
 | `command not found: leaf` | The install location isn't on your PATH. With `uv tool install`, run `uv tool update-shell`. With `pip install --user`, add `~/.local/bin` (macOS/Linux) or `%APPDATA%\Python\Scripts` (Windows) to PATH. |
-| Port 18008 already in use | Another process is using the port. Run `leaf serve --port 18009` (or any free port). |
+| Port 18008 already in use | Another process is using the port. Run `leaf webui run --port 18009` (or any free port). |
 | `pythonnet` errors on Windows | .NET 8.0 SDK is missing. Install from [dotnet.microsoft.com](https://dotnet.microsoft.com/download/dotnet/8.0). |
 | RAW file fails to load | The Thermo file may be from an unsupported instrument firmware. See [Troubleshooting](/reference/troubleshooting). |
 
