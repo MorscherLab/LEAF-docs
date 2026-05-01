@@ -57,6 +57,9 @@ The two-step technique LEAF processes data from. LC separates compounds in time;
 **LOD** (Limit of Detection)
 Minimum signal level required for a peak to count as "detected". Configurable in the Extract page (default 100,000).
 
+**`leaf serve`** *(deprecated)*
+Older docs and forum posts referenced `leaf serve` as the launch command. The actual entry point is `leaf webui run` (foreground) or `leaf webui start` (daemon). See [`leaf webui`](/cli/serve).
+
 ## M
 
 **Mass tolerance**
@@ -111,6 +114,9 @@ When a compound elutes from the LC column, in minutes. LEAF uses the expected RT
 Compensating for small RT shifts between samples (column aging, temperature drift, etc.). Done automatically during extraction.
 
 ## S
+
+**SEED** (Spectral Extraction & Encoding Driver)
+The Rust library LEAF uses to read Thermo `.raw` files on macOS and Linux. SEED is the `rust` backend in `leaf --backend`. It replaces the legacy `oxion` codename. See the [SEED upstream docs](https://github.com/MorscherLab/LEAF/tree/main/docs).
 
 **SEM** (Standard Error of the Mean)
 Error bars in the isotopologue chart show mean ± SEM per sample group.

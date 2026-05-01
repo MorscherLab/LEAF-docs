@@ -7,9 +7,9 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | `command not found: leaf` | Install location not on PATH | `uv tool update-shell` (uv) or add `~/.local/bin` to PATH (pip) |
-| Port 18008 already in use | Another process is on the port | `leaf serve --port 18009` |
+| Port 18008 already in use | Another process is on the port | `leaf webui run --port 18009` |
 | `pythonnet` errors on Windows | Missing .NET 8.0 | Install [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) |
-| Browser shows "Cannot connect" | LEAF crashed or terminal closed | Re-run `leaf serve`; check the terminal for errors |
+| Browser shows "Cannot connect" | LEAF crashed or terminal closed | Re-run `leaf webui run`; check the terminal for errors |
 | LEAF starts but no logo / styles | Browser cached an old build | Hard-refresh with **⌘⇧R** (Mac) or **Ctrl+Shift+R** (Win/Linux) |
 
 ## RAW files
@@ -20,6 +20,7 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | "No samples found in folder" | Folder has no `.raw` files, or files have a different extension | Check filenames; LEAF only reads `.raw` (case-sensitive on Linux) |
 | Sample names look weird | Auto-name extraction got confused | Toggle "Organize names" off — uses raw filename instead |
 | Blank files included anyway | "Skip blanks" only matches the word "blank" | Rename your blank files to include "blank", or untoggle "Skip blanks" and remove them after |
+| RAW file fails to load on macOS / Linux | SEED reader hit an unsupported instrument firmware | Switch to a Windows machine and try the `dotnet` backend (`leaf targeted --backend dotnet …`); if it still fails, [report it](https://github.com/MorscherLab/LEAF/issues) |
 
 ## Compound list
 
