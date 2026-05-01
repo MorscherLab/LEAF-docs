@@ -33,10 +33,13 @@ jobs:
 
       - name: Check for retired `leaf serve` references
         run: |
+          # Glossary keeps `leaf serve` as a deprecated-alias entry; everywhere
+          # else fails the build. `--exclude` matches basename, not path, so
+          # `glossary.md` is the right pattern here.
           if grep -rEn 'leaf serve' --include='*.md' \
                  --exclude-dir=node_modules \
                  --exclude-dir=docs \
-                 --exclude='reference/glossary.md' .; then
+                 --exclude='glossary.md' .; then
             echo "::error::Retired command 'leaf serve' found above. Use 'leaf webui run' instead."
             exit 1
           fi
