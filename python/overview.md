@@ -28,22 +28,31 @@ import leaf
 print(leaf.__version__)
 ```
 
-## Import surface
+## Public surface
 
-<!-- TODO: Replace with the authoritative public import surface once the
-     stable API is finalised. The names below are placeholders and must be
-     confirmed against the LEAF repository before being relied upon.
+The package re-exports four classes intended for scripted use:
 
-     Suggested sections to populate:
-     - Top-level functions for batch extraction
-     - Reading and writing .msd / .usd archives
-     - Accessing intensity matrices, peaks, and quality verdicts as
-       pandas DataFrames or numpy arrays
-     - Configuring extraction parameters programmatically
--->
+```python
+from leaf.analyzer import Samples, Analyzer, PeakPicking, QCReport
+```
 
-The public Python API is being stabilised. Until this section is filled in, treat the [LEAF repository documentation](https://github.com/MorscherLab/LEAF/tree/main/docs) as the authoritative reference for import paths and function signatures.
+| Name | Role |
+|------|------|
+| `Samples` | Central data container — sparse intensity tensors, sample/metabolite indices, peak dictionary. The result of every extraction. Persisted via `Samples.load(path)` / `samples.save(path)`. |
+| `Analyzer` | RAW / mzML extraction. Constructor takes a folder or file list plus a metabolite CSV; `extract_metabolites(...)` returns a `Samples`. |
+| `PeakPicking` | Peak detection on an existing `Samples`. Constructor takes the `Samples`; `run(...)` returns a quantification DataFrame. |
+| `QCReport` | EQC / IQC sample analysis (separate from the per-compound verdicts produced by `leaf.analyzer.score`). |
+
+For per-compound quality verdicts (good / warning / poor — the same colours the web UI shows), use the orchestrator in `leaf.analyzer.score`:
+
+```python
+from leaf.analyzer.score import score_dataset, ScoringConfig
+```
+
+::: info Public surface
+The names above are stable as of LEAF 0.5; signatures and module paths may change before 1.0. The formal class reference (parameters, return types, methods) lives upstream in [LEAF's developer docs](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api). This manual covers usage patterns only — see [Quickstart](/python/quickstart) for runnable examples.
+:::
 
 ## Next
 
-→ [Quickstart](/python/quickstart) — a minimal scripted-analysis example
+→ [Quickstart](/python/quickstart) — runnable scripted-analysis recipes

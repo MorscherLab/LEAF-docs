@@ -1,115 +1,137 @@
-# Python Quickstart
+# Python Recipes
 
-A minimal scripted-analysis example that mirrors the workflow described in [Run your first analysis](/get-started/quickstart), implemented through the Python package instead of the web interface.
+Short, runnable recipes for common scripted-analysis tasks. Each uses only public exports from `leaf.analyzer` (see [Public surface](/python/overview#public-surface)).
 
-::: warning Placeholder code
-The code blocks below are scaffolds. Function names, parameter names, and module paths must be verified against the [LEAF repository documentation](https://github.com/MorscherLab/LEAF/tree/main/docs) before use. Sections marked <code>TODO</code> require input from the LEAF maintainers.
+::: warning Stability
+Names and signatures may change before LEAF 1.0. Pin a specific version (`pip install leaf==0.5.x`) to keep scripts reproducible. The formal class reference lives in [LEAF's developer docs](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api).
 :::
 
-## Prerequisites
-
-The same inputs as the UI walkthrough:
-
-1. A folder of Thermo `.raw` files
-2. A CSV listing target metabolites (see [Prepare your data](/workflow/prepare-data) for the schema)
-
-LEAF must be installed in the active Python environment ([Install on desktop](/get-started/install-desktop)).
-
-## Outline of a scripted run
-
-A typical batch script performs these steps:
-
-1. Load the compound list (a CSV)
-2. Configure extraction parameters (polarity, mass tolerance, RT window, peak picking, scoring)
-3. Run extraction over a folder of RAW files
-4. Inspect the resulting intensity matrix and quality verdicts
-5. Write a `.msd` archive for downstream use
+## Recipe 1 — Batch extraction from a folder
 
 ```python
-# TODO: Replace placeholder imports and function names with the
-# authoritative public API once the stable surface is documented.
+from leaf.analyzer import Analyzer
 
-import leaf  # noqa: F401
+# Constructor takes the RAW folder + the compound CSV.
+analyzer = Analyzer(
+    file_path="./samples",
+    metabolite_list_path="./compounds.csv",
+    organize_name=True,    # auto-parse clean sample names from filenames
+    skip_blank=True,       # ignore files with "blank" in the name
+)
 
-# 1. Load the compound list
-# compounds = leaf.io.read_compound_list("compounds.csv")
+# Run extraction. Returns a Samples — the same container the web UI builds.
+samples = analyzer.extract_metabolites(
+    polarity="NEG",
+    tolerance=5,           # ppm
+    backend="auto",        # 'rust' (SEED) on macOS/Linux, 'dotnet' on Windows
+    extract_tic=True,
+)
 
-# 2. Configure extraction parameters
-# params = leaf.ExtractionParameters(
-#     polarity="NEG",
-#     mass_tolerance_ppm=5,
-#     rt_window_min=0.5,
-#     peak_picking="v4",
-#     quality_scoring=True,
-# )
-
-# 3. Run extraction over a folder of RAW files
-# result = leaf.extract(
-#     raw_folder="./samples",
-#     compounds=compounds,
-#     parameters=params,
-# )
-
-# 4. Inspect results
-# intensities = result.intensities          # pandas DataFrame
-# verdicts = result.verdicts                # per-compound quality verdicts
-# peaks = result.peaks                      # detected peak boundaries
-
-# 5. Save a .msd archive
-# result.write("analysis.msd")
+# Persist to a .msd archive
+samples.save("analysis.msd")
 ```
 
-## Loading an existing `.msd` archive
+The `.msd` reopens in the web UI by drag-and-drop; see [Reopening a .msd file](/workflow/export#reopening-a-msd-file).
+
+## Recipe 2 — Reopen a `.msd` and re-run peak picking
 
 ```python
-# TODO: Confirm the public loader name and signature.
+from leaf.analyzer import Samples, PeakPicking
 
-# bundle = leaf.io.read_msd("analysis.msd")
-# intensities = bundle.intensities
-# verdicts = bundle.verdicts
+# Load an existing analysis. classmethod returns a Samples.
+samples = Samples.load("analysis.msd")
+
+# PeakPicking takes the Samples in the constructor. run() returns a
+# quantification DataFrame and mutates samples in place.
+picker = PeakPicking(samples, intensity_threshold=1e5)
+quant_df = picker.run(
+    rt_window=0.3,
+    method="v4",
+    quantify_method="area_top",
+    rt_mode="reference",   # use expected RT from the CSV as anchor
+)
+
+# quant_df is a metabolite × sample pandas DataFrame
+print(quant_df.head())
+
+# Save the updated Samples back
+samples.save("analysis-repicked.msd")
 ```
 
-The same archive opens in the LEAF web UI by drag-and-drop, allowing UI-based review of a script-produced result without re-extraction.
+## Recipe 3 — Per-compound quality verdicts
+
+The verdict colours the web UI shows (good / warning / poor) come from the scoring orchestrator, not from `QCReport` (which handles EQC/IQC samples instead).
+
+```python
+from leaf.analyzer import Samples
+from leaf.analyzer.score import score_dataset, ScoringConfig
+
+samples = Samples.load("analysis.msd")
+score_dataset(samples, config=ScoringConfig())   # mutates samples in place
+
+# Saved scores re-open in the web UI's Quality info panel
+samples.save("analysis-scored.msd")
+```
+
+The `ScoringConfig` knobs (detection-rate threshold, RT-deviation tolerance, peak-shape minimum) are documented in [LEAF's developer docs](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api/scoring.md).
+
+## Recipe 4 — Tracing in a script
+
+Tracing is configured by passing the JSON dict produced by the web UI's Tracing Editor directly to `extract_metabolites`:
+
+```python
+import json
+from leaf.analyzer import Analyzer
+
+with open("tracing-13C.json") as f:
+    tracing = json.load(f)
+
+analyzer = Analyzer(
+    file_path="./samples",
+    metabolite_list_path="./compounds.csv",
+)
+samples = analyzer.extract_metabolites(
+    polarity="NEG",
+    tolerance=5,
+    tracing=tracing,
+)
+samples.save("tracing-run.msd")
+```
+
+See [Isotope tracing](/workflow/tracing) for the JSON schema and [`leaf targeted --tracing-path`](https://github.com/MorscherLab/LEAF/tree/main/docs) for the equivalent CLI flag.
+
+## Recipe 5 — Reading intensities and peaks out of a `Samples`
+
+`Samples` exposes accessor methods rather than raw attributes — they handle the sparse-tensor layout for you:
+
+```python
+from leaf.analyzer import Samples
+
+samples = Samples.load("analysis.msd")
+
+# Per-compound metadata as a pandas DataFrame
+metabolites_df = samples.metabolites_list
+
+# Intensities for one (sample, metabolite) pair
+intensities = samples.get_intensities("WT_rep1", "Glucose")
+
+# RT axis values matching `intensities`
+rt_axis = list(samples.rt_index.keys())
+
+# Detected peak indices (RT positions) for that (sample, metabolite)
+peak_rt_idxs = samples.peaks_dict.get((samples.sample_index["WT_rep1"], 0), [])
+```
+
+The exact accessor set is documented upstream — `Samples.get_data`, `Samples.get_area`, `Samples.get_batch_intensities` cover the common shapes; see the [model reference](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api/model.md).
 
 ## Untargeted analysis
 
-The untargeted entry point follows the same pattern but does not require a compound list. Parameters specific to untargeted mode (minimum intensity, minimum-samples threshold, RT range) replace the targeted parameters; see [Untargeted analysis](/workflow/untargeted) for the parameter semantics.
-
-```python
-# TODO: Confirm the untargeted entry point.
-
-# result = leaf.extract_untargeted(
-#     raw_folder="./samples",
-#     parameters=leaf.UntargetedParameters(
-#         polarity="NEG",
-#         mass_tolerance_ppm=5,
-#         min_intensity=1e5,
-#         min_samples=2,
-#     ),
-# )
-# result.write("analysis.usd")
-```
-
-## Isotope tracing
-
-Tracing is configured by extending the targeted parameters with an isotopologue specification. See [Isotope tracing](/workflow/tracing) for the underlying physics and the JSON config format used by the UI.
-
-```python
-# TODO: Confirm the tracing parameter object.
-
-# params = leaf.ExtractionParameters(
-#     polarity="NEG",
-#     mass_tolerance_ppm=5,
-#     tracing=leaf.TracingConfig(
-#         isotopologues=[("13C", 1), ("13C", 2)],
-#     ),
-# )
-```
+The Python entry point for untargeted runs is being stabilised. Until it lands here, drive untargeted runs from the CLI (`leaf untargeted --help`) and read back the resulting `.usd` archive — see [Untargeted analysis](/workflow/untargeted).
 
 ## Reproducibility
 
-The full set of parameters used during extraction is stored inside the resulting `.msd` archive (`parameters.json` within the bundle; see [Export](/workflow/export)). Inspecting that file is sufficient to reconstruct the exact run programmatically.
+Every `.msd` and `.usd` carries the full parameter set used during extraction. Pin a LEAF version, save your inputs alongside the archive, and the result is byte-reproducible across machines.
 
 ## Next
 
-→ [LEAF repository documentation](https://github.com/MorscherLab/LEAF/tree/main/docs) — full developer reference, plugin interfaces, internal modules
+→ [LEAF developer docs](https://github.com/MorscherLab/LEAF/tree/main/docs) — full class reference, plugin interfaces, internal modules
