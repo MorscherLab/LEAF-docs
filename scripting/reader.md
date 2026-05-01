@@ -1,38 +1,19 @@
-# SEED — Spectral Extraction & Encoding Driver
+# SEED — the LEAF reader backend
 
-LEAF reads Thermo `.raw` files through **SEED**, a Rust library bundled inside the LEAF wheel. On macOS and Linux, SEED is the only available reader. On Windows, LEAF can also use Thermo's official .NET RawFileReader (the `dotnet` backend); SEED is still the default unless you opt in.
+LEAF reads RAW files through SEED on macOS and Linux (the `rust` backend in [`leaf --backend`](/scripting/cli/configuration#backend-selection)). On Windows, LEAF defaults to Thermo's `dotnet` reader and falls back to SEED on opt-in.
 
-## Why SEED matters
+SEED is a separate project with its own user manual:
 
-| | SEED (`rust` backend) | Thermo .NET (`dotnet` backend) |
-|---|---|---|
-| Platforms | macOS, Linux, Windows | Windows only at runtime |
-| .NET 8 SDK required | No | Yes |
-| Default on macOS / Linux | Yes | (unavailable) |
-| Source | Rust crate, [oxion-core](https://github.com/EstrellaXD/oxion-core) (the historical repo name) | Thermo Fisher Scientific |
+→ [SEED — Overview](/seed/)
+→ [Command line](/seed/cli) · [Python API](/seed/python-api) · [Rust API](/seed/rust-api)
 
-You usually don't have to think about the backend — LEAF picks `rust` automatically on macOS / Linux. The choice only matters on Windows, where `--backend dotnet` is occasionally needed for files SEED cannot decode (rare, instrument-firmware-specific).
+## When the backend choice matters
 
-## Selecting the backend
-
-From the CLI:
-
-```bash
-leaf targeted ./samples ./compounds.csv --backend rust     # force SEED
-leaf targeted ./samples ./compounds.csv --backend dotnet   # force Thermo .NET (Windows only)
-leaf targeted ./samples ./compounds.csv --backend auto     # default
-```
-
-From the web UI: **Settings → Advanced → Backend**.
-
-## Brand note
-
-SEED is the rebrand of the project formerly known as **oxion**. The repository name `EstrellaXD/oxion-core` is retained for legacy reasons; the brand and the public crate names (`seed`, `seed-cli`, `seed-py`) are SEED end-to-end.
+- **macOS / Linux** — there is no choice; SEED is the only reader.
+- **Windows** — `auto` picks `dotnet` by default. Override to `rust` (`--backend rust` or **Settings → Advanced**) when you want SEED's parser; override to `dotnet` (the default) for files SEED cannot decode.
 
 ## Reporting RAW files SEED cannot read
 
-If a `.raw` file fails to load with the `rust` backend:
-
-1. Confirm Thermo's Xcalibur can open the file.
+1. Confirm Thermo's Xcalibur opens the file.
 2. On Windows, retry with `--backend dotnet`.
 3. If neither works, [open a LEAF issue](https://github.com/MorscherLab/LEAF/issues) with the LEAF version, the instrument model, and the firmware version.
