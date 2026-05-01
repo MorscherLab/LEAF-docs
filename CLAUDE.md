@@ -26,14 +26,13 @@ There are no tests, linters, or formatters configured. CI only runs `bun install
 VitePress reads markdown from the project root recursively, but `srcExclude` in `.vitepress/config.ts` skips `README.md` and `node_modules/**`. Five content directories drive the navigation:
 
 - `get-started/` — install paths and the 5-minute quickstart
-- `workflow/` — the metabolomics pipeline pages (prepare → extract → analyze → visualize → export, plus tracing and untargeted)
-- `cli/` — `leaf` command-line interface (overview, `leaf webui`, configuration). The four sub-apps (`targeted`, `untargeted`, `watch`, `webui`) live here.
-- `python/` — using LEAF as a Python package for scripted analyses
-- `reference/` — UI tour, troubleshooting, FAQ, glossary
+- `workflow/` — the metabolomics pipeline pages. Targeted spine: prepare → extract → analyze → visualize → export, plus tracing modifier. Untargeted spine: untargeted overview → extract-untargeted → inspect-features → export.
+- `scripting/` — CLI reference (`leaf webui`, `leaf targeted`, `leaf untargeted`, `leaf watch`, configuration), Python recipes, SEED reader note. Replaces the legacy `cli/` and `python/` directories, which now host 1-page redirect stubs only.
+- `reference/` — UI tour, troubleshooting, FAQ, glossary, plus team and changelog
 
 Plus `index.md` (home), `team.md` (Vue components from `vitepress/theme`), and `changelog.md` (links out to GitHub Releases — release notes themselves are not maintained here).
 
-The `python/` pages contain explicit `<!-- TODO -->` placeholder code blocks for API signatures the maintainers haven't ratified yet — leave them as TODOs rather than inventing import paths or function names. The authoritative Python API reference lives in the LEAF repo.
+The `scripting/python/` pages document the curated public surface (`Samples`, `Analyzer`, `PeakPicking`, `QCReport` from `leaf.analyzer`, plus `score_dataset` from `leaf.analyzer.score`) with recipes verified against `packages/leaf/analyzer/` source. Stop at the boundary where a public function genuinely doesn't exist yet — link to upstream developer docs at `https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api` rather than inventing an API. The authoritative class reference lives in the LEAF repo.
 
 `.vitepress/config.ts` is the single source of truth for nav bar, sidebar groups, search, and the GitHub edit-link pattern. **Adding a page requires two edits**: create the `.md` file, then register it in the matching `sidebar` group in `config.ts` — otherwise it won't appear in navigation.
 
