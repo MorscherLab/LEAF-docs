@@ -22,6 +22,7 @@ export default defineConfig({
       { text: 'Get Started', link: '/get-started/install-desktop' },
       { text: 'Workflow', link: '/workflow/prepare-data' },
       { text: 'Scripting', link: '/scripting/' },
+      { text: 'SEED', link: '/seed/' },
       { text: 'Reference', link: '/reference/ui-tour' },
       { text: 'Open MINT', link: 'https://mint.morscherlab.org' },
     ],
@@ -114,6 +115,23 @@ export default defineConfig({
           text: 'RAW reader',
           items: [
             { text: 'SEED (macOS / Linux)', link: '/scripting/reader' },
+          ],
+        },
+      ],
+      '/seed/': [
+        {
+          text: 'SEED',
+          items: [
+            { text: 'Overview', link: '/seed/' },
+          ],
+        },
+        {
+          text: 'Reference',
+          items: [
+            { text: 'Command line', link: '/seed/cli' },
+            { text: 'Python API', link: '/seed/python-api' },
+            { text: 'Rust API', link: '/seed/rust-api' },
+            { text: 'Changelog', link: '/seed/changelog' },
           ],
         },
       ],
