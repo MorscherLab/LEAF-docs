@@ -1,14 +1,12 @@
 # Use the Hosted Lab Version
 
-If your lab has a MINT server with LEAF already installed, you don't need to install anything. Open the lab URL in your browser, log in with your lab credentials, and start analyzing.
+If your lab operates a MINT server with LEAF deployed, no local installation is required. Access the lab's MINT URL through a web browser and authenticate with your lab credentials.
 
 > [Screenshot: MINT login page with the LEAF plugin tile visible after login]
 
-## Open MINT
+## Access MINT
 
-<a href="https://mint.morscherlab.org" target="_blank" rel="noopener" style="display:inline-block;padding:12px 28px;background:var(--vp-c-brand-1);color:white;border-radius:8px;text-decoration:none;font-weight:600;">Open MINT →</a>
-
-If your lab uses a different URL, ask your lab admin for it. The button above is the Morscher Lab default.
+The Morscher Lab default URL is [mint.morscherlab.org](https://mint.morscherlab.org). Other deployments use site-specific URLs; consult your lab administrator if the address is not known.
 
 ## Log in
 

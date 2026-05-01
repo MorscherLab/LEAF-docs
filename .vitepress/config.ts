@@ -22,15 +22,22 @@ export default defineConfig({
       { text: 'Get Started', link: '/get-started/install-desktop' },
       { text: 'Workflow', link: '/workflow/prepare-data' },
       { text: 'Reference', link: '/reference/ui-tour' },
-      { text: 'Open MINT', link: 'https://mint.morscherlab.org' },
+      {
+        text: 'Scripting',
+        items: [
+          { text: 'Command-line interface', link: '/cli/overview' },
+          { text: 'Python package', link: '/python/overview' },
+        ],
+      },
       {
         text: 'More',
         items: [
+          { text: 'Team', link: '/team' },
           { text: 'Changelog', link: '/changelog' },
-          { text: 'GitHub', link: 'https://github.com/MorscherLab/LEAF' },
           { text: 'Developer docs', link: 'https://github.com/MorscherLab/LEAF/tree/main/docs' },
         ],
       },
+      { text: 'Open MINT', link: 'https://mint.morscherlab.org' },
     ],
 
     sidebar: {
@@ -55,6 +62,25 @@ export default defineConfig({
             { text: 'Export', link: '/workflow/export' },
             { text: 'Isotope tracing', link: '/workflow/tracing' },
             { text: 'Untargeted analysis', link: '/workflow/untargeted' },
+          ],
+        },
+      ],
+      '/cli/': [
+        {
+          text: 'Command-line interface',
+          items: [
+            { text: 'Overview', link: '/cli/overview' },
+            { text: 'leaf serve', link: '/cli/serve' },
+            { text: 'Configuration', link: '/cli/configuration' },
+          ],
+        },
+      ],
+      '/python/': [
+        {
+          text: 'Python package',
+          items: [
+            { text: 'Overview', link: '/python/overview' },
+            { text: 'Quickstart', link: '/python/quickstart' },
           ],
         },
       ],

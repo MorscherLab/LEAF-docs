@@ -1,6 +1,6 @@
 # Install on Your Desktop
 
-LEAF runs as a local web app. You install it once, then launch it whenever you need it. Your data never leaves your computer.
+LEAF runs as a local web application. After installation, the server is launched on demand from the command line and accessed in a browser at `127.0.0.1`. All processing and storage occur on the local machine.
 
 > [Screenshot: LEAF home page in a browser after running `leaf serve`]
 

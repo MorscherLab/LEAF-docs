@@ -34,7 +34,7 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
-| Extraction takes forever | Large dataset, Python backend selected | Switch to Rust backend in Settings → Advanced (much faster) |
+| Extraction is unusually slow | Large dataset processed with the Python backend | Switch to the Rust backend in Settings → Advanced |
 | Out-of-memory crash | Too many samples in one batch | Process in smaller batches (50 files at a time) |
 | Floating button stuck blue | Job hung — usually a corrupt RAW file | Cancel the job, remove the suspect file, re-run |
 | Job fails silently | Disk full or write permissions issue | Check disk space and the configured Storage path |
@@ -73,7 +73,7 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | "LEAF not visible" after MINT login | No access to the LEAF plugin | Ask your admin to grant the `leaf` plugin role |
 | Files I expect aren't listed | Admin hasn't shared the folder | Ask admin to add the folder to LEAF's allowed paths |
 | Login loops back to login page | Cookies blocked | Allow cookies for the lab domain; reload |
-| "Server error" on extraction | Lab server out of disk / memory | Tell the admin; cluster issue, not yours |
+| "Server error" during extraction | Lab server out of disk or memory | Report to the lab administrator; the issue is server-side |
 
 ## Still stuck?
 

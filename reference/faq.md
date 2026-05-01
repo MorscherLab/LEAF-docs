@@ -2,28 +2,28 @@
 
 ## What does LEAF do?
 
-LEAF processes Thermo Fisher RAW files from LC-MS instruments. It extracts ion chromatograms, detects peaks, scores their quality, and produces interactive visualizations. You can run targeted analysis (with a metabolite list) or untargeted discovery (no list needed). Results export as `.msd` bundles or flat `.csv` files.
+LEAF processes Thermo Fisher RAW files from LC-MS instruments. It extracts ion chromatograms, detects peaks, assigns quality verdicts, and produces interactive visualizations. Both targeted analysis (with a metabolite list) and untargeted analysis (no list required) are supported. Results export as `.msd` archives or flat `.csv` tables.
 
 ## Who is LEAF for?
 
-Anyone running LC-MS metabolomics, particularly:
+Researchers running LC-MS metabolomics, including:
 
-- Bench scientists who want a UI instead of a Python notebook
-- Lab techs running routine targeted panels
-- Teams running ¹³C / ¹⁵N tracing experiments
-- Untargeted feature-discovery work where you want a fast triage view
+- Users who prefer a graphical interface over a scripting environment
+- Routine targeted panels in a lab setting
+- ¹³C, ¹⁵N, ²H, ¹⁸O, or ³⁴S tracing experiments
+- Untargeted feature discovery and triage
 
-You don't need to know Python, R, or any command-line tools.
+No Python, R, or command-line experience is required to operate LEAF.
 
-## Does LEAF replace Xcalibur, Skyline, MZmine, or El-MAVEN?
+## How does LEAF relate to Xcalibur, Skyline, MZmine, and El-MAVEN?
 
-LEAF complements them. It's faster than Xcalibur for batch quantification, more user-friendly than Skyline for tracing, and offers a tighter UI than MZmine for routine analysis. For deep manual curation of every peak, dedicated tools like Skyline still win.
+LEAF is intended to complement, not replace, established tools. Xcalibur remains the reference for raw-data inspection on Thermo instruments; Skyline provides extensive manual curation features for targeted proteomics and metabolomics; MZmine and El-MAVEN cover overlapping but distinct workflows. LEAF's scope is batch targeted quantification, untargeted feature extraction, isotope tracing, and integrated visualization within a single browser-based interface.
 
 ## Where does my data go?
 
-**Desktop install:** Nowhere. LEAF binds to `127.0.0.1` (localhost only). No network requests leave your machine. Your RAW files, your processed data, all of it stays local.
+**Desktop install:** LEAF binds to `127.0.0.1` (loopback only) and makes no outbound network requests. RAW files and processed data remain on the local filesystem.
 
-**Hosted (MINT):** Data lives on the lab server. The same access controls that govern other lab tools govern LEAF. Ask your lab admin about specifics.
+**Hosted (MINT):** Data resides on the lab server. Access is governed by the same controls as other tools deployed within MINT. Consult your lab administrator for site-specific policies.
 
 ## Can I use LEAF on a non-Thermo instrument?
 

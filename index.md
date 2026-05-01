@@ -3,8 +3,8 @@ layout: home
 
 hero:
   name: LEAF
-  text: LC-MS metabolomics, web-first
-  tagline: Upload your Thermo RAW files, drop a metabolite list, get publication-ready charts. No command line. No data leaves your machine.
+  text: LC-MS Extensible Analysis Framework
+  tagline: A browser-based LC-MS analysis platform that reads vendor RAW files directly (Thermo Fisher), with integrated targeted and untargeted workflows, isotope tracing, and statistical analysis.
   image:
     src: /leaf-icon.png
     alt: LEAF
@@ -13,66 +13,56 @@ hero:
       text: Get Started
       link: /get-started/install-desktop
     - theme: alt
-      text: First analysis (5 min)
+      text: Quickstart
       link: /get-started/quickstart
     - theme: alt
-      text: Open MINT →
+      text: Hosted MINT instance
       link: https://mint.morscherlab.org
 
 features:
   - icon: 🧪
     title: Targeted analysis
-    details: Drop in a CSV of metabolites, point at a folder of RAW files, and LEAF extracts ion chromatograms, picks peaks, and scores quality automatically.
+    details: Given a compound list (CSV) and a folder of RAW files, LEAF extracts ion chromatograms, detects peaks, and assigns per-compound quality verdicts.
     link: /workflow/extract
-    linkText: How it works
+    linkText: Extraction parameters
 
   - icon: 🔍
-    title: Untargeted discovery
-    details: No metabolite list? LEAF finds every feature in your data, aligns them across samples, and gives you a triage table to find what's interesting.
+    title: Untargeted analysis
+    details: Without a predefined compound list, LEAF detects features across samples, aligns them by m/z and retention time, and produces a feature table for downstream filtering and identification.
     link: /workflow/untargeted
     linkText: Untargeted workflow
 
   - icon: 🧬
     title: Isotope tracing
-    details: Configure ¹³C, ¹⁵N, ²H, ¹⁸O, or ³⁴S labeling in two clicks. See per-isotopologue distributions with mean ± SEM grouping.
+    details: Supports ¹³C, ¹⁵N, ²H, ¹⁸O, and ³⁴S labeling. Reports per-isotopologue intensities as absolute values or fractional labeling, summarized as mean ± SEM by group.
     link: /workflow/tracing
     linkText: Tracing setup
 
   - icon: 📊
-    title: Built-in visualizations
-    details: PCA, heatmaps, volcano plots, hierarchical clustering, correlation networks, KEGG pathways. All interactive Plotly charts.
+    title: Statistical visualization
+    details: PCA, heatmaps, volcano plots, hierarchical clustering, correlation networks, and KEGG pathway maps, rendered as interactive Plotly charts.
     link: /workflow/visualize
-    linkText: Chart catalog
+    linkText: Chart reference
 
   - icon: 💾
-    title: One file, everything inside
-    details: Save your full analysis — intensities, peaks, quality scores, parameters — as a single .msd file. Reopen anytime, share with anyone who has LEAF.
+    title: Self-contained .msd archive
+    details: A single .msd file stores intensities, detected peaks, quality scores, isotopologue distributions, and the parameters used during extraction. Reopens in any compatible LEAF version.
     link: /workflow/export
     linkText: Export formats
 
   - icon: 🔒
-    title: Your data, your machine
-    details: Desktop install runs entirely on 127.0.0.1. Files never leave your computer. Hosted at your lab? Auth is handled by your existing lab login.
+    title: Local-first execution
+    details: The desktop install binds to 127.0.0.1 and makes no outbound network requests. The hosted version delegates authentication to the lab's existing MINT instance.
     link: /get-started/install-desktop
-    linkText: Install LEAF
+    linkText: Installation
 ---
 
-<div style="max-width:920px;margin:64px auto 0;padding:24px;border-radius:12px;background:var(--vp-c-bg-soft);">
+::: tip Hosted MINT access
+If your lab operates a MINT server with LEAF installed, no local installation is required. The hosted version uses your lab credentials; contact your administrator to request access.
 
-## Lab user? Open MINT
+[Open MINT](https://mint.morscherlab.org)
+:::
 
-If your lab already runs LEAF on its MINT server, skip the install entirely.
-
-<a href="https://mint.morscherlab.org" target="_blank" rel="noopener" style="display:inline-block;margin-top:8px;padding:12px 28px;background:var(--vp-c-brand-1);color:white;border-radius:8px;text-decoration:none;font-weight:600;">Open MINT →</a>
-
-<span style="display:block;margin-top:8px;font-size:14px;color:var(--vp-c-text-2);">No account? Ask your lab admin. The hosted version uses your existing lab credentials.</span>
-
-</div>
-
-<div style="max-width:920px;margin:32px auto 64px;padding:24px;border-radius:12px;border:1px solid var(--vp-c-divider);">
-
-## Building on LEAF or contributing?
-
-The user manual is here. For developer reference — Python API, plugin architecture, frontend internals — head to the [LEAF repository docs](https://github.com/MorscherLab/LEAF/tree/main/docs).
-
-</div>
+::: info Developer documentation
+This site is the user manual. For Python API reference, plugin architecture, and frontend internals, see the [LEAF repository documentation](https://github.com/MorscherLab/LEAF/tree/main/docs).
+:::

@@ -47,11 +47,11 @@ After uploading, click **Validate** to check for errors. Common issues (missing 
 
 Toggle peak picking **on** (recommended). Choose a detection method:
 
-| Method | Label | Best for |
-|--------|-------|----------|
-| **v4** | Advanced | Most experiments — best accuracy and peak shape detection |
-| **v2** | Smoothed | Noisy data — uses Savitzky-Golay smoothing |
-| **v1** | Basic | Quick exploratory runs |
+| Method | Label | Description |
+|--------|-------|-------------|
+| **v4** | Advanced | Default; combines smoothing with shape-based peak detection |
+| **v2** | Smoothed | Applies Savitzky-Golay smoothing prior to peak detection; suited for low signal-to-noise data |
+| **v1** | Basic | Threshold-based detection without smoothing; intended for exploratory inspection |
 
 Additional toggles:
 

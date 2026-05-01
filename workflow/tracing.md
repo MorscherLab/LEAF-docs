@@ -76,7 +76,7 @@ When sample grouping is on, bars show **mean ± SEM per group** — the standard
 
 - **Validate your CSV first** — formula errors break isotope mass calculations
 - **Use 5 ppm mass tolerance or tighter** — heavier isotopologues are close in mass and a wide window picks up noise
-- **Watch for natural abundance** — even unlabeled samples show small M+1 peaks (~1.1% per carbon). LEAF does not currently correct for natural abundance; you'll need to do this downstream if your science demands it.
+- **Account for natural abundance** — unlabeled samples exhibit M+1 contributions of approximately 1.1% per carbon from natural ¹³C. LEAF does not currently apply natural-abundance correction; this should be performed downstream when required (e.g., with [IsoCorrectoR](https://genomic.uni-saarland.de/projects/IsoCorrectoR/) or [accucor](https://github.com/XiaoyangSu/AccuCor)).
 
 ## Export tracing data
 

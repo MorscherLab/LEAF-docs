@@ -1,18 +1,18 @@
 # Untargeted Analysis
 
-Untargeted mode discovers metabolite features from your RAW files **without** needing a metabolite list up front. LEAF detects every peak it can, aligns them across samples, and gives you a feature table to triage.
+Untargeted mode performs feature detection on RAW files **without** requiring a predefined metabolite list. LEAF detects peaks across the full m/z and retention-time range, aligns features across samples, and produces a feature table for downstream filtering and identification.
 
 > [Screenshot: Untargeted view showing feature table and EIC chart]
 
 ## When to use it
 
-| Use untargeted when... | Use targeted when... |
-|------------------------|----------------------|
-| You don't know what's in your sample | You have a defined panel of compounds to quantify |
-| You're hunting for unknown metabolites | You're tracking specific pathways |
-| You want a survey of one group vs another | You need quantitative comparisons of named compounds |
+| Untargeted is appropriate when... | Targeted is appropriate when... |
+|-----------------------------------|---------------------------------|
+| The compound composition of the sample is not known | A defined panel of compounds is to be quantified |
+| The objective is discovery of unknown metabolites | The objective is monitoring of specific pathways |
+| A survey-level comparison between groups is required | Quantitative comparisons of named compounds are required |
 
-You can always run **both**: untargeted to find candidates, targeted to lock them in for routine analysis.
+The two modes can be combined: untargeted analysis to identify candidate features, followed by targeted analysis once those features are characterized.
 
 ## Switch to untargeted mode
 
@@ -49,11 +49,11 @@ After completion, click **Open** in the jobs panel. The **Untargeted view** load
 
 ## Triage workflow
 
-1. **Filter** the feature table by detection rate (e.g., keep only features in >50% of samples)
-2. **Sort** by intensity or by group fold-change to find candidates
-3. **Inspect** the EIC chart — does the peak look real, or is it noise?
-4. **Tag** interesting features with flags or notes
-5. **Export** the tagged set as a CSV — feed it back into LEAF as a targeted CSV for routine quantification
+1. **Filter** the feature table by detection rate (e.g., retain only features present in >50% of samples)
+2. **Sort** by intensity or by between-group fold-change to identify candidate features
+3. **Inspect** the EIC chart to assess peak shape, signal-to-noise ratio, and reproducibility across samples
+4. **Tag** candidate features with flags or notes
+5. **Export** the tagged feature set as a CSV; the same CSV can be re-imported as a targeted compound list for subsequent quantification
 
 ## Identify features
 

@@ -1,6 +1,6 @@
 # Analyze Results
 
-After extraction completes, the **Peak Picking** view is where you inspect each compound, check peak quality, and adjust integrations. This is the page you'll spend the most time on.
+After extraction completes, the **Peak Picking** view is the primary interface for inspecting individual compounds, reviewing peak quality, and adjusting integration boundaries.
 
 > [Screenshot: full Peak Picking view with a metabolite selected]
 

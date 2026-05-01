@@ -1,6 +1,6 @@
 # Visualize
 
-The **Visualize** dropdown gives you publication-ready statistical charts driven by your processed data. Each chart is interactive Plotly — zoom, hover, export to PNG.
+The **Visualize** dropdown provides statistical charts derived from the processed data. Each chart is rendered with Plotly and supports interactive zoom, hover, and PNG export.
 
 > [Screenshot: PCA plot colored by sample groups]
 
@@ -68,7 +68,7 @@ Plotly's built-in toolbar (top-right of each chart) has:
 - 🔍 **Zoom**, pan, reset
 - 📏 **Box select** — for downstream filtering
 
-For publication-quality SVG export, use your browser's screenshot or print-to-PDF — Plotly's PNG export is currently raster only.
+For vector output (SVG / PDF), use the browser's print-to-PDF function. Plotly's built-in image export currently produces raster PNG only.
 
 ## Next step
 

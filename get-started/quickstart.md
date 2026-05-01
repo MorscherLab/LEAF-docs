@@ -4,12 +4,12 @@ A complete walkthrough from opening LEAF to seeing your first peak — about 5 m
 
 > [Screenshot: full LEAF window showing the Extract view, ready to start]
 
-## What you need
+## Prerequisites
 
-Two files:
+Two inputs:
 
-1. **One folder of Thermo `.raw` files** — your LC-MS samples. Even a single file is enough for this walkthrough.
-2. **One CSV listing the metabolites you want to find** — see below.
+1. **A folder containing Thermo `.raw` files** — the LC-MS samples to be analyzed. A single file is sufficient for this walkthrough.
+2. **A CSV listing the target metabolites** — described below.
 
 ## Make a metabolite CSV
 
@@ -24,7 +24,7 @@ Pyruvate,C3H4O3,2.8,M-H
 Glutamate,C5H9NO4,4.1,M-H
 ```
 
-Adjust the retention times to match your method. Don't worry about getting them exactly right — LEAF tolerates some drift. See [Prepare your data](/workflow/prepare-data) for the full CSV format.
+Adjust the retention times to match your chromatographic method. Exact values are not required, as the RT search window tolerates moderate drift. See [Prepare your data](/workflow/prepare-data) for the complete CSV specification.
 
 ## Step 1: Pick your RAW folder
 
@@ -40,7 +40,7 @@ Drag `compounds.csv` onto the upload zone — or click to browse. You'll see you
 
 ## Step 3: Set parameters
 
-For your first run, leave the defaults — they're sensible for most experiments:
+For an initial run, the default parameter values are appropriate for most LC-MS methods:
 
 | Setting | Default | What it means |
 |---------|---------|---------------|
@@ -50,7 +50,7 @@ For your first run, leave the defaults — they're sensible for most experiments
 | Peak picking | On (v4 Advanced) | Detect peak boundaries automatically |
 | Quality scoring | On | Flag unreliable compounds |
 
-If your method ran in positive mode, switch **Polarity** to POS. That's usually the only setting that needs changing for a first run.
+If the acquisition was performed in positive mode, change **Polarity** to POS. This is typically the only parameter requiring adjustment for an initial run.
 
 ## Step 4: Start
 
@@ -58,7 +58,7 @@ Click the blue **Start Processing** button. A floating progress button appears i
 
 > [Screenshot: floating action button showing job in progress]
 
-Wait for the spinner to turn into a green checkmark. For a single RAW file with 5 compounds, this takes a few seconds. For a 50-file dataset with 200 compounds, expect a couple of minutes.
+Processing completes when the spinner is replaced by a green checkmark. Approximate runtimes: a single RAW file with 5 compounds completes in a few seconds; a 50-file dataset with 200 compounds typically completes within a few minutes.
 
 ## Step 5: See your results
 
@@ -72,15 +72,15 @@ Click any metabolite in the left-hand list. You'll see:
 - **Isotopologue bars** (bottom left) — peak intensity per isotope (M+0, M+1, ...)
 - **Quality info** (bottom right) — the verdict (good / warning / poor) with reasons
 
-That's it. You ran an extraction, picked peaks, scored them, and visualized the results.
+The walkthrough has covered extraction, peak picking, quality scoring, and result inspection.
 
-## What to do next
+## Further steps
 
-- **Group your samples** — click the lightning-bolt icon in the sidebar to auto-group by sample name prefix (e.g., `WT_rep1`, `WT_rep2` → group "WT"). See [Analyze](/workflow/analyze).
-- **Visualize** — open the **Visualize** dropdown for PCA, heatmap, volcano plot, and more. See [Visualize](/workflow/visualize).
-- **Export** — click the download button to save a `.msd` bundle (everything) or a `.csv` (intensity matrix). See [Export](/workflow/export).
-- **Trace isotopes** — for ¹³C labeling experiments, see [Isotope tracing](/workflow/tracing).
+- **Sample grouping** — click the lightning-bolt icon in the sidebar to group samples by name prefix (e.g., `WT_rep1`, `WT_rep2` → group "WT"). See [Analyze](/workflow/analyze).
+- **Visualization** — open the **Visualize** dropdown for PCA, heatmaps, volcano plots, and additional chart types. See [Visualize](/workflow/visualize).
+- **Export** — click the download button to save a `.msd` archive (full bundle) or a `.csv` (intensity matrix). See [Export](/workflow/export).
+- **Isotope tracing** — for ¹³C and other labeling experiments, see [Isotope tracing](/workflow/tracing).
 
-## If something went wrong
+## Troubleshooting
 
-→ [Troubleshooting](/reference/troubleshooting)
+→ [Common issues and resolutions](/reference/troubleshooting)
