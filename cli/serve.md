@@ -3,7 +3,7 @@
 Starts the LEAF backend server and serves the web interface on the local machine. This is the primary entry point for desktop installations.
 
 ::: info Renamed
-This command was previously documented as `leaf serve`. The actual entry point is `leaf webui` and has four sub-commands (`run`, `start`, `stop`, `status`). The `leaf serve` form has never existed in the shipping CLI.
+Older documentation referenced a `serve` subcommand that has never existed in the shipping CLI. The actual entry point is `leaf webui` with four sub-commands (`run`, `start`, `stop`, `status`). See the [glossary entry](/reference/glossary#l) for the legacy-alias note.
 :::
 
 ## Synopsis
