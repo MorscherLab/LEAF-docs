@@ -1,65 +1,75 @@
-# `leaf serve`
+# `leaf webui`
 
 Starts the LEAF backend server and serves the web interface on the local machine. This is the primary entry point for desktop installations.
+
+::: info Renamed
+This command was previously documented as `leaf serve`. The actual entry point is `leaf webui` and has four sub-commands (`run`, `start`, `stop`, `status`). The `leaf serve` form has never existed in the shipping CLI.
+:::
 
 ## Synopsis
 
 ```bash
-leaf serve [--port PORT]
+leaf webui run    [--host HOST] [--port PORT]   # foreground
+leaf webui start  [--host HOST] [--port PORT]   # detached daemon
+leaf webui stop                                  # terminate the daemon
+leaf webui status                                # show daemon state
 ```
 
-## Default behavior
+## Default behavior — `leaf webui run`
 
 ```bash
-leaf serve
+leaf webui run
 ```
 
 On startup, the server:
 
 1. Binds to the loopback interface `127.0.0.1` (not `0.0.0.0`); the application is therefore reachable only from the local machine.
 2. Listens on TCP port **18008** by default.
-3. Prints the resolved URL to standard output and remains in the foreground.
+3. Runs in the foreground until interrupted (`Ctrl+C`).
 
-Expected output:
+Expected output (uvicorn banner):
 
 ```
-LEAF v0.5.0 ready at http://127.0.0.1:18008
-Press Ctrl+C to stop.
+INFO:     Started server process [12345]
+INFO:     Waiting for application startup.
+INFO:     Application startup complete.
+INFO:     Uvicorn running on http://127.0.0.1:18008 (Press CTRL+C to quit)
 ```
 
 ## Flags
 
 | Flag | Default | Description |
 |------|---------|-------------|
-| `--port` | `18008` | TCP port to listen on. Use a different port if 18008 is in use. |
+| `--host`, `-H` | `127.0.0.1` | Bind address. Use `0.0.0.0` to expose on the local network — see warning below. |
+| `--port`, `-p` | `18008` | TCP port. Use a different value if 18008 is taken. |
 
-::: info
-Additional flags exposed by `leaf serve --help` are not documented here. Treat any flag not listed in this table as unstable until it appears in this manual.
+::: warning Network exposure
+`--host 0.0.0.0` exposes LEAF to anyone on the same network and provides no authentication. Use only on trusted networks. For multi-user deployments, use the hosted MINT path instead — see [Use the hosted version](/get-started/install-hosted).
 :::
 
-## Lifecycle
+## Daemon mode
 
-| Action | Effect |
-|--------|--------|
-| Stop the server | Press `Ctrl+C` in the terminal running `leaf serve`. |
-| Close the browser tab | Has no effect on the server; the server continues running. |
-| Close the terminal window | Terminates the server process (SIGHUP). |
+`leaf webui start` runs the server in the background. The PID is recorded so `leaf webui stop` can terminate it cleanly:
+
+```bash
+leaf webui start --port 18009
+leaf webui status
+leaf webui stop
+```
+
+`leaf webui status` prints `running (pid N, port 18009)` or `not running`.
 
 ## Common scenarios
 
 ### Port already in use
 
-If port 18008 is occupied (for example, by a previous LEAF process that did not exit cleanly), specify a different port:
-
 ```bash
-leaf serve --port 18009
+leaf webui run --port 18009
 ```
 
 Then open `http://127.0.0.1:18009` in the browser.
 
 ### Confirming the server is running
-
-In a separate terminal:
 
 ```bash
 curl -I http://127.0.0.1:18008
@@ -67,9 +77,14 @@ curl -I http://127.0.0.1:18008
 
 A `200 OK` or `302 Found` response indicates the server is reachable.
 
-## Network exposure
+## Lifecycle
 
-`leaf serve` binds only to `127.0.0.1`. The application is **not** exposed to other machines on the local network or the internet. Exposing LEAF on a multi-user host requires the hosted MINT deployment, not the desktop server; see [Use the hosted version](/get-started/install-hosted).
+| Action | Effect |
+|--------|--------|
+| `Ctrl+C` (foreground `run`) | Stops the server. |
+| Close the browser tab | No effect; server keeps running. |
+| Close the terminal window | Terminates `leaf webui run` (SIGHUP). The daemon (`leaf webui start`) survives. |
+| `leaf webui stop` | Terminates the daemon. |
 
 ## Next
 
