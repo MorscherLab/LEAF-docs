@@ -1,6 +1,6 @@
 # Prepare Your Data
 
-Before you launch an analysis, you need two things in front of you: your **RAW files** and a **metabolite list**.
+Before you launch a targeted analysis, you need two things in front of you: your **LC-MS files** and a **metabolite list**. Untargeted analysis only needs the LC-MS files.
 
 ## Choose a workflow
 
@@ -9,7 +9,7 @@ Both workflows start with the same instrument files. Choose **Targeted** when yo
 ```d2
 direction: right
 
-raw: "RAW / mzML files" {
+raw: "LC-MS files\nRAW / mzML" {
   shape: document
   style.fill: "#dbeafe"
 }
@@ -56,9 +56,9 @@ Use this for quantifying a defined metabolite panel, checking peak quality compo
 Use this when the sample composition is unknown or when you need a feature table for later triage and identification. No metabolite list is required.
 :::
 
-## RAW files
+## LC-MS files
 
-LEAF reads Thermo Fisher `.raw` files and `.mzml` / `.mzml.gz` directly. Put all the files for one experiment into a single folder. LEAF will process every supported file in the folder.
+For targeted runs, LEAF reads Thermo Fisher `.raw` files and `.mzml` / `.mzml.gz` directly. Put all the files for one experiment into a single folder. Use one format per extraction — do not mix `.raw` and mzML-family files in the same run.
 
 **Naming**: name your files descriptively — e.g., `WT_rep1.raw`, `WT_rep2.raw`, `KO_rep1.raw`. LEAF can auto-extract clean sample names from the file name and auto-group replicates by name prefix.
 
@@ -111,7 +111,7 @@ A starter list for primary metabolism is included with LEAF — see [`examples/m
 
 ## For untargeted analysis
 
-You don't need a metabolite list for untargeted runs. LEAF discovers features automatically from your RAW files. See [Untargeted analysis](/workflow/untargeted).
+You don't need a metabolite list for untargeted runs. The current untargeted pipeline expects Thermo `.raw` files in the selected folder and discovers features automatically. See [Untargeted analysis](/workflow/untargeted).
 
 ## For isotope tracing
 
@@ -135,7 +135,7 @@ Fix the warnings before you start the extraction.
 The compound CSV is identical for the CLI and Python paths — no separate format. Pass it as the second positional argument to `leaf targeted`:
 
 ```bash
-leaf targeted ./samples ./compounds.csv
+leaf targeted ./samples ./compounds.csv ./outputs
 ```
 
 → [`leaf targeted` reference](/scripting/cli/targeted)

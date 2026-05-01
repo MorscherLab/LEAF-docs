@@ -1,6 +1,6 @@
 # Untargeted Workflow
 
-Untargeted analysis discovers features in your RAW files without a predefined compound list. Use it when the compound composition of the sample is unknown or when the goal is discovery rather than quantification.
+Untargeted analysis discovers features in Thermo `.raw` files without a predefined compound list. Use it when the compound composition of the sample is unknown or when the goal is discovery rather than quantification.
 
 The untargeted track has three steps:
 

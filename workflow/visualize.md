@@ -18,9 +18,9 @@ Click the **Visualize** tab dropdown in the top action bar. Pick a chart type fr
 | **Box Plot** | Distribution of intensities by sample or metabolite | Spotting outliers per compound |
 | **Dendrogram** | Hierarchical clustering tree | Sample or metabolite relationships |
 | **Volcano** | Log2 fold-change vs −log10 p-value | Differential analysis between two groups |
-| **QC Dashboard** | Detection rates + verdict distribution + scoring summary | Top-line health check |
+| **QC Dashboard** | Detection rates + verdict distribution + scoring summary | Reviewing run quality before interpretation |
 | **Metabolite Network** | Correlation-based network of co-regulated metabolites | Module detection |
-| **Sample Network** | Similarity network of samples | Replicate consistency at a glance |
+| **Sample Network** | Similarity network of samples | Checking whether replicates cluster together |
 | **Bipartite Network** | Sample-to-metabolite connection graph | Top contributors per sample |
 | **Pathway Network** | KEGG pathway mapping | Biological context |
 

@@ -1,6 +1,6 @@
 # SEED — the LEAF reader backend
 
-LEAF reads RAW files through SEED on macOS and Linux (the `rust` backend in [`leaf --backend`](/scripting/cli/configuration#backend-selection)). On Windows, LEAF defaults to Thermo's `dotnet` reader and falls back to SEED on opt-in.
+LEAF reads targeted `.raw`, `.mzml`, and `.mzml.gz` inputs through SEED on macOS and Linux (the `rust` backend in [`leaf --backend`](/scripting/cli/configuration#backend-selection)). On Windows, targeted `.raw` files default to Thermo's `dotnet` reader while mzML-family files use SEED.
 
 SEED is a separate project with its own user manual:
 
@@ -9,8 +9,8 @@ SEED is a separate project with its own user manual:
 
 ## When the backend choice matters
 
-- **macOS / Linux** — there is no choice; SEED is the only reader.
-- **Windows** — `auto` picks `dotnet` by default. Override to `rust` (`--backend rust` or **Settings → Advanced**) when you want SEED's parser; override to `dotnet` (the default) for files SEED cannot decode.
+- **macOS / Linux** — `auto` routes targeted inputs through SEED.
+- **Windows** — `auto` uses `dotnet` for targeted `.raw` files and SEED for mzML-family files. Override to `rust` (`--backend rust` or **Settings → Advanced**) when you want SEED's parser for `.raw`; override to `dotnet` for Thermo files SEED cannot decode.
 
 ## Reporting RAW files SEED cannot read
 

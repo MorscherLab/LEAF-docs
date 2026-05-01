@@ -4,7 +4,7 @@ layout: home
 hero:
   name: LEAF
   text: LC-MS Extensible Analysis Framework
-  tagline: High-performance LC-MS data processing for metabolomics — targeted extraction, untargeted feature detection, peak picking, quality scoring, isotope tracing, and statistical visualization. Reads Thermo RAW and mzML files directly.
+  tagline: High-performance LC-MS data processing for metabolomics — targeted extraction, untargeted feature detection, peak picking, quality scoring, isotope tracing, and statistical visualization.
   image:
     src: /leaf-icon.png
     alt: LEAF
@@ -43,18 +43,6 @@ features:
     details: PCA, heatmaps, volcano plots, hierarchical clustering, correlation networks, and KEGG pathway maps, rendered as interactive Plotly charts.
     link: /workflow/visualize
     linkText: Chart reference
-
-  - icon: 💾
-    title: Self-contained .msd archive
-    details: A single .msd file stores intensities, detected peaks, quality scores, isotopologue distributions, and the parameters used during extraction. Reopens in any compatible LEAF version.
-    link: /workflow/export
-    linkText: Export formats
-
-  - icon: 🔒
-    title: Local-first execution
-    details: The local install binds to 127.0.0.1 and makes no outbound network requests. The hosted version delegates authentication to the lab's existing MINT instance.
-    link: /get-started/install-cli
-    linkText: Installation
 ---
 
 ::: tip Hosted MINT access

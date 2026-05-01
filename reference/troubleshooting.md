@@ -12,15 +12,15 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | Browser shows "Cannot connect" | LEAF crashed or terminal closed | Re-run `leaf webui run`; check the terminal for errors |
 | LEAF starts but no logo / styles | Browser cached an old build | Hard-refresh with **⌘⇧R** (Mac) or **Ctrl+Shift+R** (Win/Linux) |
 
-## RAW files
+## Input files
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | RAW file fails to load | Unsupported instrument firmware | Try opening the file in Thermo Xcalibur first; if it works there, [report it](https://github.com/MorscherLab/LEAF/issues) |
-| "No samples found in folder" | Folder has no `.raw` files, or files have a different extension | Check filenames; LEAF only reads `.raw` (case-sensitive on Linux) |
+| "No samples found in folder" | Folder has no supported input files, or targeted files mix formats | For targeted runs, use `.raw`, `.mzml`, or `.mzml.gz` and keep one format per run. For untargeted runs, use Thermo `.raw` / `.RAW`. |
 | Sample names look weird | Auto-name extraction got confused | Toggle "Organize names" off — uses raw filename instead |
 | Blank files included anyway | "Skip blanks" only matches the word "blank" | Rename your blank files to include "blank", or untoggle "Skip blanks" and remove them after |
-| RAW file fails to load on macOS / Linux | SEED reader hit an unsupported instrument firmware | Switch to a Windows machine and try the `dotnet` backend (`leaf targeted --backend dotnet …`); if it still fails, [report it](https://github.com/MorscherLab/LEAF/issues) |
+| RAW file fails to load on macOS / Linux | SEED reader hit an unsupported instrument firmware | Switch to a Windows machine and try the `dotnet` backend (`leaf targeted ./samples ./compounds.csv ./outputs --backend dotnet`); if it still fails, [report it](https://github.com/MorscherLab/LEAF/issues) |
 
 ## Compound list
 
@@ -47,7 +47,7 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | Many "Poor" verdicts | Mass tolerance too loose, picks up noise | Reduce mass tolerance to 5 ppm |
 | Peaks at wrong RT | RT drift between samples | Increase RT Window to 1.0 min; or use RT alignment |
 | EIC chart is empty | Selected sample has no signal for the compound | Check the compound's mass and adduct; try the m/z manually in Xcalibur |
-| Auto-peaks miss the obvious peak | Peak picker conservative | Switch peak method from v4 → v2; or manually drag-select on the EIC chart |
+| Auto-peaks miss the obvious peak | Peak picker conservative | Widen the RT window, then manually drag-select on the EIC chart if needed |
 | RT check shows huge outliers | Sample truly has different RT (different LC method?) | Verify the sample is from the same method as others |
 
 ## Visualizations

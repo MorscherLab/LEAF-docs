@@ -46,7 +46,7 @@ A wide table:
 Metabolite,Formula,RetentionTime,Adduct,Verdict,WT_rep1,WT_rep2,KO_rep1,KO_rep2
 Glucose,C6H12O6,5.2,M-H,good,1.23e6,1.18e6,8.4e5,9.1e5
 Lactate,C3H6O3,3.1,M-H,good,4.5e5,4.7e5,9.8e5,1.05e6
-...
+# additional metabolites omitted
 ```
 
 For tracing data, isotopologue rows interleave per compound:
@@ -56,7 +56,7 @@ Metabolite,Isotopologue,WT_rep1,WT_rep2,KO_rep1,KO_rep2
 Glucose,M+0,1.23e6,1.18e6,8.4e5,9.1e5
 Glucose,M+1,2.4e4,2.6e4,1.8e4,2.1e4
 Glucose,M+2,3.1e3,3.3e3,2.4e3,2.6e3
-...
+# additional isotopologues omitted
 ```
 
 ## Reopening a `.msd` file

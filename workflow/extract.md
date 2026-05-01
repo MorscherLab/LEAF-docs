@@ -119,7 +119,7 @@ Click the button to open the jobs panel with full progress, per-file status, and
 Headless equivalent of this page:
 
 ```bash
-leaf targeted ./samples ./compounds.csv \
+leaf targeted ./samples ./compounds.csv ./outputs \
   --polarity NEG --tolerance 5 --rt-window 0.3 --method v4
 ```
 

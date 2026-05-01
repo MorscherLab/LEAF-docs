@@ -23,8 +23,8 @@ If you're not sure, use the **standalone installer** — it does not touch your 
 
 | | |
 |---|---|
-| **Operating system** | macOS (Apple Silicon), Linux (x86_64), or Windows (x64). On macOS / Linux, RAW files are read via the bundled [SEED](/scripting/reader) Rust reader — no .NET required. |
-| **Disk** | ~500 MB for LEAF + room for your RAW files |
+| **Operating system** | macOS (Apple Silicon), Linux (x86_64), or Windows (x64). On macOS / Linux, targeted RAW and mzML-family files are read via the bundled [SEED](/scripting/reader) Rust reader — no .NET required. |
+| **Disk** | ~500 MB for LEAF + room for your LC-MS files |
 | **RAM** | 8 GB minimum, 16 GB recommended for large datasets |
 | **Browser** | Any modern browser (Chrome, Firefox, Safari, Edge) |
 | **Python** (manual path only) | 3.12 — [download from python.org](https://www.python.org/downloads/) |

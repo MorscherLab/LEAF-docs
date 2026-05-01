@@ -11,7 +11,7 @@ A native desktop application that wraps LEAF behind a clickable icon — no term
 
 ## What this will be
 
-A small native launcher (Tauri-based) that bundles the LEAF backend and frontend behind a single executable. Open the app and the LEAF UI shows up — no terminal, no port to remember, no `Ctrl+C` to stop the server. It's intended for users who want LEAF on a personal laptop without engaging with Python tooling.
+A small native launcher (Tauri-based) that bundles the LEAF backend and frontend behind a single executable. Open the app and the LEAF UI appears without a terminal, a port number, or a `Ctrl+C` shutdown step. It is intended for users who want LEAF on a personal laptop without installing Python packages by hand.
 
 The desktop app shares the LEAF core with all other install paths: extraction parameters, `.msd` archives, scripted analysis, and the web UI all stay identical.
 

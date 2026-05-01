@@ -86,7 +86,7 @@ In the export dialog, ensure **Include isotopologues** is on. The CSV gets one r
 The Tracing Editor exports a JSON config that the CLI accepts directly:
 
 ```bash
-leaf targeted ./samples ./compounds.csv \
+leaf targeted ./samples ./compounds.csv ./outputs \
   --polarity NEG --tracing-path ./tracing-13C.json
 ```
 

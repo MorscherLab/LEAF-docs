@@ -20,35 +20,35 @@ No compound list is needed; the run discovers features automatically.
 
 | Flag | Default | Description |
 |---|---|---|
-| `--polarity {NEG,POS}` | `NEG` | MS polarity. |
-| `--tolerance INT` | `5` | m/z tolerance in ppm for feature alignment. |
-| `--min-intensity FLOAT` | `1e5` | Drop features below this peak height. |
-| `--min-samples INT` | `2` | Minimum samples a feature must appear in. |
-| `--rt-min FLOAT` | (full range) | Lower bound of the retention-time window. |
-| `--rt-max FLOAT` | (full range) | Upper bound of the retention-time window. |
-| `--backend {auto,rust,dotnet}` | `auto` | RAW reader. See [SEED](/scripting/reader). |
-| `--max-workers INT` | `4` | Parallel extraction threads. |
-| `-o, --output PATH` | `./untargeted.usd` | Where to write the `.usd` archive. |
+| `--polarity {NEG,POS,auto}` | `auto` | Ionization polarity to process. |
+| `--ppm FLOAT` | `5.0` | m/z tolerance in ppm for ROI matching. |
+| `--min-scans INT` | `5` | Minimum number of scans per ROI. |
+| `--min-intensity FLOAT` | `1000` | Drop features below this peak height. |
+| `--rt-tolerance FLOAT` | `0.3` | Retention-time tolerance in minutes for matching. |
+| `--no-align` | off | Disable retention-time alignment. |
+| `--rescue` | off | Enable cross-sample rescue for faint reproducible features; slower and more memory-intensive. |
+| `--exclude-blank` | off | Exclude files whose name contains "blank". |
+| `-o, --output PATH` | `<folder>_untargeted.usd` | Where to write the `.usd` archive, or `.csv` for CSV export. |
 
 For the full flag set, run `leaf untargeted --help`.
 
 ## Recipe — minimal untargeted run
 
 ```bash
-leaf untargeted ./samples --polarity NEG --min-samples 5
+leaf untargeted ./samples --polarity NEG --min-scans 5
 ```
 
 Outputs `./untargeted.usd`. Open in the web UI by drag-and-drop to triage in the [Inspect features](/workflow/inspect-features) view.
 
-## Recipe — restricted RT range
+## Recipe — CSV export
 
-For methods with a long re-equilibration window, restrict the analysis range:
+Use a `.csv` suffix when you want a flat feature table instead of a `.usd` archive:
 
 ```bash
 leaf untargeted ./samples \
-  --rt-min 0.5 --rt-max 12.0 \
-  --min-samples 5 \
-  -o ./features-0.5-12min.usd
+  --ppm 5 \
+  --min-scans 5 \
+  -o ./features.csv
 ```
 
 ## Hidden alias

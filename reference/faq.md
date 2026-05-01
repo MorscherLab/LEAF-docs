@@ -2,7 +2,7 @@
 
 ## What does LEAF do?
 
-LEAF processes Thermo Fisher RAW files from LC-MS instruments. It extracts ion chromatograms, detects peaks, assigns quality verdicts, and produces interactive visualizations. Both targeted analysis (with a metabolite list) and untargeted analysis (no list required) are supported. Results export as `.msd` archives or flat `.csv` tables.
+LEAF processes LC-MS files, extracts ion chromatograms, detects peaks, assigns quality verdicts, and produces interactive visualizations. Targeted analysis accepts Thermo `.raw`, `.mzml`, and `.mzml.gz` files; untargeted analysis currently expects Thermo `.raw` folders. Results export as `.msd` / `.usd` archives or flat `.csv` tables.
 
 ## Who is LEAF for?
 
@@ -27,15 +27,13 @@ LEAF is intended to complement, not replace, established tools. Xcalibur remains
 
 ## Can I use LEAF on a non-Thermo instrument?
 
-Not directly — LEAF reads `.raw` files, the Thermo native format. If you can convert your data to `.raw` (some instrument-control software supports this), LEAF will read it. Native support for Bruker/Sciex/Agilent formats isn't on the roadmap.
+For targeted analysis, yes if you export mzML. LEAF targeted runs accept `.mzml` and `.mzml.gz` in addition to Thermo `.raw`. The SEED reader has broader vendor-reader work, but this manual documents the current LEAF app surface: targeted folder runs accept `.raw` or mzML-family files, and untargeted runs currently expect Thermo `.raw` folders.
 
 ## How big a dataset can LEAF handle?
 
-On a modern laptop:
+It depends on file size, storage speed, backend, compound count, and whether peak picking / MS2 extraction are enabled. As a rule of thumb, targeted runs scale mostly with the number of compounds and samples; untargeted runs take longer because LEAF searches the full m/z and retention-time range.
 
-- **Targeted, 200 compounds, 50 samples** — under a minute
-- **Targeted, 500 compounds, 200 samples** — a few minutes
-- **Untargeted, 50 samples** — 5–15 minutes (depends on data complexity)
+For a rough check, start with a small folder and watch the floating progress button. If a modest targeted run takes much longer than expected, see [Troubleshooting](/reference/troubleshooting#extraction).
 
 For very large datasets (1000+ samples), use the Rust backend (Settings → Advanced) and run on a machine with 32 GB+ RAM.
 

@@ -80,7 +80,7 @@ Only the keys you want to override need to be present. Missing keys fall back to
 
 ## Storage backend
 
-LEAF persists `.msd` and `.usd` analysis archives through one of two storage backends. RAW input files are read directly from the filesystem regardless of backend — only the results bundle uses the storage backend.
+LEAF persists `.msd` and `.usd` analysis archives through one of two storage backends. LC-MS input files are read directly from the filesystem regardless of backend — only the results bundle uses the storage backend.
 
 ### `local` (default)
 
@@ -119,19 +119,19 @@ Only `.msd` (targeted) and `.usd` (untargeted) result archives are written throu
 
 What stays on the local filesystem regardless of backend:
 
-- RAW input files (you point LEAF at them; they're never copied)
+- LC-MS input files (you point LEAF at them; they're never copied)
 - Per-job intermediate state (in-memory + temp files; cleaned up after a job completes)
-- The built-in compound list cache and parsed-RAW cache
+- The built-in compound list cache and parsed input-file cache
 
 ## Backend selection
 
-LEAF reads RAW files through one of three reader backends. Selection is per-run via the `--backend` flag on `leaf targeted` / `leaf untargeted`, or per-installation via the **Settings → Advanced** dialog in the web UI.
+LEAF reads targeted inputs through the selected reader backend. Selection is per-run via the `--backend` flag on `leaf targeted`, or per-installation via the **Settings → Advanced** dialog in the web UI.
 
 | Backend | When used | Source |
 |---------|-----------|--------|
-| `auto` (default) | Picks the best backend for the current platform: `dotnet` on Windows, `rust` (SEED) elsewhere | — |
-| `rust` | Bundled SEED reader (Rust); no .NET required | [SEED](/scripting/reader) |
-| `dotnet` | Thermo .NET RawFileReader; requires .NET 8 runtime on Windows | Thermo Fisher |
+| `auto` (default) | macOS / Linux: SEED. Windows: `dotnet` for `.raw`, SEED for `.mzml` / `.mzml.gz`. | — |
+| `rust` | Bundled SEED reader; no .NET required. | [SEED](/scripting/reader) |
+| `dotnet` | Thermo .NET RawFileReader for Thermo `.raw`; requires .NET 8 runtime and is primarily used on Windows. | Thermo Fisher |
 
 Switching backends does not modify saved results.
 

@@ -23,6 +23,6 @@ Both interfaces operate on the same file formats as the web UI: a `.msd` produce
 - [`leaf webui`](/scripting/cli/webui) — start the web UI from a terminal (most common)
 - [`leaf targeted`](/scripting/cli/targeted) — targeted extraction headless
 - [`leaf untargeted`](/scripting/cli/untargeted) — untargeted feature discovery headless
-- [`leaf watch`](/scripting/cli/watch) — auto-extract new RAW files as they land in a folder
+- [`leaf watch`](/scripting/cli/watch) — auto-extract new LC-MS files as they land in a folder
 - [Python recipes](/scripting/python/recipes) — common scripted-analysis tasks
 - [SEED](/scripting/reader) — the Rust reader powering LEAF on macOS / Linux

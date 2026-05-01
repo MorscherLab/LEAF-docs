@@ -74,7 +74,7 @@ For an initial run, the defaults are appropriate for most LC-MS methods:
 | Polarity | NEG | Match your LC-MS method's polarity |
 | Mass tolerance | 5 ppm | How tightly to match m/z values |
 | RT window | 0.3 min | How far from expected RT to search |
-| Peak picking | On (v4 — KDE-based) | Detect peak boundaries automatically |
+| Peak picking | On (`v4`) | Detect peak boundaries automatically |
 | Quality scoring | On | Flag unreliable compounds |
 
 If the acquisition was performed in positive mode, change **Polarity** to POS. This is typically the only parameter requiring adjustment for an initial run.
@@ -85,7 +85,7 @@ Click the blue **Start Processing** button. A floating progress button appears i
 
 > [Screenshot: floating action button showing job in progress]
 
-Processing completes when the spinner is replaced by a green checkmark. Approximate runtimes: a single RAW file with 5 compounds completes in a few seconds; a 50-file dataset with 200 compounds typically completes within a few minutes.
+Processing completes when the spinner is replaced by a green checkmark. Runtime depends on file size, backend, storage speed, and compound count; a single input file with a small compound list should finish quickly, while larger batches may take several minutes.
 
 ## Step 5: See your results
 

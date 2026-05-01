@@ -294,7 +294,7 @@ MS2 scan bundled with decoded peaks, returned by `ms2_scans_for_windows` and `ms
 
 ## Batch XIC — multi-file extraction
 
-The high-value advanced API: extract XICs across many files into a single aligned tensor of shape `(n_samples, n_targets, n_timepoints)`. Hand the tensor directly to downstream analysis (peak picking, alignment, quantification).
+Use this API when you need aligned XICs from many files. It returns a single tensor of shape `(n_samples, n_targets, n_timepoints)` that can go directly into downstream analysis (peak picking, alignment, quantification).
 
 ### Why a separate API
 

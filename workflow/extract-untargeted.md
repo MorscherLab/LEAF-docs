@@ -1,6 +1,6 @@
 # Extract — Untargeted
 
-Untargeted mode performs feature detection on RAW files **without** requiring a predefined metabolite list. LEAF detects peaks across the full m/z and retention-time range, aligns features across samples, and produces a feature table for downstream filtering and identification.
+Untargeted mode performs feature detection on Thermo `.raw` files **without** requiring a predefined metabolite list. LEAF detects peaks across the full m/z and retention-time range, aligns features across samples, and produces a feature table for downstream filtering and identification.
 
 > [Screenshot: Extract page in Untargeted mode showing the parameters sidebar]
 
@@ -18,19 +18,21 @@ The two modes can be combined: untargeted analysis to identify candidate feature
 
 On the [Extract page](/workflow/extract), click the **Targeted / Untargeted** toggle at the top. The compound list editor disappears (you don't need a CSV) and the parameters sidebar swaps in untargeted-specific options.
 
+Use a folder of Thermo `.raw` files for untargeted runs. mzML input is supported in targeted extraction, but the current untargeted pipeline only scans `.raw` / `.RAW` files.
+
 ## Parameters
 
 | Parameter | Default | What it does |
 |-----------|---------|--------------|
 | **Polarity** | NEG | Match your method's polarity |
 | **Mass Tolerance** | 5 ppm | Tighter than targeted — affects feature alignment |
-| **Min intensity** | 1e5 | Drop features below this peak height |
-| **Min samples** | 2 | Require a feature to appear in at least N samples to keep it |
-| **RT range** | full run | Optionally restrict to a part of the run |
+| **Min intensity** | 1000 | Drop features below this peak height |
+| **Min scans** | 5 | Require a feature to persist across at least N scans |
+| **RT tolerance** | 0.3 min | Match features across nearby retention times |
 
 ## Run the extraction
 
-Click **Start Processing**. Progress shows in the same floating action button as targeted runs. Untargeted runs typically take 2–5× longer than targeted because every peak has to be detected, not just the ones in your list.
+Click **Start Processing**. Progress shows in the same floating action button as targeted runs. Untargeted runs usually take longer than targeted runs because LEAF searches for features across the full m/z and retention-time range, not only the compounds in a list.
 
 ## Open the results
 
@@ -41,7 +43,7 @@ Headless equivalent of this page:
 
 ```bash
 leaf untargeted ./samples \
-  --polarity NEG --tolerance 5 --min-samples 2
+  --polarity NEG --ppm 5 --min-scans 5
 ```
 
 → [`leaf untargeted` reference](/scripting/cli/untargeted)

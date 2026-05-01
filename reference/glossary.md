@@ -89,7 +89,7 @@ A SQLite-based spectral library format from Thermo. Used for MS2 identification.
 ## P
 
 **Peak picking**
-Detecting where peaks start and end in a chromatogram, and characterizing their shape. LEAF offers methods v1 (basic), v2 (smoothed), v4 (advanced — recommended).
+Detecting where peaks start and end in a chromatogram, and characterizing their shape. LEAF currently supports the `v4` peak-picking method; older `v1` / `v2` labels may appear in historical UI or CLI surfaces but are not implemented in the current pipeline.
 
 **Polarity**
 Mass-spectrometer mode — POS (positive) detects positively-charged ions; NEG (negative) detects negatively-charged. Must match your acquisition method.
@@ -105,7 +105,7 @@ LEAF's per-compound assessment. **Good** (use it), **Warning** (review it), **Po
 ## R
 
 **RAW file**
-Thermo Fisher's native LC-MS file format (`.raw`). The input to every LEAF workflow.
+Thermo Fisher's native LC-MS file format (`.raw`). Targeted LEAF runs also accept `.mzml` and `.mzml.gz`; untargeted runs currently expect Thermo `.raw` folders.
 
 **RetentionTime / RT**
 When a compound elutes from the LC column, in minutes. LEAF uses the expected RT to know where to look for each metabolite.
@@ -116,7 +116,7 @@ Compensating for small RT shifts between samples (column aging, temperature drif
 ## S
 
 **SEED** (Spectral Extraction & Encoding Driver)
-The Rust library LEAF uses to read Thermo `.raw` files on macOS and Linux. SEED is the `rust` backend in `leaf --backend`. It replaces the legacy `oxion` codename. See [SEED](/scripting/reader).
+The Rust library LEAF uses to read `.raw` and mzML-family files, especially on macOS and Linux where it is the default reader backend. It replaces the legacy `oxion` codename. See [SEED](/scripting/reader).
 
 **SEM** (Standard Error of the Mean)
 Error bars in the isotopologue chart show mean ± SEM per sample group.

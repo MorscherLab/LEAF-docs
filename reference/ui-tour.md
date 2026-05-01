@@ -35,7 +35,7 @@ The landing page after loading. Use this to launch new analyses.
 | Region | Element | What it does |
 |--------|---------|--------------|
 | Top | Targeted / Untargeted toggle | Switch the page mode |
-| Top-left | Folder selector | Pick the folder of RAW files |
+| Top-left | Folder selector | Pick the folder of LC-MS files |
 | Center | Compound list editor | Upload, edit, validate the metabolite CSV (targeted only) |
 | Right (top) | Parameters sidebar | Polarity, mass tolerance, RT window, peak picking, scoring |
 | Right (bottom) | Tracing editor | Configure isotopologues |

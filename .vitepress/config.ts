@@ -22,8 +22,75 @@ export default defineConfig({
 
     nav: [
       { text: 'Get Started', link: '/get-started/install-cli' },
-      { text: 'Workflow', link: '/workflow/prepare-data' },
-      { text: 'Scripting', link: '/scripting/' },
+      {
+        text: 'Workflow',
+        items: [
+          {
+            text: 'Shared setup',
+            items: [
+              { text: 'Prepare your data', link: '/workflow/prepare-data' },
+            ],
+          },
+          {
+            text: 'Targeted workflow',
+            items: [
+              { text: 'Extract — targeted', link: '/workflow/extract' },
+              { text: 'Analyze', link: '/workflow/analyze' },
+              { text: 'Visualize', link: '/workflow/visualize' },
+              { text: 'Isotope tracing', link: '/workflow/tracing' },
+            ],
+          },
+          {
+            text: 'Untargeted workflow',
+            items: [
+              { text: 'Untargeted overview', link: '/workflow/untargeted' },
+              { text: 'Extract — untargeted', link: '/workflow/extract-untargeted' },
+              { text: 'Inspect features', link: '/workflow/inspect-features' },
+            ],
+          },
+          {
+            text: 'Shared output',
+            items: [
+              { text: 'Export', link: '/workflow/export' },
+            ],
+          },
+        ],
+      },
+      {
+        text: 'Scripting',
+        items: [
+          {
+            text: 'Overview',
+            items: [
+              { text: 'When to use scripting', link: '/scripting/' },
+            ],
+          },
+          {
+            text: 'Command line',
+            items: [
+              { text: 'Overview', link: '/scripting/cli/overview' },
+              { text: 'leaf webui', link: '/scripting/cli/webui' },
+              { text: 'leaf targeted', link: '/scripting/cli/targeted' },
+              { text: 'leaf untargeted', link: '/scripting/cli/untargeted' },
+              { text: 'leaf watch', link: '/scripting/cli/watch' },
+              { text: 'Configuration', link: '/scripting/cli/configuration' },
+            ],
+          },
+          {
+            text: 'Python package',
+            items: [
+              { text: 'Overview & install', link: '/scripting/python/overview' },
+              { text: 'Recipes', link: '/scripting/python/recipes' },
+            ],
+          },
+          {
+            text: 'RAW reader',
+            items: [
+              { text: 'SEED (macOS / Linux)', link: '/scripting/reader' },
+            ],
+          },
+        ],
+      },
       { text: 'SEED', link: '/seed/' },
       { text: 'Reference', link: '/reference/ui-tour' },
       { text: 'MINT Docs', link: 'https://mint-docs.morscherlab.org' },
