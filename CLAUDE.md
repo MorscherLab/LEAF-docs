@@ -27,7 +27,7 @@ VitePress reads markdown from the project root recursively, but `srcExclude` in 
 
 - `get-started/` — install paths and the 5-minute quickstart
 - `workflow/` — the metabolomics pipeline pages (prepare → extract → analyze → visualize → export, plus tracing and untargeted)
-- `cli/` — `leaf` command-line interface (overview, `leaf serve`, configuration)
+- `cli/` — `leaf` command-line interface (overview, `leaf webui`, configuration). The four sub-apps (`targeted`, `untargeted`, `watch`, `webui`) live here.
 - `python/` — using LEAF as a Python package for scripted analyses
 - `reference/` — UI tour, troubleshooting, FAQ, glossary
 
