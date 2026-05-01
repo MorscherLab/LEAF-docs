@@ -2,6 +2,60 @@
 
 Before you launch an analysis, you need two things in front of you: your **RAW files** and a **metabolite list**.
 
+## Choose a workflow
+
+Both workflows start with the same instrument files. Choose **Targeted** when you already know which compounds to measure; choose **Untargeted** when you want LEAF to discover features first.
+
+```d2
+direction: right
+
+raw: "RAW / mzML files" {
+  shape: document
+  style.fill: "#dbeafe"
+}
+
+choice: "Choose analysis mode" {
+  shape: diamond
+  style.fill: "#f8fafc"
+}
+
+compounds: "Compound list\nCSV / TSV" {
+  shape: page
+  style.fill: "#e0f2fe"
+}
+
+targeted: "Targeted extraction" {
+  style.fill: "#dcfce7"
+}
+analyze: "Analyze"
+visualize: "Visualize"
+
+untargeted: "Untargeted extraction" {
+  style.fill: "#fef3c7"
+}
+inspect: "Inspect features"
+
+export: "Export" {
+  shape: package
+  style.fill: "#ede9fe"
+}
+
+raw -> choice
+compounds -> targeted
+choice -> targeted: "named compounds"
+choice -> untargeted: "discovery run"
+targeted -> analyze -> visualize -> export
+untargeted -> inspect -> export
+```
+
+::: tip Targeted path
+Use this for quantifying a defined metabolite panel, checking peak quality compound by compound, and comparing named compounds across sample groups.
+:::
+
+::: info Untargeted path
+Use this when the sample composition is unknown or when you need a feature table for later triage and identification. No metabolite list is required.
+:::
+
 ## RAW files
 
 LEAF reads Thermo Fisher `.raw` files and `.mzml` / `.mzml.gz` directly. Put all the files for one experiment into a single folder. LEAF will process every supported file in the folder.

@@ -6,7 +6,7 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 User-facing documentation site for [LEAF](https://github.com/MorscherLab/LEAF) (LC-MS Extensible Analysis Framework). Built with VitePress, deployed to **leaf-docs.morscherlab.org** via GitHub Pages on every push to `main`.
 
-This repo contains the **user-facing manual**: install, workflow walkthroughs, UI tour, FAQ, glossary, plus user-level CLI usage (`/cli/`) and scripted-analysis Python entry points (`/python/`). Developer-internal material (full Python API reference, plugin architecture, frontend internals, extension points) lives in the LEAF repo at `MorscherLab/LEAF/docs` — do not duplicate it here. When in doubt, link out.
+This repo contains the **user-facing manual**: install, workflow walkthroughs, scripting references, SEED reader docs, UI tour, FAQ, glossary, team, and changelog links. The legacy `/cli/` and `/python/` folders are redirect stubs; current material lives under `/scripting/`. Developer-internal material (full Python API reference, plugin architecture, frontend internals, extension points) lives in the LEAF repo at `MorscherLab/LEAF/docs` — do not duplicate it here. When in doubt, link out.
 
 ## Commands
 
@@ -19,7 +19,9 @@ bun run build    # outputs to .vitepress/dist/
 bun run preview  # serve the built site
 ```
 
-There are no tests, linters, or formatters configured. CI only runs `bun install --frozen-lockfile` + `bun run build`.
+There are no tests, linters, or formatters configured. CI installs dependencies, installs D2 for diagram rendering, runs the retired-CLI grep gate, then runs `bun run build`.
+
+D2 diagrams are rendered from fenced `d2` blocks by `vitepress-plugin-d2`. Local builds need the `d2` executable on `PATH` (`brew install d2` on macOS, or the upstream install script from the D2 docs).
 
 ## Architecture
 
@@ -37,7 +39,7 @@ The `scripting/python/` pages document the curated public surface (`Samples`, `A
 
 `.vitepress/config.ts` is the single source of truth for nav bar, sidebar groups, search, and the GitHub edit-link pattern. **Adding a page requires two edits**: create the `.md` file, then register it in the matching `sidebar` group in `config.ts` — otherwise it won't appear in navigation.
 
-`.vitepress/theme/` only adds `custom.css` on top of the default theme (LEAF brand color overrides). The brand palette there is intentionally kept in sync with `packages/ui/frontend/src/style.css` in the LEAF repo — change both together if you change either. `.vitepress/public/` ships static assets straight to the site root — notably `CNAME` (custom domain) and `leaf-icon.png`. The Vite config sets `publicDir` explicitly so the CNAME survives builds run from any cwd.
+`.vitepress/theme/` adds `custom.css` and a small diagram zoom helper on top of the default theme. The brand palette there is intentionally kept in sync with `packages/ui/frontend/src/style.css` in the LEAF repo — change both together if you change either. `.vitepress/public/` ships static assets straight to the site root — notably `CNAME` (custom domain) and `leaf-icon.png`. The Vite config sets `publicDir` explicitly so the CNAME survives builds run from any cwd.
 
 Edit links in the footer point to `MorscherLab/LEAF-docs` on GitHub (capital `LEAF-docs`). The dev server uses `lastUpdated` git timestamps, which is why CI checks out with `fetch-depth: 0`.
 

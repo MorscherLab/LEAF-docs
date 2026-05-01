@@ -1,4 +1,6 @@
 import { defineConfig } from 'vitepress'
+import d2 from 'vitepress-plugin-d2'
+import { FileType, Layout, Theme } from 'vitepress-plugin-d2/dist/config'
 
 export default defineConfig({
   title: 'LEAF',
@@ -41,17 +43,32 @@ export default defineConfig({
       ],
       '/workflow/': [
         {
-          text: 'Workflow',
+          text: 'Shared setup',
           items: [
             { text: 'Prepare your data', link: '/workflow/prepare-data' },
+          ],
+        },
+        {
+          text: 'Targeted workflow',
+          items: [
             { text: 'Extract — targeted', link: '/workflow/extract' },
             { text: 'Analyze', link: '/workflow/analyze' },
             { text: 'Visualize', link: '/workflow/visualize' },
-            { text: 'Export', link: '/workflow/export' },
             { text: 'Isotope tracing (modifier)', link: '/workflow/tracing' },
+          ],
+        },
+        {
+          text: 'Untargeted workflow',
+          items: [
             { text: 'Untargeted overview', link: '/workflow/untargeted' },
             { text: 'Extract — untargeted', link: '/workflow/extract-untargeted' },
             { text: 'Inspect features', link: '/workflow/inspect-features' },
+          ],
+        },
+        {
+          text: 'Shared output',
+          items: [
+            { text: 'Export', link: '/workflow/export' },
           ],
         },
       ],
@@ -160,6 +177,22 @@ export default defineConfig({
     },
 
     outline: { level: [2, 3] },
+  },
+
+  markdown: {
+    config(md) {
+      md.use(d2, {
+        layout: Layout.ELK,
+        theme: Theme.NEUTRAL_DEFAULT,
+        darkTheme: Theme.DARK_FLAGSHIP_TERRASTRUCT,
+        padding: 32,
+        sketch: true,
+        center: true,
+        scale: 1,
+        fileType: FileType.SVG,
+        directory: '.vitepress/cache/d2-diagrams',
+      })
+    },
   },
 
   vite: {

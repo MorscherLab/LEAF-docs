@@ -21,3 +21,96 @@
 .VPHero .name {
   letter-spacing: -0.02em;
 }
+
+.vp-doc .d2-diagram {
+  overflow-x: auto;
+  cursor: zoom-in;
+}
+
+.vp-doc .d2-diagram svg {
+  max-width: 100%;
+  height: auto;
+}
+
+.vp-doc .d2-diagram:focus-visible {
+  outline: 2px solid var(--vp-c-brand-1);
+  outline-offset: 4px;
+}
+
+.leaf-diagram-zoom-open {
+  overflow: hidden;
+}
+
+.leaf-diagram-zoom {
+  position: fixed;
+  inset: 0;
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 24px;
+  background: rgba(15, 23, 42, 0.72);
+  backdrop-filter: blur(4px);
+}
+
+.leaf-diagram-zoom__panel {
+  position: relative;
+  width: min(1280px, 96vw);
+  max-height: 92vh;
+  padding: 48px 16px 16px;
+  overflow: auto;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 8px;
+  background: var(--vp-c-bg);
+  box-shadow: 0 20px 56px rgba(15, 23, 42, 0.34);
+}
+
+.leaf-diagram-zoom__close {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  min-height: 32px;
+  padding: 0 12px;
+  border: 1px solid var(--vp-c-divider);
+  border-radius: 6px;
+  color: var(--vp-c-text-1);
+  background: var(--vp-c-bg-soft);
+  font-size: 13px;
+  font-weight: 600;
+}
+
+.leaf-diagram-zoom__close:hover {
+  border-color: var(--vp-c-brand-1);
+  color: var(--vp-c-brand-1);
+}
+
+.leaf-diagram-zoom__content {
+  width: 1800px;
+  max-width: none;
+}
+
+.leaf-diagram-zoom__content .d2-diagram {
+  cursor: zoom-out;
+}
+
+.leaf-diagram-zoom__content svg {
+  display: block;
+  width: 100%;
+  max-width: none;
+  height: auto;
+}
+
+@media (max-width: 768px) {
+  .leaf-diagram-zoom {
+    padding: 12px;
+  }
+
+  .leaf-diagram-zoom__panel {
+    width: 100%;
+    padding: 44px 12px 12px;
+  }
+
+  .leaf-diagram-zoom__content {
+    width: 1280px;
+  }
+}

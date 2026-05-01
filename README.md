@@ -2,7 +2,7 @@
 
 The user-facing documentation site for [LEAF](https://github.com/MorscherLab/LEAF), the LC-MS Extensible Analysis Framework. Built with [VitePress](https://vitepress.dev/), deployed to **leaf-docs.morscherlab.org** via GitHub Pages.
 
-This repository contains only the user manual (install, workflow walkthroughs, UI tour, FAQ, glossary). For developer-facing technical docs (Python API, plugin architecture, frontend internals), see the [LEAF repository](https://github.com/MorscherLab/LEAF/tree/main/docs).
+This repository contains the user manual: install, workflow walkthroughs, scripting references, SEED reader docs, UI tour, FAQ, glossary, team, and changelog links. For developer-facing technical docs (full Python API, plugin architecture, frontend internals), see the [LEAF repository](https://github.com/MorscherLab/LEAF/tree/main/docs).
 
 ## Layout
 
@@ -13,17 +13,31 @@ LEAF-docs/
   index.md              # home page
   changelog.md          # links to GitHub releases
   get-started/
+    install-mint.md
+    install-cli.md
     install-desktop.md
-    install-hosted.md
     quickstart.md
   workflow/
     prepare-data.md
     extract.md
     analyze.md
     visualize.md
-    export.md
     tracing.md
     untargeted.md
+    extract-untargeted.md
+    inspect-features.md
+    export.md
+  scripting/
+    index.md
+    cli/
+    python/
+    reader.md
+  seed/
+    index.md
+    cli.md
+    python-api.md
+    rust-api.md
+    changelog.md
   reference/
     ui-tour.md
     troubleshooting.md
@@ -31,7 +45,7 @@ LEAF-docs/
     glossary.md
   .vitepress/
     config.ts           # nav, sidebar, theme, search, edit links
-    theme/              # LEAF brand color overrides
+    theme/              # LEAF brand CSS + diagram zoom helper
     public/
       CNAME             # leaf-docs.morscherlab.org
       leaf-icon.png     # site icon (master in MorscherLab/LEAF/assets/)
@@ -40,6 +54,8 @@ LEAF-docs/
 ```
 
 ## Local development
+
+Install [D2](https://d2lang.com/tour/install/) before building; VitePress renders `d2` code fences into inline SVG diagrams at build time.
 
 ```bash
 bun install
@@ -50,7 +66,7 @@ bun run preview  # serve the built site
 
 ## Deploy
 
-Every push to `main` triggers `.github/workflows/deploy.yml`, which builds the site and publishes to GitHub Pages. The CNAME file ships in the build artifact.
+Every push to `main` triggers `.github/workflows/deploy.yml`, which installs Bun dependencies, installs D2, builds the site, and publishes to GitHub Pages. The CNAME file ships in the build artifact.
 
 **One-time DNS setup**:
 
@@ -59,7 +75,7 @@ Every push to `main` triggers `.github/workflows/deploy.yml`, which builds the s
 
 ## Adding a page
 
-1. Create a new `.md` file under `get-started/`, `workflow/`, or `reference/`.
+1. Create a new `.md` file under the matching content directory.
 2. Add an entry to the relevant `sidebar` group in `.vitepress/config.ts`.
 3. Optionally link to it from the home page or other pages.
 
