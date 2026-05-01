@@ -7,7 +7,7 @@ export default defineConfig({
 
   cleanUrls: true,
   ignoreDeadLinks: false,
-  srcExclude: ['README.md', 'node_modules/**'],
+  srcExclude: ['README.md', 'node_modules/**', 'docs/**'],
 
   head: [
     ['link', { rel: 'icon', href: '/leaf-icon.png' }],
