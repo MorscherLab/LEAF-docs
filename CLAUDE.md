@@ -23,11 +23,12 @@ There are no tests, linters, or formatters configured. CI only runs `bun install
 
 ## Architecture
 
-VitePress reads markdown from the project root recursively, but `srcExclude` in `.vitepress/config.ts` skips `README.md` and `node_modules/**`. Five content directories drive the navigation:
+VitePress reads markdown from the project root recursively, but `srcExclude` in `.vitepress/config.ts` skips `README.md`, `node_modules/**`, and `docs/**` (the spec / plan working directory). Six content directories drive the navigation:
 
 - `get-started/` — install paths and the 5-minute quickstart
 - `workflow/` — the metabolomics pipeline pages. Targeted spine: prepare → extract → analyze → visualize → export, plus tracing modifier. Untargeted spine: untargeted overview → extract-untargeted → inspect-features → export.
-- `scripting/` — CLI reference (`leaf webui`, `leaf targeted`, `leaf untargeted`, `leaf watch`, configuration), Python recipes, SEED reader note. Replaces the legacy `cli/` and `python/` directories, which now host 1-page redirect stubs only.
+- `scripting/` — LEAF's CLI reference (`leaf webui`, `leaf targeted`, `leaf untargeted`, `leaf watch`, configuration), Python recipes, and a 1-screen pointer to SEED. Replaces the legacy `cli/` and `python/` directories, which now host 1-page redirect stubs only.
+- `seed/` — SEED user manual hosted as a peer pillar. See "SEED docs" below for the source-of-truth process. Material is lifted from `oxion-core` upstream.
 - `reference/` — UI tour, troubleshooting, FAQ, glossary, plus team and changelog
 
 Plus `index.md` (home), `team.md` (Vue components from `vitepress/theme`), and `changelog.md` (links out to GitHub Releases — release notes themselves are not maintained here).
@@ -39,6 +40,24 @@ The `scripting/python/` pages document the curated public surface (`Samples`, `A
 `.vitepress/theme/` only adds `custom.css` on top of the default theme (LEAF brand color overrides). The brand palette there is intentionally kept in sync with `packages/ui/frontend/src/style.css` in the LEAF repo — change both together if you change either. `.vitepress/public/` ships static assets straight to the site root — notably `CNAME` (custom domain) and `leaf-icon.png`. The Vite config sets `publicDir` explicitly so the CNAME survives builds run from any cwd.
 
 Edit links in the footer point to `MorscherLab/LEAF-docs` on GitHub (capital `LEAF-docs`). The dev server uses `lastUpdated` git timestamps, which is why CI checks out with `fetch-depth: 0`.
+
+## SEED docs
+
+[SEED](https://github.com/EstrellaXD/oxion-core) (Spectral Extraction & Encoding Driver, formerly oxion) is a peer product hosted under `/seed/` here while it has no public docs site of its own. LEAF stays the primary tenant of this site (home page, brand); SEED is a top-nav peer.
+
+**Source of truth.** SEED docs live at:
+
+- `oxion-core/PUBLIC_README.md` — install, vendor formats, perf summary
+- `oxion-core/docs/python-api.md` — Python API
+- `oxion-core/docs/batch-xic.md` — multi-file batch extraction
+- `oxion-core/docs/rust-api.md` — Rust crate (note: heavily outdated — uses retired `thermo-raw` crate name and predates multi-vendor support; verify against `oxion-core/crates/seed/src/lib.rs` and `reader.rs` when updating)
+- `oxion-core/crates/seed-cli/src/main.rs` — clap subcommand definitions, authoritative for the CLI surface
+
+The pages in `seed/` are derived from those upstream files. Every page ends with a `<!-- Source: ... -->` comment naming its upstream.
+
+**Update protocol.** Monthly diff `oxion-core/docs/{python-api,batch-xic,rust-api}.md` and `oxion-core/PUBLIC_README.md` against the corresponding pages here. Format-internals (`FORMAT_SPEC.md`, `OLE2_STRUCTURE.md`, `SCAN_DATA_ENCODING.md`, `VERSION_DIFFERENCES.md`, `TransitionMatrix.md`) are intentionally not mirrored — they live upstream only. The Thermo vendor archive (`UsingRawFileReader.md`, `UsingNuGet.md`) is also out of scope.
+
+**Brand.** Lowercase `seed` for the CLI / Python module / Rust crate; uppercase `SEED` for the product name in prose. Same convention as `leaf` / `LEAF`.
 
 ## Conventions for content edits
 
