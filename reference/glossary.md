@@ -116,7 +116,7 @@ Compensating for small RT shifts between samples (column aging, temperature drif
 ## S
 
 **SEED** (Spectral Extraction & Encoding Driver)
-The Rust library LEAF uses to read Thermo `.raw` files on macOS and Linux. SEED is the `rust` backend in `leaf --backend`. It replaces the legacy `oxion` codename. See the [SEED upstream docs](https://github.com/MorscherLab/LEAF/tree/main/docs).
+The Rust library LEAF uses to read Thermo `.raw` files on macOS and Linux. SEED is the `rust` backend in `leaf --backend`. It replaces the legacy `oxion` codename. See [SEED](/scripting/reader).
 
 **SEM** (Standard Error of the Mean)
 Error bars in the isotopologue chart show mean ± SEM per sample group.

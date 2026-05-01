@@ -49,7 +49,7 @@ LEAF reads RAW files through one of three backends. Selection is per-run via the
 | Backend | When used | Source |
 |---------|-----------|--------|
 | `auto` (default) | Picks the best backend for the current platform: `dotnet` on Windows, `rust` (SEED) elsewhere | — |
-| `rust` | Bundled SEED reader (Rust); no .NET required | [SEED](https://github.com/MorscherLab/LEAF/tree/main/docs) |
+| `rust` | Bundled SEED reader (Rust); no .NET required | [SEED](/scripting/reader) |
 | `dotnet` | Thermo .NET RawFileReader; requires .NET 8.0 SDK on Windows | Thermo Fisher |
 
 Switching backends does not modify saved results. The `dotnet` backend is the only one that supports parallel extraction with `--parallel`; `rust` (SEED) extracts in parallel by default.

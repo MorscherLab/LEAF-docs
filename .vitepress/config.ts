@@ -95,6 +95,14 @@ export default defineConfig({
           ],
         },
       ],
+      '/scripting/': [
+        {
+          text: 'RAW reader',
+          items: [
+            { text: 'SEED (macOS / Linux)', link: '/scripting/reader' },
+          ],
+        },
+      ],
     },
 
     socialLinks: [

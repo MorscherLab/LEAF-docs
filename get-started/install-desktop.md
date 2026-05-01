@@ -8,14 +8,14 @@ LEAF runs as a local web application. After installation, the server is launched
 
 | | |
 |---|---|
-| **Operating system** | macOS (Apple Silicon), Linux (x86_64), or Windows (x64) |
+| **Operating system** | macOS (Apple Silicon), Linux (x86_64), or Windows (x64). On macOS / Linux, RAW files are read via the bundled [SEED](/scripting/reader) Rust reader — no .NET required. |
 | **Python** | 3.12 or newer — [download from python.org](https://www.python.org/downloads/) |
 | **Disk** | ~500 MB for LEAF + room for your RAW files |
 | **RAM** | 8 GB minimum, 16 GB recommended for large datasets |
 | **Browser** | Any modern browser (Chrome, Firefox, Safari, Edge) |
 
 ::: tip Windows users
-Windows additionally needs the **.NET 8.0 SDK** to read Thermo RAW files. [Download .NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0). macOS and Linux do not need .NET — LEAF uses a built-in Rust reader.
+Windows uses Thermo's .NET RawFileReader by default and additionally needs the **.NET 8.0 SDK** — [download .NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0). macOS / Linux ship with the [SEED](/scripting/reader) Rust reader and do not need .NET.
 :::
 
 ## Install
