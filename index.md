@@ -16,8 +16,8 @@ hero:
       text: Quickstart
       link: /get-started/quickstart
     - theme: alt
-      text: Hosted MINT instance
-      link: https://mint.morscherlab.org
+      text: MINT Docs
+      link: https://mint-docs.morscherlab.org
 
 features:
   - icon: 🧪
@@ -60,7 +60,7 @@ features:
 ::: tip Hosted MINT access
 If your lab operates a MINT server with LEAF installed, no local installation is required. The hosted version uses your lab credentials; contact your administrator to request access.
 
-[Open MINT](https://mint.morscherlab.org)
+[MINT Docs](https://mint-docs.morscherlab.org) · [Use the hosted version](/get-started/install-hosted)
 :::
 
 ::: info Developer documentation

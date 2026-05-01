@@ -24,7 +24,7 @@ export default defineConfig({
       { text: 'Scripting', link: '/scripting/' },
       { text: 'SEED', link: '/seed/' },
       { text: 'Reference', link: '/reference/ui-tour' },
-      { text: 'Open MINT', link: 'https://mint.morscherlab.org' },
+      { text: 'MINT Docs', link: 'https://mint-docs.morscherlab.org' },
     ],
 
     sidebar: {
