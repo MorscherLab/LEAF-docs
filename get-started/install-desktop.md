@@ -1,83 +1,29 @@
-# Install on Your Desktop
+---
+title: Desktop app (in development)
+description: A native desktop launcher for LEAF is in development. Until it ships, install via the wheel + CLI or in MINT.
+---
 
-LEAF runs as a local web application. After installation, the server is launched on demand from the command line and accessed in a browser at `127.0.0.1`. All processing and storage occur on the local machine.
+# Desktop app
 
-> [Screenshot: LEAF home page in a browser after running `leaf webui run`]
-
-## Requirements
-
-| | |
-|---|---|
-| **Operating system** | macOS (Apple Silicon), Linux (x86_64), or Windows (x64). On macOS / Linux, RAW files are read via the bundled [SEED](/scripting/reader) Rust reader — no .NET required. |
-| **Python** | 3.12 or newer — [download from python.org](https://www.python.org/downloads/) |
-| **Disk** | ~500 MB for LEAF + room for your RAW files |
-| **RAM** | 8 GB minimum, 16 GB recommended for large datasets |
-| **Browser** | Any modern browser (Chrome, Firefox, Safari, Edge) |
-
-::: tip Windows users
-Windows uses Thermo's .NET RawFileReader by default and additionally needs the **.NET 8.0 SDK** — [download .NET 8.0](https://dotnet.microsoft.com/download/dotnet/8.0). macOS / Linux ship with the [SEED](/scripting/reader) Rust reader and do not need .NET.
+::: warning In development
+A native desktop application that wraps LEAF behind a clickable icon — no terminal, no `pip` — is currently in development and not yet released.
 :::
 
-## Install
+## What this will be
 
-LEAF ships as a single Python wheel per platform. Pick your preferred installer:
+A small native launcher (Tauri-based) that bundles the LEAF backend and frontend behind a single executable. Open the app and the LEAF UI shows up — no terminal, no port to remember, no `Ctrl+C` to stop the server. It's intended for users who want LEAF on a personal laptop without engaging with Python tooling.
 
-::: code-group
+The desktop app shares the LEAF core with all other install paths: extraction parameters, `.msd` archives, scripted analysis, and the web UI all stay identical.
 
-```bash [uv (recommended)]
-# Install uv if you don't have it: https://docs.astral.sh/uv/
-uv tool install leaf
-```
+## Until it ships
 
-```bash [pip]
-pip install --user leaf
-```
+Use one of the existing install paths:
 
-```bash [pipx]
-pipx install leaf
-```
+- **[Install the wheel + CLI](/get-started/install-cli)** — local single-user install on macOS / Windows / Linux. The standalone installer (`bash install.sh` / `install.ps1`) is the closest current equivalent to the desktop app: it produces a single `leaf` launcher you run from a terminal.
+- **[Install in MINT](/get-started/install-mint)** — for labs with a shared MINT server.
 
-:::
+## Track progress
 
-The wheel bundles everything LEAF needs: the Python backend, the Rust extraction engine, the web frontend, and the .NET reader (Windows). No separate downloads.
+Watch the [LEAF releases page](https://github.com/MorscherLab/LEAF/releases) — the desktop app will land as a `.dmg` (macOS) and `.msi` (Windows) asset on a future release.
 
-## Launch
-
-Open a terminal and run:
-
-```bash
-leaf webui run
-```
-
-LEAF starts in the foreground and prints a uvicorn banner ending in:
-
-```
-Uvicorn running on http://127.0.0.1:18008 (Press CTRL+C to quit)
-```
-
-Open `http://127.0.0.1:18008` in your browser and you'll see the LEAF home page.
-
-> [Screenshot: terminal showing `leaf webui run` startup output]
-
-To run LEAF in the background instead, use `leaf webui start` (and `leaf webui stop` to terminate). See [`leaf webui`](/scripting/cli/webui) for full options.
-
-## Stop
-
-Press **Ctrl+C** in the terminal window. Closing the browser tab does not stop LEAF — it keeps running until you stop the terminal.
-
-## Troubleshooting
-
-| Problem | Fix |
-|---------|-----|
-| `command not found: leaf` | The install location isn't on your PATH. With `uv tool install`, run `uv tool update-shell`. With `pip install --user`, add `~/.local/bin` (macOS/Linux) or `%APPDATA%\Python\Scripts` (Windows) to PATH. |
-| Port 18008 already in use | Another process is using the port. Run `leaf webui run --port 18009` (or any free port). |
-| `pythonnet` errors on Windows | .NET 8.0 SDK is missing. Install from [dotnet.microsoft.com](https://dotnet.microsoft.com/download/dotnet/8.0). |
-| RAW file fails to load | The Thermo file may be from an unsupported instrument firmware. See [Troubleshooting](/reference/troubleshooting). |
-
-## Next step
-
-→ [Run your first analysis](/get-started/quickstart) (5 minutes)
-
-Or if your lab has a hosted MINT instance with LEAF already installed:
-
-→ [Use the hosted version instead](/get-started/install-hosted)
+To file a feature request or vote on platform priorities, [open a LEAF issue](https://github.com/MorscherLab/LEAF/issues).

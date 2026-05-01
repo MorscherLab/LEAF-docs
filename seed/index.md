@@ -110,6 +110,6 @@ Internal timing after file open — measures only the operation itself:
 
 ---
 
-LEAF — the metabolomics analysis platform built on top of SEED — has its own user manual; see [LEAF Get Started](/get-started/install-desktop) if you arrived here via that route.
+LEAF — the metabolomics analysis platform built on top of SEED — has its own user manual; see [LEAF Get Started](/get-started/install-cli) if you arrived here via that route.
 
 <!-- Source: oxion-core/PUBLIC_README.md -->

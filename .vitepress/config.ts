@@ -19,7 +19,7 @@ export default defineConfig({
     siteTitle: 'LEAF',
 
     nav: [
-      { text: 'Get Started', link: '/get-started/install-desktop' },
+      { text: 'Get Started', link: '/get-started/install-cli' },
       { text: 'Workflow', link: '/workflow/prepare-data' },
       { text: 'Scripting', link: '/scripting/' },
       { text: 'SEED', link: '/seed/' },
@@ -32,8 +32,9 @@ export default defineConfig({
         {
           text: 'Get Started',
           items: [
-            { text: 'Install on desktop', link: '/get-started/install-desktop' },
-            { text: 'Use the hosted version', link: '/get-started/install-hosted' },
+            { text: 'Install in MINT (recommended)', link: '/get-started/install-mint' },
+            { text: 'Install the wheel + CLI', link: '/get-started/install-cli' },
+            { text: 'Desktop app (in development)', link: '/get-started/install-desktop' },
             { text: 'First analysis (5 min)', link: '/get-started/quickstart' },
           ],
         },

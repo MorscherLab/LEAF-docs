@@ -15,7 +15,7 @@ The two interfaces operate on the same underlying file formats: a `.msd` produce
 
 ## Installation
 
-The Python package is installed by the same wheel that provides the `leaf` command-line tool. See [Install on desktop](/get-started/install-desktop) for installation instructions.
+The Python package is installed by the same wheel that provides the `leaf` command-line tool. See [Install the wheel + CLI](/get-started/install-cli) for installation instructions.
 
 To verify the package is importable:
 

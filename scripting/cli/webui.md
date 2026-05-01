@@ -40,7 +40,7 @@ INFO:     Uvicorn running on http://127.0.0.1:18008 (Press CTRL+C to quit)
 | `--port`, `-p` | `18008` | TCP port. Use a different value if 18008 is taken. |
 
 ::: warning Network exposure
-`--host 0.0.0.0` exposes LEAF to anyone on the same network and provides no authentication. Use only on trusted networks. For multi-user deployments, use the hosted MINT path instead — see [Use the hosted version](/get-started/install-hosted).
+`--host 0.0.0.0` exposes LEAF to anyone on the same network and provides no authentication. Use only on trusted networks. For multi-user deployments, use the hosted MINT path instead — see [Install in MINT](/get-started/install-mint).
 :::
 
 ## Daemon mode

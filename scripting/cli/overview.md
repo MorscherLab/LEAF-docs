@@ -23,7 +23,7 @@ Expected output:
 leaf 0.5.0
 ```
 
-If the command is not found, the install location is not on `PATH`. Resolutions are listed in [Install on desktop — Troubleshooting](/get-started/install-desktop#troubleshooting).
+If the command is not found, the install location is not on `PATH`. Resolutions are listed in [Install the wheel + CLI — Troubleshooting](/get-started/install-cli#troubleshooting).
 
 ## Legacy aliases
 

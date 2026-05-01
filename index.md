@@ -4,14 +4,14 @@ layout: home
 hero:
   name: LEAF
   text: LC-MS Extensible Analysis Framework
-  tagline: A browser-based LC-MS analysis platform that reads vendor RAW files directly (Thermo Fisher), with integrated targeted and untargeted workflows, isotope tracing, and statistical analysis.
+  tagline: A hyper-performanced LC-MS analysis platform that reads vendor RAW files directly (7 Vendors), with metadata enhanced both targeted and untargeted workflows, isotope tracing, and statistical analysis.
   image:
     src: /leaf-icon.png
     alt: LEAF
   actions:
     - theme: brand
       text: Get Started
-      link: /get-started/install-desktop
+      link: /get-started/install-cli
     - theme: alt
       text: Quickstart
       link: /get-started/quickstart
@@ -22,7 +22,7 @@ hero:
 features:
   - icon: 🧪
     title: Targeted analysis
-    details: Given a compound list (CSV) and a folder of RAW files, LEAF extracts ion chromatograms, detects peaks, and assigns per-compound quality verdicts.
+    details: Given a compound list and a folder of RAW files, LEAF extracts ion chromatograms, detects peaks, and assigns per-compound quality verdicts.
     link: /workflow/extract
     linkText: Extraction parameters
 
@@ -52,15 +52,15 @@ features:
 
   - icon: 🔒
     title: Local-first execution
-    details: The desktop install binds to 127.0.0.1 and makes no outbound network requests. The hosted version delegates authentication to the lab's existing MINT instance.
-    link: /get-started/install-desktop
+    details: The local install binds to 127.0.0.1 and makes no outbound network requests. The hosted version delegates authentication to the lab's existing MINT instance.
+    link: /get-started/install-cli
     linkText: Installation
 ---
 
 ::: tip Hosted MINT access
 If your lab operates a MINT server with LEAF installed, no local installation is required. The hosted version uses your lab credentials; contact your administrator to request access.
 
-[MINT Docs](https://mint-docs.morscherlab.org) · [Use the hosted version](/get-started/install-hosted)
+[MINT Docs](https://mint-docs.morscherlab.org) · [Install in MINT](/get-started/install-mint)
 :::
 
 ::: info Developer documentation
