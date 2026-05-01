@@ -4,7 +4,7 @@ layout: home
 hero:
   name: LEAF
   text: LC-MS Extensible Analysis Framework
-  tagline: A hyper-performanced LC-MS analysis platform that reads vendor RAW files directly (7 Vendors), with metadata enhanced both targeted and untargeted workflows, isotope tracing, and statistical analysis.
+  tagline: High-performance LC-MS data processing for metabolomics — targeted extraction, untargeted feature detection, peak picking, quality scoring, isotope tracing, and statistical visualization. Reads Thermo RAW and mzML files directly.
   image:
     src: /leaf-icon.png
     alt: LEAF
