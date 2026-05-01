@@ -4,7 +4,7 @@ LEAF reads configuration from three sources, in increasing order of precedence:
 
 1. **Built-in defaults** — used when no other source overrides them.
 2. **On-disk configuration** — written by the **Settings** dialog in the web UI.
-3. **Command-line flags** — passed to `leaf serve` (see [`leaf serve`](/cli/serve)).
+3. **Command-line flags** — passed to `leaf webui` (see [`leaf webui`](/cli/serve)) or to `leaf targeted` / `leaf untargeted`.
 
 For most users, the Settings dialog is the only configuration interface required.
 
@@ -44,14 +44,15 @@ Removing the cache directory is safe; it will be regenerated on the next extract
 
 ## Backend selection
 
-LEAF includes two extraction backends:
+LEAF reads RAW files through one of three backends. Selection is per-run via the `--backend` flag on `leaf targeted` / `leaf untargeted`, or per-installation via the **Settings → Advanced** dialog in the web UI.
 
-| Backend | Description | When to use |
-|---------|-------------|-------------|
-| **Rust** (default) | High-performance native implementation | Recommended for routine and large-batch use |
-| **Python** | Reference implementation, intended for development and debugging | Use when investigating discrepancies or when the Rust backend is unavailable on the platform |
+| Backend | When used | Source |
+|---------|-----------|--------|
+| `auto` (default) | Picks the best backend for the current platform: `dotnet` on Windows, `rust` (SEED) elsewhere | — |
+| `rust` | Bundled SEED reader (Rust); no .NET required | [SEED](https://github.com/MorscherLab/LEAF/tree/main/docs) |
+| `dotnet` | Thermo .NET RawFileReader; requires .NET 8.0 SDK on Windows | Thermo Fisher |
 
-Selection is per-installation; switching backends does not modify saved results.
+Switching backends does not modify saved results. The `dotnet` backend is the only one that supports parallel extraction with `--parallel`; `rust` (SEED) extracts in parallel by default.
 
 ## Next
 
