@@ -31,6 +31,16 @@ jobs:
       - name: Install dependencies
         run: bun install --frozen-lockfile
 
+      - name: Check for retired `leaf serve` references
+        run: |
+          if grep -rEn 'leaf serve' --include='*.md' \
+                 --exclude-dir=node_modules \
+                 --exclude-dir=docs \
+                 --exclude='reference/glossary.md' .; then
+            echo "::error::Retired command 'leaf serve' found above. Use 'leaf webui run' instead."
+            exit 1
+          fi
+
       - name: Build VitePress site
         run: bun run build
 
