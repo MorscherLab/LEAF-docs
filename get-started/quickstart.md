@@ -4,16 +4,43 @@ A complete walkthrough from opening LEAF to seeing your first peak — about 5 m
 
 > [Screenshot: full LEAF window showing the Extract view, ready to start]
 
-## Prerequisites
+## Before you start
 
-Two inputs:
+You should already have LEAF installed via one of:
 
-1. **A folder containing Thermo `.raw` files** — the LC-MS samples to be analyzed. A single file is sufficient for this walkthrough.
+- [Install in MINT (recommended)](/get-started/install-mint) — open the lab's MINT URL, sign in, click the **LEAF** tile.
+- [Install the wheel + CLI](/get-started/install-cli) — launch the local server and open it in your browser.
+
+For a local install, launch LEAF in a terminal:
+
+::: code-group
+
+```bash [Standalone installer (Path A)]
+~/.leaf/leaf
+# Open http://127.0.0.1:8000
+```
+
+```bash [Manual wheel + CLI (Path B)]
+leaf webui run
+# Open http://127.0.0.1:18008
+```
+
+:::
+
+The browser tab should land on the LEAF **Extract** view.
+
+## Inputs
+
+Two things are needed:
+
+1. **A folder of LC-MS files** — Thermo `.raw` or `.mzml` (`.mzml.gz` is also accepted). A single file is sufficient for this walkthrough.
 2. **A CSV listing the target metabolites** — described below.
 
 ## Make a metabolite CSV
 
-Open a text editor and save this as `compounds.csv`:
+The fastest path is to use the starter list shipped with LEAF: [`examples/metabolite-list-primary-metabolism.csv`](https://github.com/MorscherLab/LEAF/blob/main/examples/metabolite-list-primary-metabolism.csv) — a primary-metabolism panel with sensible defaults.
+
+Or save the following as `compounds.csv` if you'd rather start small:
 
 ```csv
 Metabolite,Formula,RetentionTime,Adduct
@@ -24,11 +51,11 @@ Pyruvate,C3H4O3,2.8,M-H
 Glutamate,C5H9NO4,4.1,M-H
 ```
 
-Adjust the retention times to match your chromatographic method. Exact values are not required, as the RT search window tolerates moderate drift. See [Prepare your data](/workflow/prepare-data) for the complete CSV specification.
+Adjust the retention times to match your chromatographic method. Exact values are not required — the RT search window tolerates moderate drift. See [Prepare your data](/workflow/prepare-data) for the complete CSV specification.
 
-## Step 1: Pick your RAW folder
+## Step 1: Pick your data folder
 
-On the Extract page, click **Select Folder** and choose the folder with your `.raw` files. The number of files appears next to the folder name.
+On the Extract page, click **Select Folder** and choose the folder with your `.raw` (or `.mzml`) files. The number of files appears next to the folder name.
 
 > [Screenshot: folder selector with files counted]
 
@@ -40,14 +67,14 @@ Drag `compounds.csv` onto the upload zone — or click to browse. You'll see you
 
 ## Step 3: Set parameters
 
-For an initial run, the default parameter values are appropriate for most LC-MS methods:
+For an initial run, the defaults are appropriate for most LC-MS methods:
 
 | Setting | Default | What it means |
 |---------|---------|---------------|
 | Polarity | NEG | Match your LC-MS method's polarity |
 | Mass tolerance | 5 ppm | How tightly to match m/z values |
-| RT window | 0.5 min | How far from expected RT to search |
-| Peak picking | On (v4 Advanced) | Detect peak boundaries automatically |
+| RT window | 0.3 min | How far from expected RT to search |
+| Peak picking | On (v4 — KDE-based) | Detect peak boundaries automatically |
 | Quality scoring | On | Flag unreliable compounds |
 
 If the acquisition was performed in positive mode, change **Polarity** to POS. This is typically the only parameter requiring adjustment for an initial run.
@@ -80,6 +107,7 @@ The walkthrough has covered extraction, peak picking, quality scoring, and resul
 - **Visualization** — open the **Visualize** dropdown for PCA, heatmaps, volcano plots, and additional chart types. See [Visualize](/workflow/visualize).
 - **Export** — click the download button to save a `.msd` archive (full bundle) or a `.csv` (intensity matrix). See [Export](/workflow/export).
 - **Isotope tracing** — for ¹³C and other labeling experiments, see [Isotope tracing](/workflow/tracing).
+- **No metabolite list?** Switch the Extract page to the **Untargeted** mode for de-novo feature detection — see [Untargeted overview](/workflow/untargeted).
 
 ## Troubleshooting
 
