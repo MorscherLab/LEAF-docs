@@ -103,6 +103,19 @@ Warnings are listed below the verdict with severity badges (CRITICAL, WARNING, M
 
 The verdict filter also drives export. If you want only the green compounds in your CSV/`.msd`, filter to **Good** before downloading. See [Export](/workflow/export).
 
+::: details Also from a script
+Re-running peak picking on an existing `.msd` from Python:
+
+```python
+from leaf.analyzer import Samples, PeakPicking
+samples = Samples.load("analysis.msd")
+PeakPicking(samples).run(method="v4")
+samples.save("analysis.msd")
+```
+
+→ [Python recipes](/scripting/python/recipes)
+:::
+
 ## Next step
 
 → [Visualize statistically](/workflow/visualize)

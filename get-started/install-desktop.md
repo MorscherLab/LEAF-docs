@@ -59,7 +59,7 @@ Open `http://127.0.0.1:18008` in your browser and you'll see the LEAF home page.
 
 > [Screenshot: terminal showing `leaf webui run` startup output]
 
-To run LEAF in the background instead, use `leaf webui start` (and `leaf webui stop` to terminate). See [`leaf webui`](/cli/serve) for full options.
+To run LEAF in the background instead, use `leaf webui start` (and `leaf webui stop` to terminate). See [`leaf webui`](/scripting/cli/webui) for full options.
 
 ## Stop
 

@@ -36,6 +36,17 @@ Click **Start Processing**. Progress shows in the same floating action button as
 
 After completion, click **Open** in the jobs panel. The Untargeted view loads — see [Inspect features](/workflow/inspect-features).
 
+::: details Also from a script
+Headless equivalent of this page:
+
+```bash
+leaf untargeted ./samples \
+  --polarity NEG --tolerance 5 --min-samples 2
+```
+
+→ [`leaf untargeted` reference](/scripting/cli/untargeted)
+:::
+
 ## Next step
 
 → [Inspect features](/workflow/inspect-features)

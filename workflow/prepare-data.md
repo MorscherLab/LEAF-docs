@@ -77,6 +77,16 @@ Fix the warnings before you start the extraction.
 
 > [Screenshot: compound list editor showing validation warnings]
 
+::: details Also from a script
+The compound CSV is identical for the CLI and Python paths — no separate format. Pass it as the second positional argument to `leaf targeted`:
+
+```bash
+leaf targeted ./samples ./compounds.csv
+```
+
+→ [`leaf targeted` reference](/scripting/cli/targeted)
+:::
+
 ## Next step
 
 → [Extract](/workflow/extract)

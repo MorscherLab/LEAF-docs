@@ -58,7 +58,7 @@ The two-step technique LEAF processes data from. LC separates compounds in time;
 Minimum signal level required for a peak to count as "detected". Configurable in the Extract page (default 100,000).
 
 **`leaf serve`** *(deprecated)*
-Older docs and forum posts referenced `leaf serve` as the launch command. The actual entry point is `leaf webui run` (foreground) or `leaf webui start` (daemon). See [`leaf webui`](/cli/serve).
+Older docs and forum posts referenced `leaf serve` as the launch command. The actual entry point is `leaf webui run` (foreground) or `leaf webui start` (daemon). See [`leaf webui`](/scripting/cli/webui).
 
 ## M
 

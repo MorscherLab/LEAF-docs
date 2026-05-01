@@ -72,6 +72,19 @@ Drag the `.msd` file onto the LEAF window from anywhere — Extract page, home p
 
 The Untargeted view exports `.usd` files (same format family as `.msd`) plus per-feature CSVs of intensities, retention times, and m/z values. See [Untargeted analysis](/workflow/untargeted).
 
+::: details Also from a script
+Saving and reopening a `.msd` from Python:
+
+```python
+from leaf.analyzer import Samples
+samples = Samples.load("analysis.msd")
+# inspect / mutate ...
+samples.save("analysis-revised.msd")
+```
+
+→ [Python recipes](/scripting/python/recipes)
+:::
+
 ## Next step
 
 → [Isotope tracing setup](/workflow/tracing) — if you're running labeling experiments

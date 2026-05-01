@@ -21,22 +21,8 @@ export default defineConfig({
     nav: [
       { text: 'Get Started', link: '/get-started/install-desktop' },
       { text: 'Workflow', link: '/workflow/prepare-data' },
+      { text: 'Scripting', link: '/scripting/' },
       { text: 'Reference', link: '/reference/ui-tour' },
-      {
-        text: 'Scripting',
-        items: [
-          { text: 'Command-line interface', link: '/cli/overview' },
-          { text: 'Python package', link: '/python/overview' },
-        ],
-      },
-      {
-        text: 'More',
-        items: [
-          { text: 'Team', link: '/team' },
-          { text: 'Changelog', link: '/changelog' },
-          { text: 'Developer docs', link: 'https://github.com/MorscherLab/LEAF/tree/main/docs' },
-        ],
-      },
       { text: 'Open MINT', link: 'https://mint.morscherlab.org' },
     ],
 
@@ -94,6 +80,8 @@ export default defineConfig({
             { text: 'Troubleshooting', link: '/reference/troubleshooting' },
             { text: 'FAQ', link: '/reference/faq' },
             { text: 'Glossary', link: '/reference/glossary' },
+            { text: 'Team', link: '/team' },
+            { text: 'Changelog', link: '/changelog' },
           ],
         },
       ],

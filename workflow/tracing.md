@@ -82,6 +82,18 @@ When sample grouping is on, bars show **mean ± SEM per group** — the standard
 
 In the export dialog, ensure **Include isotopologues** is on. The CSV gets one row per (compound × isotopologue × sample). The `.msd` always includes them when present. See [Export](/workflow/export).
 
+::: details Also from a script
+The Tracing Editor exports a JSON config that the CLI accepts directly:
+
+```bash
+leaf targeted ./samples ./compounds.csv \
+  --polarity NEG --tracing-path ./tracing-13C.json
+```
+
+→ [`leaf targeted` reference](/scripting/cli/targeted)
+Or in Python: [Recipe 4 — Tracing in a script](/scripting/python/recipes#recipe-4-tracing-in-a-script)
+:::
+
 ## Next step
 
 → [Untargeted feature discovery](/workflow/untargeted) — for hypothesis-free analyses

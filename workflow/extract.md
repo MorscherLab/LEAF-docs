@@ -91,6 +91,18 @@ A floating action button appears in the bottom-right corner:
 
 Click the button to open the jobs panel with full progress, per-file status, and **Download** / **Open** options.
 
+::: details Also from a script
+Headless equivalent of this page:
+
+```bash
+leaf targeted ./samples ./compounds.csv \
+  --polarity NEG --tolerance 5 --rt-window 0.5 --method v4
+```
+
+→ [`leaf targeted` reference](/scripting/cli/targeted)
+Or in Python: [Recipe 1 — Batch extraction](/scripting/python/recipes#recipe-1-batch-extraction-from-a-folder)
+:::
+
 ## Next step
 
 → [Analyze your results](/workflow/analyze)

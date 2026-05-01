@@ -33,6 +33,18 @@ LEAF doesn't identify features for you — it gives you m/z and RT. To get a nam
 
 When you have a name, add the feature to a targeted CSV for the next batch of samples.
 
+::: details Also from a script
+Untargeted feature inspection is best driven from the UI; the headless equivalent is to write the `.usd` and triage the resulting feature table directly:
+
+```python
+from leaf.analyzer import Samples
+samples = Samples.load("untargeted.usd")
+metabolites_df = samples.metabolites_list   # feature table as a pandas DataFrame
+```
+
+→ [`leaf untargeted` reference](/scripting/cli/untargeted)
+:::
+
 ## Next step
 
 → [Export](/workflow/export) — `.usd` and per-feature CSVs
