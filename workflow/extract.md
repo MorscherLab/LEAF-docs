@@ -1,6 +1,8 @@
-# Extract
+# Extract — Targeted
 
-The **Extract** page is where you configure parameters and launch a processing run. This is the first step of every targeted analysis.
+The **Extract** page is where you configure parameters and launch a targeted processing run. For untargeted mode (no compound list), see [Extract — Untargeted](/workflow/extract-untargeted).
+
+The page has a **Targeted / Untargeted** toggle at the top; this guide covers the Targeted side.
 
 > [Screenshot: full Extract view with parameters configured and compound list loaded]
 
@@ -88,10 +90,6 @@ A floating action button appears in the bottom-right corner:
 > [Screenshot: floating action button cycling through states]
 
 Click the button to open the jobs panel with full progress, per-file status, and **Download** / **Open** options.
-
-## Untargeted instead?
-
-The Extract page has a **Targeted / Untargeted** toggle at the top. Switch to Untargeted mode for feature discovery without a compound list. See [Untargeted analysis](/workflow/untargeted).
 
 ## Next step
 
