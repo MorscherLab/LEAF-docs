@@ -68,6 +68,10 @@ Drag the `.msd` file onto the LEAF window from anywhere — Extract page, home p
 - **`.msd`** is the canonical sharing format. It's a single self-contained file. Email it, drop it on a shared drive, or upload to your lab's storage. Anyone with LEAF can open it.
 - **`.csv`** is the right choice for downstream stats software, manuscript supplementary data, or showing a colleague who doesn't have LEAF.
 
+::: tip Lab-wide storage
+LEAF can persist `.msd` archives directly to an S3-compatible bucket (AWS S3, MinIO, Ceph RGW) so results are reachable from any LEAF instance without manual copying. Configure under **Settings → Storage** or via env vars — see [Storage backend](/scripting/cli/configuration#storage-backend).
+:::
+
 ## Untargeted exports
 
 The Untargeted view exports `.usd` files (same format family as `.msd`) plus per-feature CSVs of intensities, retention times, and m/z values. See [Untargeted analysis](/workflow/untargeted).
