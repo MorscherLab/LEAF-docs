@@ -25,7 +25,7 @@ Click the folder selector and choose the folder containing your `.raw` or `.mzml
 
 ### Server mode (MINT)
 
-Search and select folders from the list shown by the lab MINT instance. Use the checkboxes to pick multiple folders at once.
+Server-mode folder browsing is reserved for the MINT integration, which is under development and not enabled for general use yet.
 
 > [Screenshot: folder selector in both local and server modes]
 
@@ -47,7 +47,7 @@ LEAF auto-detects LEAF native (RFA), Skyline transition lists, and El-MAVEN peak
 |-----------|---------|-------|--------------|
 | **Polarity** | NEG | AUTO / NEG / POS | Match your LC-MS acquisition polarity. **AUTO** detects from the file's metadata. |
 | **Mass tolerance** | 5 ppm | 1–50 ppm | EIC extraction window. Lower is stricter. The slider value is color-coded: green ≤5, yellow 5–15, red >15. |
-| **Backend** | seed (Rust) on macOS / Linux; RawFileReader (.NET) on Windows | seed / RawFileReader | Underlying RAW reader. seed is faster on Thermo files; RawFileReader is the reference implementation. |
+| **Backend** | seed (Rust) on macOS / Linux; RawFileReader (.NET) on Windows | seed / RawFileReader | Underlying RAW reader. seed is faster on Thermo files; RawFileReader is the reference implementation. Unavailable backends are disabled in the selector. |
 
 ### Parameters (RT)
 
@@ -93,7 +93,7 @@ Toggle quality scoring **on** (recommended). LEAF assigns each compound a verdic
 |--------|---------|--------|
 | **Organize names** | On | Strip date/timestamp prefixes from file names for clean grouping (e.g. `20240321_WT_rep1.raw` → `WT_rep1`). |
 | **Skip blanks** | On | Skip files with `blank` (case-insensitive) in the name during extraction. |
-| **MS² extraction** | Off | Capture MS² spectra alongside MS¹. Adds a raw-spectrum + RT preview in Peak Picking. Upload a spectral library later for cosine matching. |
+| **MS² extraction** | Off | Capture MS² spectra alongside MS¹. Adds a raw-spectrum + RT preview in Peak Picking. Upload a spectral library later for cosine matching. Enabling MS² automatically uses the SEED (Rust) backend. |
 
 ## Tracing (optional)
 

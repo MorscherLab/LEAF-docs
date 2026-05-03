@@ -81,7 +81,7 @@ Every push to `main` triggers `.github/workflows/deploy.yml`, which installs Bun
 
 ## Contributing
 
-Edits welcome — every page has an "Edit on GitHub" link in the footer that takes you straight to the source. Or open a PR.
+Documentation updates are managed by the maintainers. Coordinate changes with the Morscher Lab before publishing.
 
 ## License
 

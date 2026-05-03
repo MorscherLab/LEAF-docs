@@ -9,7 +9,7 @@ The `pip install seed` wheel is currently unavailable while SEED prepares its 0.
 :::
 
 ```bash
-cd oxion-core/crates/seed-py
+cd seed-core/crates/seed-py
 maturin develop --release
 ```
 
@@ -567,4 +567,4 @@ Files on NAS, CIFS / SMB shares, or remote SFTP mounts behave differently from l
 
 **Copy first when possible.** For jobs over hundreds of files, copying to local NVMe storage before extraction eliminates network variability entirely. Use `rsync -a` or similar; SEED has no built-in copy facility.
 
-<!-- Source: oxion-core/docs/python-api.md and oxion-core/docs/batch-xic.md -->
+<!-- Source: seed-core/docs/python-api.md and seed-core/docs/batch-xic.md -->

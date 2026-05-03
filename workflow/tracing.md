@@ -72,11 +72,34 @@ After extraction, the **Isotopologue Bar Chart** (bottom-left panel of the [Peak
 
 When sample grouping is on, bars show **mean ± SEM per group** — the standard way to present tracing data.
 
+## Natural-abundance correction
+
+LEAF can apply natural-abundance correction to targeted tracing results after extraction. Correction is configured per analysis and stored inside the `.msd` archive as a `correction_config.json` sidecar.
+
+In the web UI:
+
+1. Open the isotopologue bar chart gear popover, or the export panel.
+2. Click **Configure tracers…**.
+3. Add each tracer element and purity, for example `13C` at `0.99`.
+4. Enable correction separately for the bar plot preview or for CSV export.
+
+The bar plot falls back to raw values with an inline note if correction is enabled before a tracer is configured. Corrected CSV export requires a tracer config.
+
+Current correction support:
+
+| Supported | Notes |
+|-----------|-------|
+| Tracer elements | C, H, N |
+| Mode | High-resolution correction |
+| Labeling model | Uniform labeling for all atoms of the configured tracer element |
+
+Not covered in the v1 correction path: O / S multi-heavy-isotope correction, low-resolution mode, and position-specific labeling.
+
 ## Tips
 
 - **Validate your CSV first** — formula errors break isotope mass calculations
 - **Use 5 ppm mass tolerance or tighter** — heavier isotopologues are close in mass and a wide window picks up noise
-- **Account for natural abundance** — unlabeled samples exhibit M+1 contributions of approximately 1.1% per carbon from natural ¹³C. LEAF does not currently apply natural-abundance correction; this should be performed downstream when required (e.g., with [IsoCorrectoR](https://genomic.uni-saarland.de/projects/IsoCorrectoR/) or [accucor](https://github.com/XiaoyangSu/AccuCor)).
+- **Account for natural abundance** — unlabeled samples exhibit M+1 contributions of approximately 1.1% per carbon from natural ¹³C. Use LEAF's correction toggle for supported C / H / N tracer experiments; use a specialized downstream tool when your design falls outside that support.
 
 ## Export tracing data
 
@@ -88,6 +111,14 @@ The Tracing Editor exports a JSON config that the CLI accepts directly:
 ```bash
 leaf targeted ./samples ./compounds.csv ./outputs \
   --polarity NEG --tracing-path ./tracing-13C.json
+```
+
+For corrected CSV output:
+
+```bash
+leaf targeted ./samples ./compounds.csv ./outputs \
+  --polarity NEG --tracing-path ./tracing-13C.json \
+  --correct --tracer 13C:0.99
 ```
 
 → [`leaf targeted` reference](/scripting/cli/targeted)

@@ -7,6 +7,7 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | `command not found: leaf` | Install location not on PATH | `uv tool update-shell` (uv) or add `~/.local/bin` to PATH (pip) |
+| Unsure whether LEAF installed correctly | Missing package, native extension, reader backend, or Web UI bundle | Run `leaf doctor`; add `--strict` when optional checks should fail setup scripts |
 | Port 18008 already in use | Another process is on the port | `leaf webui run --port 18009` |
 | `pythonnet` errors on Windows | Missing .NET 8.0 | Install [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) |
 | Browser shows "Cannot connect" | LEAF crashed or terminal closed | Re-run `leaf webui run`; check the terminal for errors |
@@ -21,6 +22,7 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | Sample names look weird | Auto-name extraction got confused | Toggle "Organize names" off — uses raw filename instead |
 | Blank files included anyway | "Skip blanks" only matches the word "blank" | Rename your blank files to include "blank", or untoggle "Skip blanks" and remove them after |
 | RAW file fails to load on macOS / Linux | SEED reader hit an unsupported instrument firmware | Switch to a Windows machine and try the `dotnet` backend (`leaf targeted ./samples ./compounds.csv ./outputs --backend dotnet`); if it still fails, [report it](https://github.com/MorscherLab/LEAF/issues) |
+| Unsure whether a CSV / folder is valid | Input preflight not run yet | `leaf validate ./compounds.csv ./raw-folder`; add `--strict` to treat warnings as failures |
 
 ## Compound list
 
@@ -35,6 +37,9 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
+| "backend is unavailable" error | The selected reader backend is not installed or not detected | Run `leaf doctor` to check backend status. For SEED: install the seed wheel. For .NET: install .NET 8 runtime. |
+| Backend disabled in the web UI | LEAF detected that the backend cannot run on this system | Hover the disabled option for details; install the missing dependency or switch to an available backend |
+| MS² extraction ignores backend choice | .NET RawFileReader does not support the MS² extraction surface | Expected behavior — MS² auto-routes to the SEED (Rust) backend |
 | Extraction is unusually slow | Large dataset processed with the Python backend | Switch to the Rust backend in Settings → Advanced |
 | Out-of-memory crash | Too many samples in one batch | Process in smaller batches (50 files at a time) |
 | Floating button stuck blue | Job hung — usually a corrupt RAW file | Cancel the job, remove the suspect file, re-run |
@@ -64,17 +69,13 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | `.msd` file won't reopen | Saved with a much newer LEAF version | Update LEAF — see [GitHub Releases](https://github.com/MorscherLab/LEAF/releases) |
+| Need to check what's inside a result archive | File came from another run or collaborator | `leaf inspect ./result.msd` or `leaf inspect ./result.usd` |
 | CSV missing isotopologues | "Include isotopologues" was off | Re-export with the option enabled |
 | CSV has scientific notation | Excel auto-converts large numbers | Open in a text editor or import as text in Excel |
 
 ## Hosted (MINT) mode
 
-| Problem | Cause | Fix |
-|---------|-------|-----|
-| "LEAF not visible" after MINT login | No access to the LEAF plugin | Ask your admin to grant the `leaf` plugin role |
-| Files I expect aren't listed | Admin hasn't shared the folder | Ask admin to add the folder to LEAF's allowed paths |
-| Login loops back to login page | Cookies blocked | Allow cookies for the lab domain; reload |
-| "Server error" during extraction | Lab server out of disk or memory | Report to the lab administrator; the issue is server-side |
+Hosted LEAF through MINT is under development and not enabled for general use yet. Use the wheel + CLI install path for current analyses.
 
 ## Still stuck?
 

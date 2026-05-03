@@ -20,8 +20,11 @@ The Python package is installed by the same wheel that provides the `leaf` comma
 To verify the package is importable:
 
 ```python
+from importlib.metadata import version
+
 import leaf
-print(leaf.__version__)
+
+print(version("leaf"))
 ```
 
 ## Public surface

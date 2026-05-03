@@ -35,7 +35,7 @@ const core = [
 ]
 
 const contributors = [
-  // Add open-source contributors here, e.g.
+  // Add external collaborators here, e.g.
   // {
   //   avatar: 'https://github.com/<user>.png',
   //   name: 'Jane Doe',
@@ -50,8 +50,8 @@ const contributors = [
     <template #title>The team behind LEAF</template>
     <template #lead>
       LEAF is developed and maintained by the Morscher Lab at
-      Universitäts-Kinderspital Zürich, with contributions from the open-source
-      metabolomics community.
+      Universitäts-Kinderspital Zürich, with input from collaborating
+      metabolomics researchers and engineers.
     </template>
   </VPTeamPageTitle>
 

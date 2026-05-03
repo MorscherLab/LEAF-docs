@@ -37,8 +37,8 @@ Public binaries and the `pip install seed` wheel are currently unavailable while
 Build from source while the public binary release pipeline is dormant:
 
 ```bash
-git clone https://github.com/EstrellaXD/oxion-core
-cd oxion-core
+git clone https://github.com/EstrellaXD/seed-core
+cd seed-core
 cargo build --release -p seed-cli
 # → target/release/seed
 ```
@@ -48,8 +48,8 @@ Move the binary onto your `PATH`. Static binary, ~2 MB, no runtime dependencies.
 ### Python
 
 ```bash
-git clone https://github.com/EstrellaXD/oxion-core
-cd oxion-core/crates/seed-py
+git clone https://github.com/EstrellaXD/seed-core
+cd seed-core/crates/seed-py
 maturin develop --release
 ```
 
@@ -60,7 +60,7 @@ Requires Python 3.11+, [maturin](https://www.maturin.rs/), and a Rust toolchain.
 Build from `crates/seed-gui` (Tauri v2 + Vue 3):
 
 ```bash
-cd oxion-core/crates/seed-gui
+cd seed-core/crates/seed-gui
 bun install
 bun tauri build
 ```
@@ -112,4 +112,4 @@ Internal timing after file open — measures only the operation itself:
 
 LEAF — the metabolomics analysis platform built on top of SEED — has its own user manual; see [LEAF Get Started](/get-started/install-cli) if you arrived here via that route.
 
-<!-- Source: oxion-core/PUBLIC_README.md -->
+<!-- Source: seed-core/PUBLIC_README.md -->

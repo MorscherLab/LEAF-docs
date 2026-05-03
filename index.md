@@ -15,9 +15,6 @@ hero:
     - theme: alt
       text: Quickstart
       link: /get-started/quickstart
-    - theme: alt
-      text: MINT Docs
-      link: https://mint-docs.morscherlab.org
 
 features:
   - icon: 🧪
@@ -45,10 +42,10 @@ features:
     linkText: Chart reference
 ---
 
-::: tip Hosted MINT access
-If your lab operates a MINT server with LEAF installed, no local installation is required. The hosted version uses your lab credentials; contact your administrator to request access.
+::: warning MINT integration under development
+Hosted LEAF through MINT is not enabled for general use yet. Use the wheel + CLI install path for current analyses.
 
-[MINT Docs](https://mint-docs.morscherlab.org) · [Install in MINT](/get-started/install-mint)
+[Install the wheel + CLI](/get-started/install-cli) · [MINT status](/get-started/install-mint)
 :::
 
 ::: info Developer documentation

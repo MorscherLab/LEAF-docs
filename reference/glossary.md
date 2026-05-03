@@ -69,7 +69,7 @@ How far an observed m/z can deviate from the expected m/z and still be considere
 Measuring small-molecule metabolites in biological samples. LEAF is built specifically for this use case.
 
 **MINT**
-The Morscher Lab's internal data platform. LEAF runs as a plugin under MINT in the hosted lab version. (Acronym originally stood for the lab database; rebranded 2026.)
+The Morscher Lab's internal data platform. LEAF's MINT plugin deployment path is under development and is not yet available for general use. (Acronym originally stood for the lab database; rebranded 2026.)
 
 **MS1**
 First-stage mass spectrometry — measures the parent ion's m/z. LEAF works primarily with MS1 data.

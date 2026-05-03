@@ -30,6 +30,9 @@ leaf targeted INPUT_PATH COMPOUND_LIST OUTPUT_DIR [OPTIONS]
 | `--skip-blank / --no-skip-blank` | on | Skip files whose name contains "blank". |
 | `--organize-name / --no-organize-name` | on | Auto-parse clean sample names from file names. |
 | `--tracing-path PATH` | (none) | Path to a JSON tracing config (export from the web UI's Tracing Editor). See [Isotope tracing](/workflow/tracing). |
+| `--correct / --no-correct` | off | Apply natural-abundance isotope correction after scoring. |
+| `--tracer ELEMENT:PURITY` | (none) | Tracer element and purity for correction, repeatable. Example: `--tracer 13C:0.99`. Current correction allowlist: C, H, N. |
+| `--high-res / --low-res` | high-res | High-resolution correction mode. Low-resolution mode is rejected in the current correction path. |
 | `--save-extract` | off | Also write the extracted `.msd` bundle. |
 
 For the full flag set, run `leaf targeted --help`.
@@ -52,6 +55,18 @@ leaf targeted ./samples ./compounds.csv ./outputs \
 ```
 
 The tracing JSON is produced by the web UI's Tracing Editor (Export button) or hand-written — see [Isotope tracing](/workflow/tracing).
+
+## Recipe — natural-abundance corrected tracing output
+
+```bash
+leaf targeted ./samples ./compounds.csv ./outputs \
+  --polarity NEG --tolerance 5 \
+  --tracing-path ./tracing-13C.json \
+  --correct --tracer 13C:0.99 \
+  --save-extract
+```
+
+This writes the usual result CSV plus a corrected CSV. When correction is enabled, LEAF also saves an `.msd` archive carrying the tracer config so the correction setup travels with the data; `--save-extract` is still useful when you want the archive even for uncorrected runs.
 
 ## Recipe — overriding the backend
 

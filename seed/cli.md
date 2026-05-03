@@ -103,4 +103,4 @@ seed benchmark sample.RAW --xic --ops    # measure scan-decode + XIC perf
 
 `seed` subcommands exit `0` on success, `1` on parse errors, and `2` on I/O / validation failures. `seed validate` returns a non-zero status when the validation set diverges from ground truth.
 
-<!-- Source: oxion-core/PUBLIC_README.md (CLI section); oxion-core/crates/seed-cli/src/main.rs -->
+<!-- Source: seed-core/PUBLIC_README.md (CLI section); seed-core/crates/seed-cli/src/main.rs -->

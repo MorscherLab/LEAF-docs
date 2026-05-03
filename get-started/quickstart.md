@@ -6,10 +6,11 @@ A complete walkthrough from opening LEAF to seeing your first peak — about 5 m
 
 ## Before you start
 
-You should already have LEAF installed via one of:
+You should already have LEAF installed via:
 
-- [Install in MINT (recommended)](/get-started/install-mint) — open the lab's MINT URL, sign in, click the **LEAF** tile.
 - [Install the wheel + CLI](/get-started/install-cli) — launch the local server and open it in your browser.
+
+Hosted MINT access is [under development](/get-started/install-mint) and not yet available for general use.
 
 For a local install, launch LEAF in a terminal:
 
@@ -38,7 +39,15 @@ Two things are needed:
 
 ## Make a metabolite CSV
 
-The fastest path is to use the starter list shipped with LEAF: [`examples/metabolite-list-primary-metabolism.csv`](https://github.com/MorscherLab/LEAF/blob/main/examples/metabolite-list-primary-metabolism.csv) — a primary-metabolism panel with sensible defaults.
+The fastest path from the command line is:
+
+```bash
+leaf init ./leaf-run
+```
+
+This creates `leaf-run/metabolites.csv`, plus empty `raw/` and `results/` folders. Put your LC-MS files in `leaf-run/raw/`, then use the generated CSV as the starting list.
+
+You can also use the starter list shipped with LEAF: [`examples/metabolite-list-primary-metabolism.csv`](https://github.com/MorscherLab/LEAF/blob/main/examples/metabolite-list-primary-metabolism.csv) — a primary-metabolism panel with sensible defaults.
 
 Or save the following as `compounds.csv` if you'd rather start small:
 
@@ -52,6 +61,12 @@ Glutamate,C5H9NO4,4.1,M-H
 ```
 
 Adjust the retention times to match your chromatographic method. Exact values are not required — the RT search window tolerates moderate drift. See [Prepare your data](/workflow/prepare-data) for the complete CSV specification.
+
+Optional preflight:
+
+```bash
+leaf validate ./compounds.csv ./path/to/raw-folder
+```
 
 ## Step 1: Pick your data folder
 

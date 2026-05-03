@@ -8,7 +8,7 @@ LEAF reads configuration from four sources, in increasing order of precedence:
 4. **Environment variables** — `LEAF_`-prefixed; the highest priority.
 5. **Command-line flags** — passed to `leaf webui` (see [`leaf webui`](/scripting/cli/webui)) or to `leaf targeted` / `leaf untargeted`. Flags override everything for that one invocation.
 
-For most users, the Settings dialog is the only configuration interface required. Env vars and `config.json` exist for headless deployments (MINT plugin, Docker, S3-backed setups).
+For most users, the Settings dialog is the only configuration interface required. Env vars and `config.json` exist for headless deployments such as Docker or S3-backed setups. The MINT plugin path is under development.
 
 ## Settings dialog
 
@@ -131,7 +131,13 @@ LEAF reads targeted inputs through the selected reader backend. Selection is per
 |---------|-----------|--------|
 | `auto` (default) | macOS / Linux: SEED. Windows: `dotnet` for `.raw`, SEED for `.mzml` / `.mzml.gz`. | — |
 | `rust` | Bundled SEED reader; no .NET required. | [SEED](/scripting/reader) |
-| `dotnet` | Thermo .NET RawFileReader for Thermo `.raw`; requires .NET 8 runtime and is primarily used on Windows. | Thermo Fisher |
+| `dotnet` | Thermo .NET RawFileReader for Thermo `.raw`; requires .NET 8 runtime on x64. | Thermo Fisher |
+
+### Backend availability gating
+
+LEAF validates that the requested backend is available before starting extraction. If a backend is missing (e.g. SEED not installed, or .NET 8 not present), the CLI exits with a descriptive error and the web UI disables that backend in the selector. Run `leaf doctor` to see the status of each backend.
+
+When MS² extraction is enabled, LEAF automatically routes to the SEED (Rust) backend because the .NET RawFileReader path does not provide the MS² extraction surface. This applies to both the web UI and `leaf targeted --ms2`.
 
 Switching backends does not modify saved results.
 

@@ -73,6 +73,7 @@ export default defineConfig({
               { text: 'leaf targeted', link: '/scripting/cli/targeted' },
               { text: 'leaf untargeted', link: '/scripting/cli/untargeted' },
               { text: 'leaf watch', link: '/scripting/cli/watch' },
+              { text: 'Setup & file tools', link: '/scripting/cli/tools' },
               { text: 'Configuration', link: '/scripting/cli/configuration' },
             ],
           },
@@ -93,7 +94,6 @@ export default defineConfig({
       },
       { text: 'SEED', link: '/seed/' },
       { text: 'Reference', link: '/reference/ui-tour' },
-      { text: 'MINT Docs', link: 'https://mint-docs.morscherlab.org' },
     ],
 
     sidebar: {
@@ -101,10 +101,28 @@ export default defineConfig({
         {
           text: 'Get Started',
           items: [
-            { text: 'Install in MINT (recommended)', link: '/get-started/install-mint' },
+            { text: 'Install in MINT (under development)', link: '/get-started/install-mint' },
             { text: 'Install the wheel + CLI', link: '/get-started/install-cli' },
             { text: 'Desktop app (in development)', link: '/get-started/install-desktop' },
             { text: 'First analysis (5 min)', link: '/get-started/quickstart' },
+          ],
+        },
+        {
+          text: 'Workflow',
+          items: [
+            { text: 'Prepare your data', link: '/workflow/prepare-data' },
+            { text: 'Extract — targeted', link: '/workflow/extract' },
+            { text: 'Analyze', link: '/workflow/analyze' },
+            { text: 'Visualize', link: '/workflow/visualize' },
+            { text: 'Export', link: '/workflow/export' },
+          ],
+        },
+        {
+          text: 'Untargeted workflow',
+          items: [
+            { text: 'Untargeted overview', link: '/workflow/untargeted' },
+            { text: 'Extract — untargeted', link: '/workflow/extract-untargeted' },
+            { text: 'Inspect features', link: '/workflow/inspect-features' },
           ],
         },
       ],
@@ -186,6 +204,7 @@ export default defineConfig({
             { text: 'leaf targeted', link: '/scripting/cli/targeted' },
             { text: 'leaf untargeted', link: '/scripting/cli/untargeted' },
             { text: 'leaf watch', link: '/scripting/cli/watch' },
+            { text: 'Setup & file tools', link: '/scripting/cli/tools' },
             { text: 'Configuration', link: '/scripting/cli/configuration' },
           ],
         },
@@ -228,18 +247,13 @@ export default defineConfig({
 
     search: { provider: 'local' },
 
-    editLink: {
-      pattern: 'https://github.com/MorscherLab/LEAF-docs/edit/main/:path',
-      text: 'Edit this page on GitHub',
-    },
-
     lastUpdated: {
       text: 'Last updated',
       formatOptions: { dateStyle: 'medium', timeStyle: undefined },
     },
 
     footer: {
-      message: 'LEAF is open source. Made by the Morscher Lab.',
+      message: 'LEAF is developed by the Morscher Lab.',
       copyright: `© ${new Date().getFullYear()} Morscher Lab`,
     },
 

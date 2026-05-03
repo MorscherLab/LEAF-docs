@@ -5,18 +5,18 @@ title: SEED Changelog
 # SEED Changelog
 
 ::: info Public release status
-The public release pipeline is currently dormant; releases are being built privately while SEED prepares its 0.x public relaunch. The `oxion` and `oxion-core` repository names share their release tags — both names appear in older release URLs.
+The public release pipeline is currently dormant; releases are being built privately while SEED prepares its 0.x public relaunch. The repository was renamed from `oxion-core` to `seed-core`; older release URLs using either name still resolve.
 :::
 
 ## Latest releases
 
 → [GitHub Releases](https://github.com/EstrellaXD/oxion/releases) — published binaries and notes once the public pipeline resumes.
 
-→ [Full CHANGELOG](https://github.com/EstrellaXD/oxion-core/blob/main/CHANGELOG.md) — per-commit feature and fix log in the SEED repository.
+→ [Full CHANGELOG](https://github.com/EstrellaXD/seed-core/blob/main/CHANGELOG.md) — per-commit feature and fix log in the SEED repository.
 
 ## Performance log
 
-SEED maintains a separate [`OPTIMIZATION.md`](https://github.com/EstrellaXD/oxion-core/blob/main/OPTIMIZATION.md) recording every release that ships a measured performance improvement — workload, before / after timings, and the change that produced the speedup. Use it when you need historical perf context, not feature notes.
+SEED maintains a separate [`OPTIMIZATION.md`](https://github.com/EstrellaXD/seed-core/blob/main/OPTIMIZATION.md) recording every release that ships a measured performance improvement — workload, before / after timings, and the change that produced the speedup. Use it when you need historical perf context, not feature notes.
 
 ## How SEED versions work
 

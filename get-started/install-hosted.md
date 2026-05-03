@@ -1,19 +1,12 @@
 ---
-title: Use the hosted version
-description: Page moved — see Install in MINT.
+title: Hosted version (under development)
+description: The hosted MINT deployment path is under development.
 ---
 
-<script setup>
-import { onMounted } from 'vue'
-import { useRouter } from 'vitepress'
+# Hosted version
 
-onMounted(() => {
-  useRouter().go('/get-started/install-mint')
-})
-</script>
+::: warning Under development
+Hosted LEAF through MINT is not enabled for general use yet.
+:::
 
-# Page moved
-
-This page has moved to **[Install in MINT (recommended)](/get-started/install-mint)**.
-
-If you are not redirected automatically, follow the link above.
+For now, use **[Install the wheel + CLI](/get-started/install-cli)**. The planned hosted path is tracked under **[Install in MINT](/get-started/install-mint)**.

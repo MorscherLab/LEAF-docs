@@ -12,7 +12,7 @@ LEAF is not yet published to PyPI. `pip install leaf` will install an unrelated 
 
 | | Standalone installer | Manual wheel install |
 |---|---|---|
-| **Who** | Individual researchers, first-time setup | Power users, custom Python environments, Linux servers without MINT |
+| **Who** | Individual researchers, first-time setup | Power users, custom Python environments, Linux servers |
 | **What it does** | Bundles `uv`, Python 3.12, the LEAF wheel, and SEED into `~/.leaf` (or `%LOCALAPPDATA%\leaf`) | Drops the platform wheel into a Python 3.12 venv you manage |
 | **Default port** | `8000` (hardcoded in the launcher script) | `18008` (LEAF CLI default) |
 | **Platforms** | macOS (Apple Silicon), Windows (x64) | macOS, Windows, Linux x86_64 |
@@ -106,7 +106,7 @@ The bundled `uv` stays installed — remove with `rm -rf ~/.local/bin/uv` (macOS
 
 For users who want LEAF in their own Python environment (e.g. a `uv` project, a Conda env, a Linux server, or alongside other scientific Python tools).
 
-Each LEAF release ships a single platform-specific wheel. Match the wheel filename to your OS / CPU / Python version. SEED ships as a separate wheel from the [oxion-core releases](https://github.com/EstrellaXD/oxion-core/releases) on macOS and Linux; on Windows, LEAF uses the bundled .NET reader and the SEED wheel is optional.
+Each LEAF release ships a single platform-specific wheel. Match the wheel filename to your OS / CPU / Python version. SEED ships as a separate wheel from the [seed-core releases](https://github.com/EstrellaXD/seed-core/releases) on macOS and Linux; on Windows, LEAF uses the bundled .NET reader and the SEED wheel is optional.
 
 ### Install
 
@@ -145,6 +145,20 @@ Uvicorn running on http://127.0.0.1:18008 (Press CTRL+C to quit)
 
 To run LEAF in the background instead, use `leaf webui start` and `leaf webui stop`. See [`leaf webui`](/scripting/cli/webui) for full options.
 
+### Check the install
+
+After either install path, run:
+
+```bash
+leaf doctor
+```
+
+This checks the LEAF package, Python version, native extensions, reader backend availability (SEED and .NET RawFileReader), and optional Web UI assets. If you installed manually, `leaf validate ./compounds.csv ./raw` is a quick way to preflight a compound list and input folder before starting a long run. See [Setup & file tools](/scripting/cli/tools).
+
+::: tip Install as a standalone app
+The LEAF Web UI supports Progressive Web App (PWA) installation. In Chrome or Edge, click the install icon in the address bar to add LEAF as a standalone desktop app. The PWA provides an app-like experience without the browser chrome.
+:::
+
 ## Stop
 
 Press **Ctrl+C** in the terminal window. Closing the browser tab does not stop the LEAF server — it keeps running until the terminal is stopped (Path A) or the CLI is interrupted (Path B).
@@ -155,6 +169,7 @@ Press **Ctrl+C** in the terminal window. Closing the browser tab does not stop t
 |---------|-----|
 | `command not found: leaf` (Path B) | The Python venv's `bin/` is not on `PATH`. Activate the venv (`source .venv/bin/activate`) or invoke `./.venv/bin/leaf webui run` directly. |
 | `pip install leaf` succeeded but doesn't run | That is the unrelated PyPI `leaf` package. Uninstall (`pip uninstall leaf`) and install from the GitHub release wheel instead. |
+| Install seems incomplete | Run `leaf doctor` to check Python, LEAF, native extensions, reader backend availability, and Web UI assets. |
 | Port already in use | Path A: edit the launcher script's `--port 8000`. Path B: run `leaf webui run --port 18009` (or any free port). |
 | `pythonnet` errors on Windows | .NET 8 runtime missing. Install with `winget install Microsoft.DotNet.Runtime.8` or [the .NET installer](https://dotnet.microsoft.com/download/dotnet/8.0). |
 | `seed` import fails on macOS (Path A) | The installer rewrites the dylib linkage automatically. If it failed, re-run `bash install.sh` and check the output for "Patching seed dylib linkage". |
@@ -164,6 +179,6 @@ Press **Ctrl+C** in the terminal window. Closing the browser tab does not stop t
 
 → [Run your first analysis](/get-started/quickstart) (5 minutes)
 
-Or, if your lab operates a MINT server:
+The shared MINT deployment path is still under development:
 
-→ [Install in MINT instead](/get-started/install-mint)
+→ [Install in MINT (under development)](/get-started/install-mint)

@@ -3,7 +3,7 @@
 Short, runnable recipes for common scripted-analysis tasks. Each uses only public exports from `leaf.analyzer` (see [Public surface](/scripting/python/overview#public-surface)).
 
 ::: warning Stability
-Names and signatures may change before LEAF 1.0. Pin a specific version (`pip install leaf==0.5.x`) to keep scripts reproducible. The formal class reference lives in [LEAF's developer docs](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api).
+Names and signatures may change before LEAF 1.0. Install a specific release wheel, and record the exact LEAF version used, to keep scripts reproducible. The formal class reference lives in [LEAF's developer docs](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api).
 :::
 
 ## Recipe 1 — Batch extraction from a folder
@@ -110,16 +110,17 @@ from leaf.analyzer import Samples
 samples = Samples.load("analysis.msd")
 
 # Per-compound metadata as a pandas DataFrame
-metabolites_df = samples.metabolites_list
+compounds_df = samples.compounds_list
 
 # Intensities for one (sample, metabolite) pair
 intensities = samples.get_intensities("WT_rep1", "Glucose")
 
-# RT axis values matching `intensities`
+# RT axis values matching the intensity columns
 rt_axis = list(samples.rt_index.keys())
 
 # Detected peak indices (RT positions) for that (sample, metabolite)
-peak_rt_idxs = samples.peaks_dict.get((samples.sample_index["WT_rep1"], 0), [])
+glucose_idx = samples.get_metabolite_index("Glucose", _type="first")
+peak_rt_idxs = samples.peaks_dict.get((samples.sample_index["WT_rep1"], glucose_idx), [])
 ```
 
 The exact accessor set is documented upstream — `Samples.get_data`, `Samples.get_area`, `Samples.get_batch_intensities` cover the common shapes; see the [model reference](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api/model.md).

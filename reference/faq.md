@@ -23,7 +23,7 @@ LEAF is intended to complement, not replace, established tools. Xcalibur remains
 
 **Desktop install:** LEAF binds to `127.0.0.1` (loopback only) and makes no outbound network requests. RAW files and processed data remain on the local filesystem.
 
-**Hosted (MINT):** Data resides on the lab server. Access is governed by the same controls as other tools deployed within MINT. Consult your lab administrator for site-specific policies.
+**Hosted (MINT):** under development. When enabled, data will reside on the lab server and access will be governed by MINT controls. For current use, local installs keep RAW files and processed data on the local filesystem.
 
 ## Can I use LEAF on a non-Thermo instrument?
 
@@ -53,7 +53,9 @@ Yes — send them the `.msd` file. As long as they have LEAF installed (any vers
 
 ## Does LEAF do natural-abundance correction for tracing?
 
-Not currently. The isotopologue distributions you see are raw — they include both labeled isotopologues and the natural M+1, M+2 contributions from background ¹³C, ¹⁵N, etc. If your science requires correction, do it downstream (e.g., with [IsoCorrectoR](https://genomic.uni-saarland.de/projects/IsoCorrectoR/) or [accucor](https://github.com/XiaoyangSu/AccuCor)).
+Yes, for the current targeted tracing surface. In Peak Picking, configure tracer purity from the isotopologue-bar gear popover or the export panel, then enable natural-abundance correction for the bar plot or corrected CSV export. The command line supports the same path with `leaf targeted --correct --tracer 13C:0.99`.
+
+Current correction support is intentionally narrow: high-resolution correction for tracer elements C, H, and N. Position-specific tracers, low-resolution correction, and multi-heavy-isotope elements such as O and S are not part of the v1 correction path.
 
 ## Can LEAF identify unknown features in untargeted mode?
 
@@ -66,24 +68,25 @@ LEAF gives you m/z and RT, not a name. Identification needs:
 ## How do I update LEAF?
 
 ```bash
-# uv
-uv tool upgrade leaf
-
-# pip
-pip install --user --upgrade leaf
-
-# pipx
-pipx upgrade leaf
+leaf update --dry-run
+leaf update
 ```
 
-## Is LEAF open source?
+`leaf update` resolves the latest compatible wheel from [GitHub Releases](https://github.com/MorscherLab/LEAF/releases) for your platform and Python version. Use `--dry-run` to preview the resolved wheel before installing. For a specific release or local wheel:
 
-Yes. The source lives at [github.com/MorscherLab/LEAF](https://github.com/MorscherLab/LEAF). Issues, pull requests, and questions are welcome.
+```bash
+leaf update --github-release v0.5.0-beta.8
+leaf update --package ./leaf-0.5.0-beta.8-*.whl
+```
+
+## Can I access the source code?
+
+Not yet. LEAF is currently developed by the Morscher Lab and distributed through approved release channels. Public source release is planned for a later stage.
 
 ## How do I cite LEAF in a paper?
 
-A citable preprint / DOI is forthcoming. For now, please cite the GitHub repository and the LEAF version you used.
+A citable preprint / DOI is forthcoming. For now, cite the LEAF version you used and acknowledge the Morscher Lab.
 
 ## Where can I report bugs or request features?
 
-[GitHub issues](https://github.com/MorscherLab/LEAF/issues) — include your LEAF version, OS, and steps to reproduce.
+Contact the Morscher Lab or your local LEAF administrator. Include your LEAF version, operating system, and the steps needed to reproduce the issue.
