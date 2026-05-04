@@ -32,8 +32,8 @@ const core = [
   {
     avatar: 'https://github.com/EstrellaXD.png',
     name: 'Xingyu Pan',
-    title: 'Software Engineer',
-    desc: 'Develops LEAF and SEED. Rust, Python, Vue.',
+    title: 'Doctoral Researcher',
+    desc: 'Develops LEAF, SEED, and SCMeTA. Rust, Python, Vue.',
     links: [
       { icon: 'github', link: 'https://github.com/EstrellaXD' },
     ],
