@@ -1,6 +1,6 @@
 # UI Tour
 
-Every panel and button in LEAF, mapped. Use this when you can't find a setting or aren't sure what something does.
+This page maps the visible controls in the targeted LEAF workflow.
 
 > [Screenshot: full LEAF window with regions labeled — top bar, sidebar, main content, floating action button]
 
@@ -11,8 +11,8 @@ Always visible. Spans the full width.
 | Element | What it does |
 |---------|--------------|
 | **LEAF logo** (left) | Returns to the home page |
-| **View tabs** | Switch between Extract, Peak Picking, Untargeted, Visualize |
-| **Visualize dropdown** | Open a statistical chart (PCA, heatmap, volcano, ...) |
+| **Page selector** | Switch between Extract, Quick Check, and Analysis |
+| **Visualize dropdown** | Open a statistical chart from the Analysis view |
 | **Download button** | Open the export dialog (`.msd` / `.csv`) |
 | **Settings gear** | Storage paths, theme, advanced options |
 
@@ -34,16 +34,15 @@ The landing page after loading. Use this to launch new analyses.
 
 | Region | Element | What it does |
 |--------|---------|--------------|
-| Top | Targeted / Untargeted toggle | Switch the page mode |
-| Top-left | Folder selector | Pick the folder of LC-MS files |
+| Left sidebar | Folder selector | Pick the folder of LC-MS files |
+| Left sidebar | Parameters | RT window, peak picking, grouping, instrument settings, backend |
 | Center | Compound list editor | Upload, edit, validate the metabolite CSV (targeted only) |
-| Right (top) | Parameters sidebar | Polarity, mass tolerance, RT window, peak picking, scoring |
-| Right (bottom) | Tracing editor | Configure isotopologues |
+| Right | Tracing editor | Configure isotopologues |
 | Bottom-right | Start Processing | Launch the run (turns blue when ready) |
 
 ## Peak Picking view (Charts tab)
 
-Where you inspect targeted results. Loads after extraction or when you open a `.msd`.
+Interface for inspecting targeted results. Loads after extraction or when a `.msd` archive is opened.
 
 > [Screenshot: Peak Picking view fully labeled]
 
@@ -65,19 +64,6 @@ Where you inspect targeted results. Loads after extraction or when you open a `.
 | Group color swatches | Show / change group colors |
 | Pick mode toggle | Area Top (apex) ↔ Area Sum (integrated area) |
 
-## Untargeted view
-
-Loads after an untargeted extraction or when you open a `.usd`.
-
-| Panel | What it does |
-|-------|--------------|
-| Feature table | Every detected feature with m/z, RT, detection rate |
-| EIC chart | Chromatogram for the selected feature |
-| Alignment panel | RT alignment quality across samples |
-| Gap-group panel | Features that should align but don't |
-| Stats panel | Per-feature group comparisons |
-| Results panel | Filter, tag, export |
-
 ## Visualize views
 
 Each chart has the same shell:
@@ -97,7 +83,7 @@ Click the floating action button to open. Lists every job from the current sessi
 | Job row | Status badge + sample count + filename |
 | Progress bar | % complete (live during runs) |
 | **Download** | Open the export dialog with this job's data preselected |
-| **Open** | Load the result into Peak Picking / Untargeted view |
+| **Open** | Load the result into the Peak Picking view |
 | **Cancel** | Stop a running job |
 
 ## Settings (gear icon)
@@ -105,8 +91,8 @@ Click the floating action button to open. Lists every job from the current sessi
 | Tab | Contains |
 |-----|----------|
 | **Storage** | Where LEAF saves intermediate files and results |
-| **Display** | Theme (light/dark), chart defaults |
-| **Advanced** | Backend selection (Rust / Python), worker count |
+| **Display** | Theme and chart defaults |
+| **Advanced** | Backend selection and worker count |
 
 ## Keyboard shortcuts
 
@@ -118,6 +104,6 @@ Click the floating action button to open. Lists every job from the current sessi
 
 ## Next
 
-→ [Troubleshooting](/reference/troubleshooting) — when things don't work
+→ [Troubleshooting](/reference/troubleshooting) — common installation and analysis problems
 → [FAQ](/reference/faq) — quick answers
 → [Glossary](/reference/glossary) — what does "ppm" mean?

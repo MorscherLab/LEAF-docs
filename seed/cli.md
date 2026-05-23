@@ -43,7 +43,7 @@ Most subcommands accept these:
 | `-n, --number N` | Scan number (for `scan`, `trailer`) |
 | `--ppm FLOAT` | Mass tolerance for XIC and MS2 extraction (default 5.0) |
 
-For Thermo-specific flags like `--filter-shoulders` and `--shoulder-ratio`, run `seed scan --help` or `seed xic --help` — they let you reproduce the .NET RawFileReader's centroid post-processing.
+For Thermo-specific flags like `--filter-shoulders` and `--shoulder-ratio`, run `seed scan --help` or `seed xic --help`; these options support reproduction of .NET RawFileReader centroid post-processing.
 
 ## Recipes
 
@@ -75,7 +75,7 @@ seed xic sample.RAW --formula C17H18FN7O7 --adduct "[M-H]-" --ppm 5
 seed xic sample.RAW --mz 524.26 --ms1-only
 ```
 
-When you want extraction across many files into an aligned RT-grid tensor, use `batch-xic` (next recipe).
+For extraction across many files into an aligned RT-grid tensor, use `batch-xic` (next recipe).
 
 ### 3 — Batch XIC across many files
 
@@ -87,7 +87,7 @@ seed batch-xic --files data/*.RAW --mz 524.26 --ppm 5 -o tensor.csv
 seed batch-xic --files data/*.RAW --mz-file targets.txt --ppm 5 -o tensor.csv
 ```
 
-Output is one CSV row per `(file, target, RT)` triple. For Python integration with NumPy tensors, use the [Python `batch_xic`](/seed/python-api#batch-xic-multi-file-extraction) — same algorithm, but returns a 3D `(n_samples, n_targets, n_timepoints)` `ndarray`.
+Output is one CSV row per `(file, target, RT)` triple. This command is the recommended documented path for batch XIC extraction in the SEED user manual.
 
 ### 4 — Quick file inspection and benchmark
 
@@ -97,7 +97,7 @@ seed devices sample.RAW                  # list instrument controllers
 seed benchmark sample.RAW --xic --ops    # measure scan-decode + XIC perf
 ```
 
-`seed benchmark` writes JSON to stdout; pipe to `jq` for human-readable output. Use `bench-concurrency` to find the optimal `--max-concurrent` value for your storage tier (SSD vs NAS vs SMB).
+`seed benchmark` writes JSON to stdout; pipe to `jq` for human-readable output. Use `bench-concurrency` to estimate the optimal `--max-concurrent` value for the storage tier (SSD vs NAS vs SMB).
 
 ## Lifecycle and exit codes
 

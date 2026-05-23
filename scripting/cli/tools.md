@@ -1,15 +1,15 @@
 # Setup & File Tools
 
-Recent LEAF builds include small utility commands for installation checks, input preflight, starter folders, result inspection, updates, and RAW conversion. They are useful before or after a web UI run, and in shared scripts where you want a fast failure before processing a large folder.
+LEAF includes utility commands for installation checks, input preflight, starter folders, result inspection, updates, and RAW conversion. They are useful before a web UI run and in scripts where invalid inputs should fail before processing starts.
 
 ## Command summary
 
-| Command | Use it for |
+| Command | Purpose |
 |---------|------------|
 | `leaf doctor` | Check the installed LEAF package, Python version, native extensions, reader backend availability (SEED and .NET RawFileReader), optional Web UI assets. |
 | `leaf validate` | Validate a metabolite CSV and optionally confirm that a data file or folder contains supported RAW / mzML inputs. |
 | `leaf init` | Create a starter run folder with `raw/`, `results/`, `metabolites.csv`, and a tracing example. |
-| `leaf inspect` | Print a compact summary of a saved `.msd` targeted archive or `.usd` untargeted archive. |
+| `leaf inspect` | Print a compact summary of a saved `.msd` archive or supported acquisition file. |
 | `leaf update` | Upgrade LEAF inside the currently active Python environment, with a dry-run mode for checking the exact command first. |
 | `leaf convert` | Convert a folder of Thermo RAW files to mzML through the bundled reader workflow. |
 
@@ -47,26 +47,25 @@ leaf init ./leaf-run
 
 The starter folder includes:
 
-- `raw/` — put LC-MS files here
+- `raw/` — LC-MS input files
 - `results/` — suggested output folder
 - `metabolites.csv` — small primary-metabolism example list
 - `tracing-labels.json` — example tracing label config
 - `README.md` — minimal command-line recipe
 
-If the starter files already exist, LEAF skips them unless you pass `--force`.
+If starter files already exist, LEAF skips them unless `--force` is passed.
 
 ## Inspect saved results
 
 ```bash
 leaf inspect ./results/example.msd
-leaf inspect ./results/example.usd
 ```
 
-For `.msd` files, the summary includes sample count, compound count, RT points, result table presence, quality scores, MS² spectra, and MS² matches. For `.usd` files, it includes sample count, feature count, isotope groups, detection rate, quality score, and polarity.
+For `.msd` files, the summary includes sample count, compound count, RT points, result table presence, quality scores, MS² spectra, and MS² matches. For acquisition files (`.raw`, `.mzml`, `.mzml.gz`, `.lcd`), `leaf inspect` reports available metadata when the corresponding reader is available.
 
 ## Update LEAF
 
-By default, `leaf update` resolves the latest compatible wheel from [GitHub Releases](https://github.com/MorscherLab/LEAF/releases), matching your current platform and Python version:
+By default, `leaf update` resolves the latest compatible wheel from [GitHub Releases](https://github.com/MorscherLab/LEAF/releases), matching the current platform and Python version:
 
 ```bash
 leaf update
@@ -81,8 +80,8 @@ leaf update --dry-run
 For local release wheels or a specific release tag:
 
 ```bash
-leaf update --package ./leaf-0.5.0-beta.8-*.whl
-leaf update --github-release v0.5.0-beta.8
+leaf update --package ./leaf-0.5.7-*.whl
+leaf update --github-release v0.5.7
 ```
 
 | Option | Effect |
@@ -116,4 +115,3 @@ Common options:
 ## Next
 
 → [`leaf targeted`](/scripting/cli/targeted) — run targeted extraction without the browser
-→ [`leaf untargeted`](/scripting/cli/untargeted) — run untargeted feature detection without the browser

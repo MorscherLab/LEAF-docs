@@ -1,19 +1,19 @@
 # Isotope Tracing
 
-For stable-isotope labeling experiments (¹³C, ¹⁵N, ²H, ¹⁸O, ³⁴S), LEAF can extract and quantify isotopologue distributions — the M+0, M+1, M+2, ... peaks — alongside the parent compound.
+For stable-isotope labeling experiments (¹³C, ¹⁵N, ²H, ¹⁸O, ³⁴S), LEAF extracts and quantifies isotopologue distributions (M+0, M+1, M+2, ...) alongside the parent compound.
 
 > [Screenshot: Tracing Editor on the Extract page with default 13C offsets]
 
 ## Set up tracing
 
-The **Tracing Editor** panel sits on the right side of the Extract page, below the parameters sidebar. By default it's pre-configured for ¹³C tracing (M+1 and M+2):
+The **Tracing Editor** panel sits on the right side of the Extract page. By default, it is configured for ¹³C tracing (M+1 and M+2):
 
 | Isotopologue | Mass offset (Da) | Description |
 |--------------|------------------|-------------|
 | M+1 | 1.003355 | One ¹³C incorporation |
 | M+2 | 2.006710 | Two ¹³C incorporations |
 
-To add more isotopologues, click **Add Tracer** and adjust the isotope counts.
+To add additional isotopologues, click **Add Tracer** and set the isotope count.
 
 ## Supported isotopes
 
@@ -25,7 +25,7 @@ To add more isotopologues, click **Add Tracer** and adjust the isotope counts.
 | Sulfur-34 | ³⁴S | 1.995796 Da |
 | Deuterium | ²H | 1.006277 Da |
 
-You can mix isotopes within a single experiment — e.g., a ¹³C₅¹⁵N glutamate tracer needs both isotopes counted.
+Multiple isotope types can be represented in one experiment. For example, a ¹³C₅¹⁵N glutamate tracer requires both carbon and nitrogen counts.
 
 ## Common configurations
 
@@ -35,7 +35,7 @@ The default M+1 and M+2 are usually enough.
 
 ### Fully labeled substrates (e.g., U-¹³C₆-glucose)
 
-Add tracers up to M+6 for glucose, or however many carbons your substrate has.
+Add tracers up to M+6 for glucose, or to the carbon count of the labeled substrate.
 
 ### Multiple tracers in one experiment
 
@@ -49,7 +49,7 @@ Add a separate tracer entry per labeling pattern. The Tracing Editor handles the
 | **Import** | Load a saved JSON config |
 | **Reset to default** | Revert to the M+1 / M+2 ¹³C defaults |
 
-Sharing the JSON file with a collaborator means they can run the exact same isotope setup without re-entering anything.
+The exported JSON file records the isotope setup and can be reused in later runs.
 
 ## Read isotopologue distributions
 
@@ -67,10 +67,10 @@ After extraction, the **Isotopologue Bar Chart** (bottom-left panel of the [Peak
 
 ### Absolute vs percentage
 
-- **Absolute intensity** — raw peak heights. Useful for comparing total pool sizes.
-- **Percentage** — fractional labeling (what % of the metabolite pool carries each isotopologue). Useful for comparing labeling between conditions.
+- **Absolute intensity** — raw peak heights, suitable for comparing total pool size.
+- **Percentage** — fractional labeling, suitable for comparing isotope incorporation between conditions.
 
-When sample grouping is on, bars show **mean ± SEM per group** — the standard way to present tracing data.
+When sample grouping is enabled, bars show **mean ± SEM per group**.
 
 ## Natural-abundance correction
 
@@ -93,13 +93,13 @@ Current correction support:
 | Mode | High-resolution correction |
 | Labeling model | Uniform labeling for all atoms of the configured tracer element |
 
-Not covered in the v1 correction path: O / S multi-heavy-isotope correction, low-resolution mode, and position-specific labeling.
+Not covered by the current correction surface: O / S multi-heavy-isotope correction, low-resolution correction, and position-specific labeling.
 
 ## Tips
 
-- **Validate your CSV first** — formula errors break isotope mass calculations
-- **Use 5 ppm mass tolerance or tighter** — heavier isotopologues are close in mass and a wide window picks up noise
-- **Account for natural abundance** — unlabeled samples exhibit M+1 contributions of approximately 1.1% per carbon from natural ¹³C. Use LEAF's correction toggle for supported C / H / N tracer experiments; use a specialized downstream tool when your design falls outside that support.
+- **Validate the CSV before extraction** — formula errors invalidate isotope mass calculations
+- **Use 5 ppm mass tolerance or tighter** — heavier isotopologues are close in mass and a wide window may include unrelated signal
+- **Account for natural abundance** — unlabeled samples exhibit M+1 contributions of approximately 1.1% per carbon from natural ¹³C. Use LEAF's correction toggle for supported C / H / N tracer experiments; use a specialized downstream tool when the experimental design falls outside that support.
 
 ## Export tracing data
 
@@ -127,4 +127,4 @@ Or in Python: [Recipe 4 — Tracing in a script](/scripting/python/recipes#recip
 
 ## Next step
 
-→ [Untargeted feature discovery](/workflow/untargeted) — for hypothesis-free analyses
+→ [Export targeted results](/workflow/export)

@@ -1,6 +1,6 @@
-# Export
+# Export Targeted Results
 
-When you're done analyzing, save your data so you can reopen it later or hand it off to a collaborator or downstream tool.
+Export the processed targeted dataset as a LEAF archive for review or as a flat table for downstream statistical analysis.
 
 ## Two formats
 
@@ -11,11 +11,11 @@ When you're done analyzing, save your data so you can reopen it later or hand it
 
 ## How to export
 
-Click the **download** button in the top action bar, or open the jobs panel and click **Download** next to your finished job.
+Click the **download** button in the top action bar, or open the jobs panel and click **Download** next to the completed job.
 
 > [Screenshot: download button and jobs panel with download options]
 
-A modal lets you pick the format and what to include:
+A modal provides controls for format selection and included fields:
 
 | Option | Default | Effect |
 |--------|---------|--------|
@@ -25,22 +25,21 @@ A modal lets you pick the format and what to include:
 | **Include isotopologues** | On (tracing only) | Add per-isotopologue columns |
 | **Include metadata** | On | Sample groups, file paths, timestamps |
 
-## What's in a `.msd` file?
+## `.msd` archive
 
-A zstd-compressed Apache Arrow / Parquet bundle:
+The `.msd` file is LEAF's native targeted result archive. It stores:
 
-- **`samples.parquet`** — sample metadata (file path, group, injection volume, timestamps)
-- **`compounds.parquet`** — per-compound metadata + verdicts
-- **`intensities.parquet`** — sparse matrix of intensities (compound × sample)
-- **`peaks.parquet`** — detected peak boundaries and shapes
-- **`isotopologues.parquet`** — per-isotopologue intensities (if tracing was enabled)
-- **`parameters.json`** — every parameter used during extraction (for reproducibility)
+- Sample metadata and file provenance
+- Compound metadata and quality verdicts
+- Extracted intensities and selected peaks
+- Isotopologue intensities when tracing is enabled
+- Extraction and scoring parameters required for reproducibility
 
-You don't need to know the internals — `.msd` files reopen in LEAF with a single drag-and-drop.
+The archive reopens in LEAF with drag-and-drop.
 
-## What's in a `.csv` file?
+## CSV table
 
-A wide table:
+The standard CSV is a wide table:
 
 ```csv
 Metabolite,Formula,RetentionTime,Adduct,Verdict,WT_rep1,WT_rep2,KO_rep1,KO_rep2
@@ -61,20 +60,16 @@ Glucose,M+2,3.1e3,3.3e3,2.4e3,2.6e3
 
 ## Reopening a `.msd` file
 
-Drag the `.msd` file onto the LEAF window from anywhere — Extract page, home page, Peak Picking view, doesn't matter. LEAF detects the format and routes you to the Peak Picking view with everything restored.
+Drag the `.msd` file onto the LEAF window. LEAF detects the format and opens the Peak Picking view with the stored targeted analysis restored.
 
 ## Sharing results
 
-- **`.msd`** is the canonical sharing format. It's a single self-contained file. Email it, drop it on a shared drive, or upload to your lab's storage. Anyone with LEAF can open it.
-- **`.csv`** is the right choice for downstream stats software, manuscript supplementary data, or showing a colleague who doesn't have LEAF.
+- **`.msd`** is the canonical sharing format. It is a single self-contained file that can be opened by another LEAF installation.
+- **`.csv`** is suitable for downstream statistical software, manuscript supplementary data, or collaborators who do not use LEAF.
 
 ::: tip Lab-wide storage
-LEAF can persist `.msd` archives directly to an S3-compatible bucket (AWS S3, MinIO, Ceph RGW) so results are reachable from any LEAF instance without manual copying. Configure under **Settings → Storage** or via env vars — see [Storage backend](/scripting/cli/configuration#storage-backend).
+LEAF can persist `.msd` archives directly to an S3-compatible bucket (AWS S3, MinIO, Ceph RGW) so results are reachable from any configured LEAF instance without manual copying. Configure storage under **Settings → Storage** or with environment variables. See [Storage backend](/scripting/cli/configuration#storage-backend).
 :::
-
-## Untargeted exports
-
-The Untargeted view exports `.usd` files (same format family as `.msd`) plus per-feature CSVs of intensities, retention times, and m/z values. See [Untargeted analysis](/workflow/untargeted).
 
 ::: details Also from a script
 Saving and reopening a `.msd` from Python:
@@ -91,6 +86,6 @@ samples.save("analysis-revised.msd")
 
 ## Next step
 
-→ [Isotope tracing setup](/workflow/tracing) — if you're running labeling experiments
+→ [Isotope tracing setup](/workflow/tracing) — for stable-isotope labeling experiments
 
 Or jump to [UI tour](/reference/ui-tour) for a tour of every panel and button.

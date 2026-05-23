@@ -1,6 +1,6 @@
 # `leaf targeted`
 
-Headless targeted extraction — the same pipeline the [Extract](/workflow/extract) page drives in the web UI, but without a browser. Produces a result CSV, with an optional `.msd` archive when `--save-extract` is enabled.
+Headless targeted extraction runs the same processing path as the [Extract](/workflow/extract) page without opening a browser. It writes a result CSV and, by default, a `.msd` archive for reopening in LEAF.
 
 ## Synopsis
 
@@ -12,18 +12,17 @@ leaf targeted INPUT_PATH COMPOUND_LIST OUTPUT_DIR [OPTIONS]
 
 | Argument | Description |
 |---|---|
-| `INPUT_PATH` | A single `.raw` / `.mzml` / `.mzml.gz` file, or a folder containing one supported format |
-| `COMPOUND_LIST` | Path to the metabolite CSV (see [Prepare your data](/workflow/prepare-data) for the schema) |
+| `INPUT_PATH` | A single `.raw`, `.mzml`, or `.mzml.gz` file, or a folder containing one supported format |
+| `COMPOUND_LIST` | Path to the metabolite CSV (see [Prepare Data](/workflow/prepare-data) for the schema) |
 | `OUTPUT_DIR` | Directory where LEAF writes result files |
 
 ## Common flags
 
 | Flag | Default | Description |
 |---|---|---|
-| `--polarity {NEG,POS}` | `NEG` | MS polarity for mass calculation. Must match your acquisition. |
+| `--polarity {NEG,POS}` | `NEG` | MS polarity for mass calculation. Must match the acquisition. |
 | `--tolerance INT` | `5` | m/z tolerance in ppm for EIC extraction. |
 | `--rt-window FLOAT` | `0.3` | Retention-time search window in minutes. |
-| `--method {v1,v2,v4}` | `v4` | CLI enum retained for compatibility; the current peak picker only implements `v4`. See [Extract — Targeted: Peak picking](/workflow/extract#peak-picking). |
 | `--backend {auto,rust,dotnet}` | `auto` | Input-file reader. `rust` uses [SEED](/scripting/reader); `dotnet` uses Thermo's RawFileReader for `.raw` files. |
 | `--parallel / --no-parallel` | off | Use the .NET parallel extraction path when `--backend dotnet` is selected. |
 | `--max-workers INT` | `4` | Parallel extraction threads. |
@@ -33,7 +32,8 @@ leaf targeted INPUT_PATH COMPOUND_LIST OUTPUT_DIR [OPTIONS]
 | `--correct / --no-correct` | off | Apply natural-abundance isotope correction after scoring. |
 | `--tracer ELEMENT:PURITY` | (none) | Tracer element and purity for correction, repeatable. Example: `--tracer 13C:0.99`. Current correction allowlist: C, H, N. |
 | `--high-res / --low-res` | high-res | High-resolution correction mode. Low-resolution mode is rejected in the current correction path. |
-| `--save-extract` | off | Also write the extracted `.msd` bundle. |
+| `--extract-ms2 / --no-extract-ms2` | on | Extract MS² spectra when present. MS² extraction uses the SEED backend. |
+| `--save-extract / --no-save-extract` | on | Write the extracted `.msd` bundle. |
 
 For the full flag set, run `leaf targeted --help`.
 
@@ -43,7 +43,7 @@ For the full flag set, run `leaf targeted --help`.
 leaf targeted ./samples ./compounds.csv ./outputs --polarity NEG --tolerance 5
 ```
 
-Writes a result CSV into `./outputs`. Add `--save-extract` when you also need an `.msd` bundle for reopening in the web UI or Python — see [Recipe 2](/scripting/python/recipes#recipe-2-reopen-a-msd-and-re-run-peak-picking).
+Writes a result CSV and `.msd` archive into `./outputs`. Use `--no-save-extract` only when the archive is not required.
 
 ## Recipe — tracing run
 
@@ -66,12 +66,12 @@ leaf targeted ./samples ./compounds.csv ./outputs \
   --save-extract
 ```
 
-This writes the usual result CSV plus a corrected CSV. When correction is enabled, LEAF also saves an `.msd` archive carrying the tracer config so the correction setup travels with the data; `--save-extract` is still useful when you want the archive even for uncorrected runs.
+This writes the standard result CSV plus a corrected CSV. When correction is enabled, LEAF also saves an `.msd` archive carrying the tracer configuration.
 
 ## Recipe — overriding the backend
 
 ```bash
-# Force the Thermo .NET reader on Windows when SEED can't decode a file:
+# Force the Thermo .NET reader on Windows when SEED cannot decode a file:
 leaf targeted ./samples ./compounds.csv ./outputs --backend dotnet
 ```
 
@@ -81,5 +81,4 @@ leaf targeted ./samples ./compounds.csv ./outputs --backend dotnet
 
 ## Next
 
-→ [`leaf untargeted`](/scripting/cli/untargeted) — untargeted feature discovery
 → [Configuration](/scripting/cli/configuration) — backend selection on disk

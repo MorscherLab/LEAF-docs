@@ -5,12 +5,12 @@ LEAF reads targeted `.raw`, `.mzml`, and `.mzml.gz` inputs through SEED on macOS
 SEED is a separate project with its own user manual:
 
 → [SEED — Overview](/seed/)
-→ [Command line](/seed/cli) · [Python API](/seed/python-api) · [Rust API](/seed/rust-api)
+→ [Command line](/seed/cli) · [Changelog](/seed/changelog)
 
 ## When the backend choice matters
 
 - **macOS / Linux** — `auto` routes targeted inputs through SEED.
-- **Windows** — `auto` uses `dotnet` for targeted `.raw` files and SEED for mzML-family files. Override to `rust` (`--backend rust` or **Settings → Advanced**) when you want SEED's parser for `.raw`; override to `dotnet` for Thermo files SEED cannot decode.
+- **Windows** — `auto` uses `dotnet` for targeted `.raw` files and SEED for mzML-family files. Override to `rust` (`--backend rust` or **Settings → Advanced**) when SEED parsing is preferred for `.raw`; override to `dotnet` for Thermo files SEED cannot decode.
 
 ## Reporting RAW files SEED cannot read
 

@@ -1,6 +1,6 @@
 # `leaf watch`
 
-Real-time folder monitoring — automatically runs targeted extraction as new `.raw`, `.mzml`, or `.mzml.gz` files land in a folder. Useful for instrument acquisition computers where samples are being saved continuously.
+Real-time folder monitoring runs targeted extraction as new `.raw`, `.mzml`, or `.mzml.gz` files arrive in a folder. This is useful on acquisition computers where samples are written continuously.
 
 ## Synopsis
 
@@ -25,7 +25,6 @@ leaf watch status                     # show daemon state
 | `-o, --output PATH` | (sibling of FOLDER) | Where to write per-file `.msd` archives. |
 | `--polarity {NEG,POS}` | `NEG` | MS polarity. |
 | `--tolerance INT` | `5` | m/z tolerance in ppm. |
-| `--method {v1,v2,v4}` | `v4` | CLI enum retained for compatibility; the current peak picker only implements `v4`. |
 | `--rt-window FLOAT` | `0.3` | Retention-time search window. |
 | `--idle-timeout FLOAT` | `60` | Stop watching after N minutes with no new files. |
 | `--poll-interval FLOAT` | `10` | Seconds between filesystem polls. |

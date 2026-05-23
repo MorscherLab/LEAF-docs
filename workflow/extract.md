@@ -1,39 +1,37 @@
 # Extract — Targeted
 
-The **Extract** page is where you configure parameters and launch a targeted processing run. For untargeted mode (no compound list), see [Extract — Untargeted](/workflow/extract-untargeted).
-
-The page has a **Targeted / Untargeted** toggle at the top; this guide covers the Targeted side.
+The **Extract** page configures and starts a targeted LC-MS processing run. This page documents the targeted workflow only.
 
 > [Screenshot: full Extract view with parameters configured and compound list loaded]
 
 ## Layout
 
-The Extract page has four panels:
+The Extract page has four working areas:
 
 | Panel | Position | Purpose |
 |-------|----------|---------|
-| **Folder selector** | Top-left | Choose which RAW / mzML files to process |
-| **Compound list editor** | Center | Upload, edit, and validate your metabolite list |
-| **Parameters sidebar** | Right | Acquisition, RT, peak picking, scoring, advanced |
-| **Tracing editor** | Right (below parameters) | Configure isotopologues for tracing experiments |
+| **Folder selector** | Left sidebar | Choose which RAW / mzML files to process |
+| **Parameters sidebar** | Left sidebar | Retention-time search, peak picking, grouping, scoring, backend, and file-handling options |
+| **Compound list editor** | Center | Upload, edit, and validate the metabolite list |
+| **Tracing editor** | Right panel | Configure isotopologues for tracing experiments |
 
 ## Select files
 
 ### Local mode (CLI / desktop)
 
-Click the folder selector and choose the folder containing your `.raw` or `.mzml` files. The file count appears next to the folder name.
+Click the folder selector and choose the folder containing `.raw`, `.mzml`, or `.mzml.gz` files. The file count appears next to the folder name.
 
 ### Server mode (MINT)
 
-Server-mode folder browsing is reserved for the MINT integration, which is under development and not enabled for general use yet.
+Server-mode folder browsing is reserved for the MINT integration, which is under development and not enabled for general use.
 
 > [Screenshot: folder selector in both local and server modes]
 
-## Upload your compound list
+## Upload the compound list
 
-Drag and drop your CSV or TSV onto the upload zone, or click to browse. LEAF parses it and shows the compounds in an editable table.
+Drag and drop a CSV or TSV onto the upload zone, or click to browse. LEAF parses the file and shows the compounds in an editable table.
 
-After uploading, click **Validate** to check for errors. Common issues (missing required columns, invalid formulas, duplicate compound + adduct combinations) appear as warnings — fix them before continuing.
+After uploading, click **Validate** to check for errors. Common issues include missing required columns, invalid formulas, invalid retention times, and duplicate compound-adduct combinations. Resolve errors before continuing.
 
 LEAF auto-detects LEAF native (RFA), Skyline transition lists, and El-MAVEN peak tables / compound DBs based on header names.
 
@@ -45,45 +43,41 @@ LEAF auto-detects LEAF native (RFA), Skyline transition lists, and El-MAVEN peak
 
 | Parameter | Default | Range | What it does |
 |-----------|---------|-------|--------------|
-| **Polarity** | NEG | AUTO / NEG / POS | Match your LC-MS acquisition polarity. **AUTO** detects from the file's metadata. |
+| **Polarity** | AUTO | AUTO / NEG / POS | Match the LC-MS acquisition polarity. In targeted runs, AUTO currently resolves to NEG when the run is submitted. |
 | **Mass tolerance** | 5 ppm | 1–50 ppm | EIC extraction window. Lower is stricter. The slider value is color-coded: green ≤5, yellow 5–15, red >15. |
 | **Backend** | seed (Rust) on macOS / Linux; RawFileReader (.NET) on Windows | seed / RawFileReader | Underlying RAW reader. seed is faster on Thermo files; RawFileReader is the reference implementation. Unavailable backends are disabled in the selector. |
 
-### Parameters (RT)
+### Retention time
 
 | Parameter | Default | Range | What it does |
 |-----------|---------|-------|--------------|
-| **RT window** | 0.3 min | 0.1–5.0 min | ± window around the expected RT to search for peaks |
+| **RT window** | 0.4 min | 0.1–5.0 min | ± window around the expected RT to search for peaks |
 
-The sidebar header shows your current setting as `RT ±0.3 min`.
+The sidebar header summarizes the current setting, for example `RT ±0.4 min`.
 
 ## Peak picking
 
-Toggle peak picking **on** (recommended).
-
-### Method
-
-`v4` is currently the only implemented peak detection method — robust MAD-based thresholds with prominence filtering, followed by KDE-based cross-sample RT alignment. The `v2` (Smoothed) and `v1` (Basic) buttons in the UI are placeholders for future algorithms and are not yet wired up; leave the selection on `v4`.
+Keep peak picking enabled for routine targeted analyses.
 
 ### RT mode
 
 | Mode | Behavior |
 |------|----------|
-| **Reference** *(default)* | Use the RT from your compound list as the search center |
+| **Reference** *(default)* | Use the RT from the compound list as the search center |
 | **Auto** | Auto-detect the RT from the EIC, ignoring the compound-list value |
 
-Use **Auto** when your CSV has rough placeholder RTs and you want LEAF to find the actual peak.
+Use **Auto** when the CSV contains approximate placeholder RTs and the peak location should be inferred from the chromatograms.
 
-## Quality scoring
+## Instrument settings and quality scoring
 
-Toggle quality scoring **on** (recommended). LEAF assigns each compound a verdict (good / warning / poor / insufficient_data) based on three sub-scores (peak shape, interference, baseline) plus a continuous SNR multiplier and a hard intensity gate.
+Keep quality scoring enabled for routine analyses. LEAF assigns each compound a verdict (good / warning / poor / insufficient_data) from the extracted chromatograms and configured instrument thresholds.
 
 | Parameter | Default | What it means |
 |-----------|---------|---------------|
-| **Min SNR** | 3.0 | Hard gate. Peaks below this signal-to-noise ratio fail the gate and are excluded. Higher = stricter. |
-| **Min intensity (LOD)** | 500,000 | Hard gate. Peaks below this absolute intensity are treated as below detection limit. |
-| **Sample / blank ratio** | 3.0 | If a blank sample is present, sample peaks must exceed `ratio × blank_intensity` to count as detected. |
-| **Verdict thresholds** | good ≥0.55, warning ≥0.27 | Compound-level quality cutoffs. Below 0.27 → poor. Below detection floor (3% detection rate) → insufficient_data. |
+| **SNR threshold** | 10 | Minimum signal-to-noise ratio used during quality review. Higher values are stricter. |
+| **Intensity threshold** | 100,000 | Peak-picking noise floor. |
+| **LOD (scoring)** | Auto | Limit of detection used by the scoring gate. Auto derives the value from the intensity threshold. |
+| **Saturation flag** | Auto | Intensity level that triggers a non-blocking saturation warning. |
 
 → [Quality verdicts explained](/workflow/analyze#quality-info)
 
@@ -93,7 +87,7 @@ Toggle quality scoring **on** (recommended). LEAF assigns each compound a verdic
 |--------|---------|--------|
 | **Organize names** | On | Strip date/timestamp prefixes from file names for clean grouping (e.g. `20240321_WT_rep1.raw` → `WT_rep1`). |
 | **Skip blanks** | On | Skip files with `blank` (case-insensitive) in the name during extraction. |
-| **MS² extraction** | Off | Capture MS² spectra alongside MS¹. Adds a raw-spectrum + RT preview in Peak Picking. Upload a spectral library later for cosine matching. Enabling MS² automatically uses the SEED (Rust) backend. |
+| **MS² extraction** | On | Capture MS² spectra alongside MS¹ when present. This enables raw-spectrum and retention-time preview in Peak Picking. Enabling MS² automatically uses the SEED (Rust) backend. |
 
 ## Tracing (optional)
 
@@ -101,7 +95,7 @@ For isotope-labeling experiments, configure the **Tracing Editor** below the par
 
 ## Start processing
 
-Once folders are selected and compounds validated, the **Start Processing** button turns blue. Click it.
+Once the folder is selected and the compound list is valid, the **Start Processing** button is enabled. Click it to start the run.
 
 A floating action button appears in the bottom-right corner:
 
@@ -113,14 +107,14 @@ A floating action button appears in the bottom-right corner:
 
 > [Screenshot: floating action button cycling through states]
 
-Click the button to open the jobs panel with full progress, per-file status, and **Download** / **Open** options.
+Click the button to open the jobs panel with progress, per-file status, and **Download** / **Open** options.
 
 ::: details Also from a script
 Headless equivalent of this page:
 
 ```bash
 leaf targeted ./samples ./compounds.csv ./outputs \
-  --polarity NEG --tolerance 5 --rt-window 0.3 --method v4
+  --polarity NEG --tolerance 5 --rt-window 0.4
 ```
 
 → [`leaf targeted` reference](/scripting/cli/targeted)
@@ -129,4 +123,4 @@ Or in Python: [Recipe 1 — Batch extraction](/scripting/python/recipes#recipe-1
 
 ## Next step
 
-→ [Analyze your results](/workflow/analyze)
+→ [Analyze results](/workflow/analyze)

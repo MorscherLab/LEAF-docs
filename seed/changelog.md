@@ -14,10 +14,6 @@ The public release pipeline is currently dormant; releases are being built priva
 
 → [Full CHANGELOG](https://github.com/EstrellaXD/seed-core/blob/main/CHANGELOG.md) — per-commit feature and fix log in the SEED repository.
 
-## Performance log
-
-SEED maintains a separate [`OPTIMIZATION.md`](https://github.com/EstrellaXD/seed-core/blob/main/OPTIMIZATION.md) recording every release that ships a measured performance improvement — workload, before / after timings, and the change that produced the speedup. Use it when you need historical perf context, not feature notes.
-
 ## How SEED versions work
 
 - **Major** (`1.x.x`) — breaking changes to the public API surface
@@ -28,4 +24,4 @@ The Rust crate, Python wheel, CLI binary, and GUI converter are versioned togeth
 
 ## Need help upgrading?
 
-If a release breaks something you depend on, please [open an issue](https://github.com/MorscherLab/LEAF/issues) on the LEAF tracker — SEED's own issue tracker tracks the upstream repository (currently private). LEAF maintainers will route as needed.
+If a release introduces a regression, please [open an issue](https://github.com/MorscherLab/LEAF/issues) on the LEAF tracker. SEED's own issue tracker tracks the upstream repository (currently private), and LEAF maintainers will route reports as needed.

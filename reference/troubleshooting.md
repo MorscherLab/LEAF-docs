@@ -1,6 +1,6 @@
 # Troubleshooting
 
-If something isn't working, check here first. If your problem isn't listed, [open an issue](https://github.com/MorscherLab/LEAF/issues) with the steps to reproduce.
+Use this page to diagnose common installation, input, extraction, and export problems. If the problem is not listed, [open an issue](https://github.com/MorscherLab/LEAF/issues) with the steps required to reproduce it.
 
 ## Install / launch
 
@@ -18,9 +18,9 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | RAW file fails to load | Unsupported instrument firmware | Try opening the file in Thermo Xcalibur first; if it works there, [report it](https://github.com/MorscherLab/LEAF/issues) |
-| "No samples found in folder" | Folder has no supported input files, or targeted files mix formats | For targeted runs, use `.raw`, `.mzml`, or `.mzml.gz` and keep one format per run. For untargeted runs, use Thermo `.raw` / `.RAW`. |
-| Sample names look weird | Auto-name extraction got confused | Toggle "Organize names" off — uses raw filename instead |
-| Blank files included anyway | "Skip blanks" only matches the word "blank" | Rename your blank files to include "blank", or untoggle "Skip blanks" and remove them after |
+| "No samples found in folder" | Folder has no supported input files, or files mix formats | Use `.raw`, `.mzml`, or `.mzml.gz` and keep one format per run. |
+| Sample names look unexpected | Auto-name extraction parsed the filename incorrectly | Toggle "Organize names" off to use the raw filename |
+| Blank files included anyway | "Skip blanks" only matches the word "blank" | Rename blank files to include "blank", or untoggle "Skip blanks" and remove them after extraction |
 | RAW file fails to load on macOS / Linux | SEED reader hit an unsupported instrument firmware | Switch to a Windows machine and try the `dotnet` backend (`leaf targeted ./samples ./compounds.csv ./outputs --backend dotnet`); if it still fails, [report it](https://github.com/MorscherLab/LEAF/issues) |
 | Unsure whether a CSV / folder is valid | Input preflight not run yet | `leaf validate ./compounds.csv ./raw-folder`; add `--strict` to treat warnings as failures |
 
@@ -28,10 +28,10 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
-| "Missing column: Metabolite" | CSV header doesn't match | Use one of: `Metabolite`, `Compound`, `Name` |
+| "Missing column: Metabolite" | CSV header does not match a recognized compound-name field | Use one of: `Metabolite`, `Compound`, `Name` |
 | Compounds show as "invalid formula" | Formula has a typo or unsupported element | Check the formula syntax (e.g., `C6H12O6`, not `C₆H₁₂O₆`); only standard atoms allowed |
 | All compounds say "no peaks detected" | Wrong polarity | Switch polarity (NEG ↔ POS) and re-run |
-| Some compounds detect, others don't | Mass tolerance too tight or RT off | Loosen mass tolerance to 10 ppm; widen RT window to 1.0 min |
+| Some compounds are detected and others are not | Mass tolerance is too tight or the expected RT is inaccurate | Loosen mass tolerance to 10 ppm; widen RT window to 1.0 min |
 
 ## Extraction
 
@@ -40,7 +40,7 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | "backend is unavailable" error | The selected reader backend is not installed or not detected | Run `leaf doctor` to check backend status. For SEED: install the seed wheel. For .NET: install .NET 8 runtime. |
 | Backend disabled in the web UI | LEAF detected that the backend cannot run on this system | Hover the disabled option for details; install the missing dependency or switch to an available backend |
 | MS² extraction ignores backend choice | .NET RawFileReader does not support the MS² extraction surface | Expected behavior — MS² auto-routes to the SEED (Rust) backend |
-| Extraction is unusually slow | Large dataset processed with the Python backend | Switch to the Rust backend in Settings → Advanced |
+| Extraction is unusually slow | Large dataset, slow storage, or non-default reader backend | Use the Rust backend in Settings → Advanced and keep input files on fast local or network storage |
 | Out-of-memory crash | Too many samples in one batch | Process in smaller batches (50 files at a time) |
 | Floating button stuck blue | Job hung — usually a corrupt RAW file | Cancel the job, remove the suspect file, re-run |
 | Job fails silently | Disk full or write permissions issue | Check disk space and the configured Storage path |
@@ -52,7 +52,7 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | Many "Poor" verdicts | Mass tolerance too loose, picks up noise | Reduce mass tolerance to 5 ppm |
 | Peaks at wrong RT | RT drift between samples | Increase RT Window to 1.0 min; or use RT alignment |
 | EIC chart is empty | Selected sample has no signal for the compound | Check the compound's mass and adduct; try the m/z manually in Xcalibur |
-| Auto-peaks miss the obvious peak | Peak picker conservative | Widen the RT window, then manually drag-select on the EIC chart if needed |
+| Automatic peak picking misses a visible peak | Peak picker is conservative for the current chromatogram | Widen the RT window, then manually drag-select on the EIC chart if needed |
 | RT check shows huge outliers | Sample truly has different RT (different LC method?) | Verify the sample is from the same method as others |
 
 ## Visualizations
@@ -69,7 +69,7 @@ If something isn't working, check here first. If your problem isn't listed, [ope
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | `.msd` file won't reopen | Saved with a much newer LEAF version | Update LEAF — see [GitHub Releases](https://github.com/MorscherLab/LEAF/releases) |
-| Need to check what's inside a result archive | File came from another run or collaborator | `leaf inspect ./result.msd` or `leaf inspect ./result.usd` |
+| Need to check what's inside a result archive | File came from another run or collaborator | `leaf inspect ./result.msd` |
 | CSV missing isotopologues | "Include isotopologues" was off | Re-export with the option enabled |
 | CSV has scientific notation | Excel auto-converts large numbers | Open in a text editor or import as text in Excel |
 
@@ -80,5 +80,5 @@ Hosted LEAF through MINT is under development and not enabled for general use ye
 ## Still stuck?
 
 1. **Check the terminal** (desktop) or browser dev console (`F12` → Console) for error messages.
-2. **Search [GitHub issues](https://github.com/MorscherLab/LEAF/issues)** — someone may have hit it before.
-3. **Open a new issue** with: LEAF version (`leaf --version`), OS, the steps you took, and the error message.
+2. **Search [GitHub issues](https://github.com/MorscherLab/LEAF/issues)** for existing reports.
+3. **Open a new issue** with: LEAF version (`leaf --version`), OS, reproduction steps, and the error message.

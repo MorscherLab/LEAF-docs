@@ -1,10 +1,10 @@
 # Python Package Overview
 
-LEAF can be used as a Python package for scripted analyses, batch processing pipelines, and integration into existing computational workflows.
+LEAF can be used as a Python package for scripted targeted analyses, batch processing pipelines, and integration into existing computational workflows.
 
 ## When to use the package vs the UI
 
-| Use the web UI when... | Use the Python package when... |
+| Web UI recommended for | Python package recommended for |
 |------------------------|--------------------------------|
 | Performing exploratory or interactive analysis | Running batch analyses on many datasets with shared parameters |
 | Reviewing peak quality and adjusting integrations manually | Reproducing an analysis as part of a manuscript or pipeline |
@@ -32,13 +32,13 @@ print(version("leaf"))
 The package re-exports four classes intended for scripted use:
 
 ```python
-from leaf.analyzer import Samples, Analyzer, PeakPicking, QCReport
+from leaf.analyzer import Samples, Extractor, PeakPicking, QCReport
 ```
 
 | Name | Role |
 |------|------|
 | `Samples` | Central data container — sparse intensity tensors, sample/metabolite indices, peak dictionary. The result of every extraction. Persisted via `Samples.load(path)` / `samples.save(path)`. |
-| `Analyzer` | RAW / mzML extraction. Constructor takes a folder or file list plus a metabolite CSV; `extract_metabolites(...)` returns a `Samples`. |
+| `Extractor` | RAW / mzML extraction. Constructor takes a folder or file list plus a metabolite CSV; `extract_metabolites(...)` returns a `Samples`. |
 | `PeakPicking` | Peak detection on an existing `Samples`. Constructor takes the `Samples`; `run(...)` returns a quantification DataFrame. |
 | `QCReport` | EQC / IQC sample analysis (separate from the per-compound verdicts produced by `leaf.analyzer.score`). |
 

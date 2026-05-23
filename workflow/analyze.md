@@ -1,19 +1,19 @@
 # Analyze Results
 
-After extraction completes, the **Peak Picking** view is the primary interface for inspecting individual compounds, reviewing peak quality, and adjusting integration boundaries.
+After extraction completes, the **Peak Picking** view is the primary interface for reviewing targeted results. It supports chromatogram inspection, sample comparison, quality-verdict review, and manual adjustment of peak regions when required.
 
 > [Screenshot: full Peak Picking view with a metabolite selected]
 
 ## Open the view
 
-Two ways to get here:
+Opening methods:
 
 1. After an extraction finishes, click **Open** in the jobs panel
 2. From any page, drag a previously-saved `.msd` file onto the window
 
 ## Layout
 
-The view has a left sidebar plus four central panels:
+The view has a left sidebar and four central panels:
 
 ```
 ┌─────────────┬───────────────────────────────────┐
@@ -25,17 +25,17 @@ The view has a left sidebar plus four central panels:
 
 ## Sample selector (left sidebar)
 
-Lists every sample in your dataset.
+Lists every sample in the loaded dataset.
 
 - **Checkboxes** — toggle which samples appear on the charts
 - **Lightning-bolt button** — auto-group samples by name prefix (e.g., `WT_rep1`, `WT_rep2` → group `WT`)
-- **Pick mode toggle** — switch between **Area Top** (intensity at peak apex) and **Area Sum** (total area under curve)
+- **Pick mode toggle** — switch between apex intensity and integrated peak area
 
 > [Screenshot: sample selector with grouping applied]
 
 ## Metabolite table (top-left panel)
 
-A scrollable list of every compound in your dataset. Click any row to load that metabolite into the EIC chart, isotopologue bars, and quality info.
+A scrollable list of every compound in the loaded dataset. Selecting a row loads that metabolite into the EIC chart, isotopologue bars, and quality info.
 
 Columns include:
 
@@ -49,10 +49,10 @@ Sort by clicking a column header. Filter by verdict using the dropdown at the to
 
 ## EIC chart (top-right panel)
 
-The interactive chromatogram for the selected metabolite, overlaying every selected sample.
+The EIC chart displays the selected metabolite across the selected samples.
 
-- **Colored traces** — individual samples (gradient from cyan to purple, or by group color when grouping is on)
-- **Red dashed line** — expected retention time from your CSV
+- **Colored traces** — individual samples, or group-colored traces when grouping is enabled
+- **Red dashed line** — expected retention time from the compound CSV
 - **Red X markers** — auto-detected peaks
 - **Drag to select** an RT range to manually define a peak region and see the recalculated areas
 
@@ -89,19 +89,11 @@ The verdict and warnings for the selected metabolite.
 
 Warnings are listed below the verdict with severity badges (CRITICAL, WARNING, MINOR, INFO) and per-sample detail.
 
-### Verdict criteria
-
-| Criterion | Good | Warning | Poor |
-|-----------|------|---------|------|
-| Detection rate | ≥ 20% | — | < 20% |
-| RT deviation | — | — | > 0.8 min |
-| Peak shape score | ≥ 0.70 | — | < 0.50 |
-| RT clusters | 1 group | ≥ 2 groups with spread > 0.1 min | — |
-| Multi-peak samples | — | > 40 samples | — |
+The scoring model is intended as a review aid rather than an automatic exclusion rule. Record manual review decisions when a compound is biologically important or when the chromatogram indicates a known method-specific behavior.
 
 ## Mark compounds for export
 
-The verdict filter also drives export. If you want only the green compounds in your CSV/`.msd`, filter to **Good** before downloading. See [Export](/workflow/export).
+The verdict filter also affects export. Filter to **Good** before downloading when the downstream analysis should contain only compounds that passed review. See [Export](/workflow/export).
 
 ::: details Also from a script
 Re-running peak picking on an existing `.msd` from Python:
@@ -109,7 +101,7 @@ Re-running peak picking on an existing `.msd` from Python:
 ```python
 from leaf.analyzer import Samples, PeakPicking
 samples = Samples.load("analysis.msd")
-PeakPicking(samples).run(method="v4")
+PeakPicking(samples).run()
 samples.save("analysis.msd")
 ```
 
