@@ -19,7 +19,7 @@ onMounted(() => {
 
 # Install in MINT (recommended)
 
-LEAF ships as a [MINT](https://mint-docs.morscherlab.org) plugin bundle (`.mld`). For lab and shared-server deployments, this is the recommended path: MINT handles authentication, file-folder access control, and multi-user isolation, and the same LEAF instance is reachable from any browser on the lab network.
+LEAF ships as a [MINT](https://mint-docs.morscherlab.org) plugin bundle (`.mint`). For lab and shared-server deployments, this is the recommended path: MINT handles authentication, file-folder access control, and multi-user isolation, and the same LEAF instance is reachable from any browser on the lab network.
 
 **The install steps live in the MINT documentation:**
 
@@ -33,13 +33,15 @@ You should be redirected automatically. If not, follow the link above.
 |---|---|
 | **A running MINT instance** | If your lab does not yet have one, see [MINT Docs → Install](https://mint-docs.morscherlab.org). |
 | **MINT admin role** | Plugin upload is admin-gated. |
-| **The LEAF bundle** | Download `leaf-webui-bundle-<version>.mld` from the [LEAF releases page](https://github.com/MorscherLab/LEAF/releases/latest). |
+| **The LEAF bundle** | Download the `.mint` bundle from the [LEAF releases page](https://github.com/MorscherLab/LEAF/releases/latest). |
 
 The bundle includes the LEAF wheel and its dependencies (Rust accelerators for `x86_64-linux`, SEED).
 
 ## Once it's installed
 
 End users open the lab's MINT URL in a browser, sign in with their lab credentials, and click the **LEAF** tile on the dashboard. There is no separate LEAF login — MINT propagates the session.
+
+→ [Run a complete targeted analysis in MINT](/get-started/mint-targeted)
 
 ## Other install paths
 

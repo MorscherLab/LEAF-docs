@@ -1,114 +1,141 @@
-# Run Your First Analysis
+# Hands-on Targeted Analysis
 
-A complete walkthrough from opening LEAF to seeing your first peak — about 5 minutes.
+This walkthrough takes you from opening LEAF to inspecting a targeted result. It uses your own LC-MS files and the demo primary-metabolism compound list. Allow about 5 minutes for setup, plus processing time.
 
-> [Screenshot: full LEAF window showing the Extract view, ready to start]
+If you use LEAF inside MINT, follow the separate [targeted MINT workflow](/get-started/mint-targeted) instead. It includes experiment selection and saving the result back to MINT.
+
+## What this walkthrough covers
+
+| Capability | Current status |
+|---|---|
+| Targeted extraction from DDA, Full Scan, SIM, or PRM data | Stable |
+| Automatic peak picking and quality scoring | Stable |
+| Isotope tracing and natural-abundance correction for ¹³C, ²H, and ¹⁵N | Stable |
+| MS² extraction and spectral-library matching | Stable |
+| MRM transition-list workflows | Not yet supported |
+
+| Input | Support |
+|---|---|
+| Thermo `.raw` | Native |
+| `.mzml` / `.mzml.gz` | Native |
+| Other vendor formats | Convert to mzML first |
 
 ## Before you start
 
-You should already have LEAF installed via one of:
-
-- [Install in MINT (recommended)](/get-started/install-mint) — open the lab's MINT URL, sign in, click the **LEAF** tile.
-- [Install the wheel + CLI](/get-started/install-cli) — launch the local server and open it in your browser.
-
-For a local install, launch LEAF in a terminal:
+Install and launch LEAF using [the standalone installer or wheel](/get-started/install-cli).
 
 ::: code-group
 
-```bash [Standalone installer (Path A)]
+```bash [macOS standalone]
 ~/.leaf/leaf
 # Open http://127.0.0.1:8000
 ```
 
-```bash [Manual wheel + CLI (Path B)]
+```powershell [Windows standalone]
+%LOCALAPPDATA%\leaf\leaf.cmd
+# Open http://127.0.0.1:8000
+```
+
+```bash [Manual wheel install]
 leaf webui run
 # Open http://127.0.0.1:18008
 ```
 
 :::
 
-The browser tab should land on the LEAF **Extract** view.
+Keep the terminal open while you work. The browser should open on the LEAF **Extract** page.
 
-## Inputs
+## Prepare the two inputs
 
-Two things are needed:
+You need:
 
-1. **A folder of LC-MS files** — Thermo `.raw` or `.mzml` (`.mzml.gz` is also accepted). A single file is sufficient for this walkthrough.
-2. **A CSV listing the target metabolites** — described below.
+1. **Your LC-MS files** in one folder. For this first run, use a small folder containing one input format: `.raw`, `.mzml`, or `.mzml.gz`.
+2. **The demo compound list**: download [`metabolite-list-primary-metabolism.csv`](https://github.com/MorscherLab/LEAF/blob/main/examples/metabolite-list-primary-metabolism.csv).
 
-## Make a metabolite CSV
+The demo list contains expected retention times. They may not match your chromatographic method, but they are sufficient for learning the interface. For quantitative work, replace them with method-specific values.
 
-The fastest path is to use the starter list shipped with LEAF: [`examples/metabolite-list-primary-metabolism.csv`](https://github.com/MorscherLab/LEAF/blob/main/examples/metabolite-list-primary-metabolism.csv) — a primary-metabolism panel with sensible defaults.
+## Step 1: Confirm Targeted mode
 
-Or save the following as `compounds.csv` if you'd rather start small:
+Open **Extract** from the page selector and choose **Targeted** in the mode control.
 
-```csv
-Metabolite,Formula,RetentionTime,Adduct
-Glucose,C6H12O6,5.2,M-H
-Lactate,C3H6O3,3.1,M-H
-Citrate,C6H8O7,8.5,M-H
-Pyruvate,C3H4O3,2.8,M-H
-Glutamate,C5H9NO4,4.1,M-H
-```
+## Step 2: Select your data folder
 
-Adjust the retention times to match your chromatographic method. Exact values are not required — the RT search window tolerates moderate drift. See [Prepare your data](/workflow/prepare-data) for the complete CSV specification.
+In **Data Folder**, click the folder picker and select the folder containing your LC-MS files. LEAF shows the selected path.
 
-## Step 1: Pick your data folder
+If the operating-system folder dialog does not open, use the path-entry button and paste the absolute folder path.
 
-On the Extract page, click **Select Folder** and choose the folder with your `.raw` (or `.mzml`) files. The number of files appears next to the folder name.
+## Step 3: Load and validate the demo list
 
-> [Screenshot: folder selector with files counted]
+Drop `metabolite-list-primary-metabolism.csv` onto the **Compound List** area, or click the upload area and select it.
 
-## Step 2: Drop your CSV
+LEAF displays the parsed compounds in an editable table. Click **Validate**. The **Start Processing** button remains disabled until the list is valid and its adducts match the selected polarity.
 
-Drag `compounds.csv` onto the upload zone — or click to browse. You'll see your compounds parsed into a table. Click **Validate** to check for formula or adduct errors.
+![Targeted extraction setup with a validated compound list](/screenshots/targeted/targeted-extract-demo-list.jpg)
 
-> [Screenshot: compound list editor with validated rows]
+## Step 4: Check polarity and keep the defaults
 
-## Step 3: Set parameters
+Set **Polarity** to match the acquisition:
 
-For an initial run, the defaults are appropriate for most LC-MS methods:
+- **Neg** for negative-ion data
+- **Pos** for positive-ion data
 
-| Setting | Default | What it means |
-|---------|---------|---------------|
-| Polarity | NEG | Match your LC-MS method's polarity |
-| Mass tolerance | 5 ppm | How tightly to match m/z values |
-| RT window | 0.3 min | How far from expected RT to search |
-| Peak picking | On (`v4`) | Detect peak boundaries automatically |
-| Quality scoring | On | Flag unreliable compounds |
+For this introductory run, keep the remaining LEAF 0.7 defaults:
 
-If the acquisition was performed in positive mode, change **Polarity** to POS. This is typically the only parameter requiring adjustment for an initial run.
+| Setting | Default |
+|---|---|
+| Mass tolerance | 5 ppm |
+| RT window | ±0.3 min |
+| Peak picking | On |
+| RT mode | Reference-guided |
+| Quality scoring | On |
+| MS² capture | On |
 
-## Step 4: Start
+You do not need to configure sample metadata, isotope tracing, or advanced parameters for the first run.
 
-Click the blue **Start Processing** button. A floating progress button appears in the bottom-right corner.
+## Step 5: Start processing
 
-> [Screenshot: floating action button showing job in progress]
+Click **Start Processing**. The **Jobs** button in the lower-right corner shows the current percentage.
 
-Processing completes when the spinner is replaced by a green checkmark. Runtime depends on file size, backend, storage speed, and compound count; a single input file with a small compound list should finish quickly, while larger batches may take several minutes.
+Click **Jobs** to see the active job, current stage, file count, warnings, and cancel action. When processing finishes, the button turns green and the job moves to **Completed**.
 
-## Step 5: See your results
+## Step 6: Open the result
 
-When done, click the green checkmark, then **Open** in the jobs panel. LEAF opens the Peak Picking view with your data loaded.
+Open **Jobs → Completed**, then click **Open** for the targeted job. LEAF loads the **Analysis** workspace.
 
-> [Screenshot: Peak Picking view with one metabolite selected]
+In **Charts**:
 
-Click any metabolite in the left-hand list. You'll see:
+1. Select a compound in the metabolite table.
+2. Inspect its extracted-ion chromatogram in **EIC Chart**.
+3. Review the **Isotopologue** bars.
+4. Read the quality verdict and review reasons.
 
-- **EIC chart** (top right) — the chromatogram for that metabolite across every sample
-- **Isotopologue bars** (bottom left) — peak intensity per isotope (M+0, M+1, ...)
-- **Quality info** (bottom right) — the verdict (good / warning / poor) with reasons
+![Targeted analysis workspace showing chromatograms and quality results](/screenshots/targeted/targeted-analysis-charts.jpg)
 
-The walkthrough has covered extraction, peak picking, quality scoring, and result inspection.
+## Step 7: Inspect and export the result table
 
-## Further steps
+Open **Results** in the top navigation. This table contains the quantitative matrix.
 
-- **Sample grouping** — click the lightning-bolt icon in the sidebar to group samples by name prefix (e.g., `WT_rep1`, `WT_rep2` → group "WT"). See [Analyze](/workflow/analyze).
-- **Visualization** — open the **Visualize** dropdown for PCA, heatmaps, volcano plots, and additional chart types. See [Visualize](/workflow/visualize).
-- **Export** — click the download button to save a `.msd` archive (full bundle) or a `.csv` (intensity matrix). See [Export](/workflow/export).
-- **Isotope tracing** — for ¹³C and other labeling experiments, see [Isotope tracing](/workflow/tracing).
-- **No metabolite list?** Switch the Extract page to the **Untargeted** mode for de-novo feature detection — see [Untargeted overview](/workflow/untargeted).
+- Switch between **Apex** and **Area** only if the analysis requires a different quantification metric.
+- Use the metabolite and isotopologue filters to define the exported rows.
+- Choose **Wide** for a conventional matrix or **Long/Tidy** for analysis in R or Python.
+- Click **Download ZIP** for the filtered CSV output.
+- Use the download button in the top bar to save the complete `.msd` session.
+
+The export follows the filters currently applied in **Results**.
+
+## Next targeted steps
+
+- [Prepare a method-specific compound list](/workflow/prepare-data)
+- [Review all targeted extraction controls](/workflow/extract)
+- [Inspect and edit peaks](/workflow/analyze)
+- [Configure isotope tracing](/workflow/tracing)
+- [Create statistical visualizations](/workflow/visualize)
+- [Export or reopen targeted results](/workflow/export)
+
+For MS² data, enable capture during extraction, then use the **MS²** tab in **Charts** to inspect spectra and configure library matching.
+
+For non-Thermo instruments, convert the vendor data to mzML with the vendor converter or ProteoWizard before starting.
 
 ## Troubleshooting
 
-→ [Common issues and resolutions](/reference/troubleshooting)
+See [Troubleshooting](/reference/troubleshooting), including [forced browser refresh and cache clearing](/reference/troubleshooting#browser-refresh-and-cache).

@@ -2,7 +2,7 @@
 
 ## What does LEAF do?
 
-LEAF processes LC-MS files, extracts ion chromatograms, detects peaks, assigns quality verdicts, and produces interactive visualizations. Targeted analysis accepts Thermo `.raw`, `.mzml`, and `.mzml.gz` files; untargeted analysis currently expects Thermo `.raw` folders. Results export as `.msd` / `.usd` archives or flat `.csv` tables.
+LEAF processes LC-MS files, extracts ion chromatograms, detects peaks, assigns quality verdicts, and produces interactive visualizations. Targeted analysis accepts Thermo `.raw`, `.mzml`, and `.mzml.gz` files; untargeted analysis currently expects Thermo `.raw` folders. Complete sessions export as `.msd` / `.usd`; targeted tables download as ZIP files containing CSV output.
 
 ## Who is LEAF for?
 
@@ -43,7 +43,7 @@ For very large datasets (1000+ samples), use the Rust backend (Settings → Adva
 |---|---|---|
 | Stores | Targeted analysis results | Untargeted analysis results |
 | Indexed by | Compound name | Feature ID (m/z + RT) |
-| Reopens to | Peak Picking view | Untargeted view |
+| Reopens to | Analysis workspace | Untargeted view |
 
 Both are zstd-compressed Arrow/Parquet bundles — they're a single file but contain multiple structured tables.
 
@@ -53,7 +53,7 @@ Yes — send them the `.msd` file. As long as they have LEAF installed (any vers
 
 ## Does LEAF do natural-abundance correction for tracing?
 
-Not currently. The isotopologue distributions you see are raw — they include both labeled isotopologues and the natural M+1, M+2 contributions from background ¹³C, ¹⁵N, etc. If your science requires correction, do it downstream (e.g., with [IsoCorrectoR](https://genomic.uni-saarland.de/projects/IsoCorrectoR/) or [accucor](https://github.com/XiaoyangSu/AccuCor)).
+Yes. In a targeted analysis, open the isotopologue chart settings or **Results**, configure the tracer element and purity, then enable natural-abundance correction. LEAF 0.7 supports high-resolution, uniformly labeled C, H, and N tracers. Position-specific tracers and ¹⁸O correction require a downstream method.
 
 ## Can LEAF identify unknown features in untargeted mode?
 

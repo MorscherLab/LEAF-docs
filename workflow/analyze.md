@@ -1,121 +1,143 @@
-# Analyze Results
+# Analyze Targeted Results
 
-After extraction completes, the **Peak Picking** view is the primary interface for inspecting individual compounds, reviewing peak quality, and adjusting integration boundaries.
+The **Analysis** workspace is where you inspect chromatograms, review or adjust peaks, evaluate quality, visualize the dataset, and prepare the targeted result table.
 
-> [Screenshot: full Peak Picking view with a metabolite selected]
+![Targeted analysis workspace showing chromatograms and quality results](/screenshots/targeted/targeted-analysis-charts.jpg)
 
-## Open the view
+## Open a targeted result
 
-Two ways to get here:
+Use one of these paths:
 
-1. After an extraction finishes, click **Open** in the jobs panel
-2. From any page, drag a previously-saved `.msd` file onto the window
+1. Open **Jobs → Completed** and click **Open** for a targeted job.
+2. Open **Analysis** and drop a saved `.msd` onto the upload area.
+3. In MINT, select an experiment and open one of its targeted analysis artifacts.
 
-## Layout
+The workspace restores the session, including its extraction parameters, peak state, sample groups, compound review state, and available MS² data.
 
-The view has a left sidebar plus four central panels:
+## Workspace navigation
 
-```
-┌─────────────┬───────────────────────────────────┐
-│ Sample      │  Metabolite Table  │  EIC Chart  │
-│ Selector    ├───────────────────────────────────┤
-│ (sidebar)   │  Isotopologues     │  Quality    │
-└─────────────┴───────────────────────────────────┘
-```
+The top navigation has three targeted sections:
 
-## Sample selector (left sidebar)
+| Section | Purpose |
+|---|---|
+| **Charts** | Compound-level chromatograms, RT review, isotopologues, MS², and quality information |
+| **Visualize** | PCA, correlation, heatmap, box plot, dendrogram, volcano plot, networks, pathway mapping, and QC dashboard |
+| **Results** | Quantitative matrix, filters, quantification metric, formatting, and CSV/MS² export |
 
-Lists every sample in your dataset.
+## Select and group samples
 
-- **Checkboxes** — toggle which samples appear on the charts
-- **Lightning-bolt button** — auto-group samples by name prefix (e.g., `WT_rep1`, `WT_rep2` → group `WT`)
-- **Pick mode toggle** — switch between **Area Top** (intensity at peak apex) and **Area Sum** (total area under curve)
+The left sidebar lists the samples in the session.
 
-> [Screenshot: sample selector with grouping applied]
+- Select or clear samples to control which traces and values are shown.
+- Create groups manually or use the smart-group control.
+- Collapse the sidebar when more chart space is needed.
 
-## Metabolite table (top-left panel)
+Sample groups affect grouped isotope bars and statistical visualizations. LEAF 0.7 stores group changes in the `.msd`, so they are restored when the result is reopened.
 
-A scrollable list of every compound in your dataset. Click any row to load that metabolite into the EIC chart, isotopologue bars, and quality info.
+## Select a compound
 
-Columns include:
+In **Charts**, choose a row in the metabolite table. The remaining panels update to the selected compound.
 
-- **Verdict badge** (green / orange / red)
-- **Compound name**
-- **m/z** (observed)
-- **RT** (median)
-- **Detection rate** (% of samples)
+The table provides the compound identity, observed m/z, retention-time information, detection rate, quality state, and review controls. Use its filters to narrow a large list before manual review.
 
-Sort by clicking a column header. Filter by verdict using the dropdown at the top.
+## EIC Chart, RT Check, and TIC Overlay
 
-## EIC chart (top-right panel)
+The upper chart area has three views.
 
-The interactive chromatogram for the selected metabolite, overlaying every selected sample.
+### EIC Chart
 
-- **Colored traces** — individual samples (gradient from cyan to purple, or by group color when grouping is on)
-- **Red dashed line** — expected retention time from your CSV
-- **Red X markers** — auto-detected peaks
-- **Drag to select** an RT range to manually define a peak region and see the recalculated areas
+The extracted-ion chromatogram overlays the selected samples for the active compound.
 
-Adjacent **RT Check** tab shows retention-time deviation analysis:
+Use the toolbar to:
 
-- Scatter plot of manual vs. auto-detected RT values
-- Summary cards: total compounds, outlier %, R² correlation, mean RT shift
-- Sortable outlier table — click a row to jump to that metabolite's EIC
+- Inspect a single sample or the selected set
+- Toggle aligned retention times
+- Switch between peak-focused and global views
+- Show or hide chart details such as KDE groups and merge shading
 
-> [Screenshot: EIC chart with multiple sample traces and detected peak markers]
+### RT Check
 
-## Isotopologue bars (bottom-left panel)
+**RT Check** summarizes retention-time behavior across compounds and helps identify outliers. Select an outlying compound to return to its EIC.
 
-Shows the isotope distribution (M+0, M+1, M+2, ...) for the selected metabolite.
+### TIC Overlay
 
-- Toggle **grouped** vs **stacked** bar mode
-- Toggle **absolute intensity** vs **percentage** display
-- When grouping is on, bars show **mean ± SEM** per group
-- Color-coded: M+0 (blue), M+1 (green), M+2 (amber), M+3 (rose), ...
+**TIC Overlay** compares total-ion chromatograms across samples. It is available when TIC extraction was enabled for the session.
 
-For tracing experiments, switch to **Percentage** mode to see fractional labeling — useful for comparing labeling between conditions (e.g., WT vs KO).
+## Correct a peak manually
 
-→ [More on isotope tracing](/workflow/tracing)
+To replace the integration window:
 
-## Quality info (bottom-right panel)
+1. Select the required compound and samples.
+2. Drag across the intended RT region in **EIC Chart**.
+3. Choose **Merge Data** to apply the region across the selected data, or **Merge Sample** when one sample is active.
+4. Use **Undo** to reverse the most recent merge.
 
-The verdict and warnings for the selected metabolite.
+Manual peak edits persist with the session. LEAF keeps the RT alignment state when it recalculates the affected quantification.
 
-| Verdict | Color | Meaning | Action |
-|---------|-------|---------|--------|
-| **Good** | Green | Reliable peak with consistent shape and detection | Use in analysis |
-| **Warning** | Orange | Usable but has caveats (co-elution, multiple peaks) | Review manually |
-| **Poor** | Red | Unreliable (low detection, wrong RT, poor peak shape) | Exclude or investigate |
+## Re-run peak picking
 
-Warnings are listed below the verdict with severity badges (CRITICAL, WARNING, MINOR, INFO) and per-sample detail.
+The sidebar's peak-picking settings button opens the parameter editor. **Apply & Re-run** recalculates peaks for the active session.
 
-### Verdict criteria
+Re-running peak picking can replace automatic peak assignments. Save a separate `.msd` or use **Save as new result** in MINT before a major parameter change when the previous analysis must be retained.
 
-| Criterion | Good | Warning | Poor |
-|-----------|------|---------|------|
-| Detection rate | ≥ 20% | — | < 20% |
-| RT deviation | — | — | > 0.8 min |
-| Peak shape score | ≥ 0.70 | — | < 0.50 |
-| RT clusters | 1 group | ≥ 2 groups with spread > 0.1 min | — |
-| Multi-peak samples | — | > 40 samples | — |
+## Choose the chart pick mode
 
-## Mark compounds for export
+The **Pick Mode** control in the sidebar changes the chart-level peak calculation:
 
-The verdict filter also drives export. If you want only the green compounds in your CSV/`.msd`, filter to **Good** before downloading. See [Export](/workflow/export).
+| Mode | Meaning |
+|---|---|
+| **Apex** | Quantify at the peak maximum |
+| **AUC** | Integrate the peak area |
 
-::: details Also from a script
-Re-running peak picking on an existing `.msd` from Python:
+The **Results** section has its own persisted **Apex / Area** quantification selector for the exported matrix.
 
-```python
-from leaf.analyzer import Samples, PeakPicking
-samples = Samples.load("analysis.msd")
-PeakPicking(samples).run(method="v4")
-samples.save("analysis.msd")
-```
+## Isotopologue view
 
-→ [Python recipes](/scripting/python/recipes)
-:::
+The lower-left panel opens on **Isotopologue**.
+
+- Switch between absolute intensity and percentage.
+- Group samples to show group summaries.
+- Open the settings control for correction and display options.
+
+For tracing experiments, percentage mode shows fractional labeling. Natural-abundance correction is configured separately and is only applied when a compatible tracer definition exists.
+
+→ [Isotope tracing and correction](/workflow/tracing)
+
+## MS² view
+
+Open **MS²** beside **Isotopologue** when spectra were captured during extraction.
+
+The panel can:
+
+- Show the spectrum associated with the selected compound and sample
+- Fall back to another selected sample when the current sample has no spectrum
+- Load an MSP or MGF spectral library
+- Configure precursor tolerance, fragment tolerance, and minimum cosine score
+- Display the best match and candidate hits
+
+Peak edits cause the MS² candidate to be evaluated against the current peak location.
+
+## Quality information
+
+The quality panel explains why a compound requires review. It combines detection, peak shape, interference, baseline, SNR, intensity, and RT behavior.
+
+| State | Interpretation | Suggested action |
+|---|---|---|
+| **Good** | The result passed the configured gates | Include unless scientific context says otherwise |
+| **Warning** | The result is usable but has review reasons | Inspect the EIC and affected samples |
+| **Poor** | The signal or peak assignment is unreliable | Correct the peak, adjust the method, or exclude |
+| **Insufficient data** | Too little usable signal is present | Verify polarity, m/z, RT, and detection limits |
+
+Treat verdicts as review support, not as a replacement for method validation.
+
+## Mark review state
+
+Use the compound controls to mark important compounds, review status, or exclusions. These states persist in the targeted session.
+
+The **Important only** and compound filters in **Results** define the exported subset. Apply them before downloading the CSV or MS² spectra.
 
 ## Next step
 
-→ [Visualize statistically](/workflow/visualize)
+→ [Visualize targeted results](/workflow/visualize)
+
+→ [Filter and export targeted results](/workflow/export)

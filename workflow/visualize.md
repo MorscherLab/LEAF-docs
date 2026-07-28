@@ -40,7 +40,7 @@ Each chart has a collapsible **Settings** sidebar on the right with chart-specif
 
 Volcano needs **exactly two sample groups**. Set them up first:
 
-1. Open the sample selector sidebar from the **Peak Picking** view
+1. Open the sample selector sidebar from the **Analysis** workspace
 2. Use the lightning-bolt button to auto-group, or manually assign samples to two groups (e.g., `WT` and `KO`)
 3. Switch to **Visualize → Volcano**
 4. Configure the fold-change and p-value cutoffs in the sidebar

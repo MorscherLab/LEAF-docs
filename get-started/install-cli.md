@@ -162,8 +162,8 @@ Press **Ctrl+C** in the terminal window. Closing the browser tab does not stop t
 
 ## Next step
 
-→ [Run your first analysis](/get-started/quickstart) (5 minutes)
+→ [Run a hands-on targeted analysis](/get-started/quickstart) (5 minutes)
 
 Or, if your lab operates a MINT server:
 
-→ [Install in MINT instead](/get-started/install-mint)
+→ [Run the targeted MINT workflow](/get-started/mint-targeted)

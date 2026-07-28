@@ -1,96 +1,75 @@
-# Export
+# Export Targeted Results
 
-When you're done analyzing, save your data so you can reopen it later or hand it off to a collaborator or downstream tool.
+LEAF 0.7 separates the complete analysis session from spreadsheet and spectrum exports.
 
-## Two formats
+## Save the complete analysis
 
-| Format | Use case | Contents |
-|--------|----------|----------|
-| **`.msd`** | Reopen in LEAF, share with collaborators | Full bundle: intensities, peaks, quality scores, isotopologues, metadata, parameters |
-| **`.csv`** | Excel, R, Python, GraphPad, etc. | Flat intensity matrix — one row per metabolite, one column per sample |
+Click the **download** button in the analysis header to save a `.msd` file.
 
-## How to export
+The `.msd` file preserves the targeted result, including extracted signals, peak selections, compound metadata, sample groups, quality information, and analysis settings. Use it when you need to:
 
-Click the **download** button in the top action bar, or open the jobs panel and click **Download** next to your finished job.
+- reopen the analysis in LEAF
+- share an editable result with a collaborator
+- archive the analysis before making more changes
 
-> [Screenshot: download button and jobs panel with download options]
+## Reopening a .msd file
 
-A modal lets you pick the format and what to include:
+To reopen it, launch LEAF and select or drop the `.msd` file. LEAF restores the analysis workspace.
 
-| Option | Default | Effect |
-|--------|---------|--------|
-| **Format** | `.msd` | `.msd` for full bundle, `.csv` for spreadsheet |
-| **Verdict filter** | All | Restrict to Good only, or Good + Warning, etc. |
-| **Pick mode** | Area Top | Intensity at peak apex vs Area Sum (matches the sidebar setting) |
-| **Include isotopologues** | On (tracing only) | Add per-isotopologue columns |
-| **Include metadata** | On | Sample groups, file paths, timestamps |
+## Export the quantitative table
 
-## What's in a `.msd` file?
+1. Open **Results** in the analysis workspace.
+2. Apply the sample, compound, isotopologue, or quality filters that should be included.
+3. Choose **Apex** or **Area** for the quantification value.
+4. Choose the table layout:
+   - **Wide** — samples are arranged as columns.
+   - **Long** — each measurement is a separate row, which is convenient for R, Python, and other tidy-data tools.
+5. Click **Download ZIP**.
 
-A zstd-compressed Apache Arrow / Parquet bundle:
+The downloaded ZIP contains the requested CSV output. The export follows the filters that are active when you download it.
 
-- **`samples.parquet`** — sample metadata (file path, group, injection volume, timestamps)
-- **`compounds.parquet`** — per-compound metadata + verdicts
-- **`intensities.parquet`** — sparse matrix of intensities (compound × sample)
-- **`peaks.parquet`** — detected peak boundaries and shapes
-- **`isotopologues.parquet`** — per-isotopologue intensities (if tracing was enabled)
-- **`parameters.json`** — every parameter used during extraction (for reproducibility)
-
-You don't need to know the internals — `.msd` files reopen in LEAF with a single drag-and-drop.
-
-## What's in a `.csv` file?
-
-A wide table:
-
-```csv
-Metabolite,Formula,RetentionTime,Adduct,Verdict,WT_rep1,WT_rep2,KO_rep1,KO_rep2
-Glucose,C6H12O6,5.2,M-H,good,1.23e6,1.18e6,8.4e5,9.1e5
-Lactate,C3H6O3,3.1,M-H,good,4.5e5,4.7e5,9.8e5,1.05e6
-# additional metabolites omitted
-```
-
-For tracing data, isotopologue rows interleave per compound:
-
-```csv
-Metabolite,Isotopologue,WT_rep1,WT_rep2,KO_rep1,KO_rep2
-Glucose,M+0,1.23e6,1.18e6,8.4e5,9.1e5
-Glucose,M+1,2.4e4,2.6e4,1.8e4,2.1e4
-Glucose,M+2,3.1e3,3.3e3,2.4e3,2.6e3
-# additional isotopologues omitted
-```
-
-## Reopening a `.msd` file
-
-Drag the `.msd` file onto the LEAF window from anywhere — Extract page, home page, Peak Picking view, doesn't matter. LEAF detects the format and routes you to the Peak Picking view with everything restored.
-
-## Sharing results
-
-- **`.msd`** is the canonical sharing format. It's a single self-contained file. Email it, drop it on a shared drive, or upload to your lab's storage. Anyone with LEAF can open it.
-- **`.csv`** is the right choice for downstream stats software, manuscript supplementary data, or showing a colleague who doesn't have LEAF.
-
-::: tip Lab-wide storage
-LEAF can persist `.msd` archives directly to an S3-compatible bucket (AWS S3, MinIO, Ceph RGW) so results are reachable from any LEAF instance without manual copying. Configure under **Settings → Storage** or via env vars — see [Storage backend](/scripting/cli/configuration#storage-backend).
+::: tip Check before exporting
+If a sample or compound should not be in the final table, hide or exclude it in **Results** before clicking **Download ZIP**.
 :::
 
-## Untargeted exports
+## Natural-abundance correction
 
-The Untargeted view exports `.usd` files (same format family as `.msd`) plus per-feature CSVs of intensities, retention times, and m/z values. See [Untargeted analysis](/workflow/untargeted).
+For isotope-tracing analyses with a valid tracer configuration, LEAF can apply natural-abundance correction before export.
 
-::: details Also from a script
-Saving and reopening a `.msd` from Python:
+1. Review the tracer element and purity settings.
+2. Enable the correction option in **Results**.
+3. Click **Download Corrected ZIP**.
 
-```python
-from leaf.analyzer import Samples
-samples = Samples.load("analysis.msd")
-# inspect / mutate ...
-samples.save("analysis-revised.msd")
-```
+Keep the uncorrected export as well when you need a record of the measured values.
 
-→ [Python recipes](/scripting/python/recipes)
-:::
+## Export matched MS² spectra
+
+The MS² export section in **Results** can create:
+
+- **MGF** for general mass-spectrometry software
+- **MSP** for spectral-library tools
+
+You can restrict the export to matched spectra. Sample and compound filters also apply to the MS² export.
+
+## Save the result in MINT
+
+When LEAF is opened from a MINT experiment, use the save controls in the analysis header to store the targeted `.msd` as an experiment artifact.
+
+- **Save to experiment** updates the selected artifact.
+- **Save as new result** creates another artifact and keeps the previous one unchanged.
+
+Use a clear artifact name that identifies the analysis or processing stage. You can reopen the saved artifact from the same MINT experiment later.
+
+## Which output should I use?
+
+| Output | Use it for |
+|--------|------------|
+| `.msd` | Reopening, editing, sharing, or archiving the complete LEAF analysis |
+| Results ZIP | Statistics, spreadsheets, plotting, or downstream scripts |
+| Corrected results ZIP | Downstream analysis of corrected isotope-tracing values |
+| MGF or MSP | Spectral-library work and MS² review |
+| MINT artifact | Keeping the analysis with its experiment and collaborators |
 
 ## Next step
 
-→ [Isotope tracing setup](/workflow/tracing) — if you're running labeling experiments
-
-Or jump to [UI tour](/reference/ui-tour) for a tour of every panel and button.
+→ [Troubleshooting](/reference/troubleshooting) — including browser refresh and cache recovery

@@ -11,9 +11,9 @@ Always visible. Spans the full width.
 | Element | What it does |
 |---------|--------------|
 | **LEAF logo** (left) | Returns to the home page |
-| **View tabs** | Switch between Extract, Peak Picking, Untargeted, Visualize |
-| **Visualize dropdown** | Open a statistical chart (PCA, heatmap, volcano, ...) |
-| **Download button** | Open the export dialog (`.msd` / `.csv`) |
+| **Page selector** | Switch between Extract, Analysis, and Untargeted |
+| **Visualize dropdown** | Open a statistical chart from a targeted analysis |
+| **Download button** | Save the active targeted analysis as `.msd` |
 | **Settings gear** | Storage paths, theme, advanced options |
 
 ## Floating action button
@@ -41,11 +41,11 @@ The landing page after loading. Use this to launch new analyses.
 | Right (bottom) | Tracing editor | Configure isotopologues |
 | Bottom-right | Start Processing | Launch the run (turns blue when ready) |
 
-## Peak Picking view (Charts tab)
+## Analysis workspace (Charts)
 
 Where you inspect targeted results. Loads after extraction or when you open a `.msd`.
 
-> [Screenshot: Peak Picking view fully labeled]
+> [Screenshot: Analysis workspace fully labeled]
 
 | Region | Panel | What it does |
 |--------|-------|--------------|
@@ -63,7 +63,7 @@ Where you inspect targeted results. Loads after extraction or when you open a `.
 | Sample checkbox | Toggle whether the sample appears on charts |
 | Lightning-bolt icon | Auto-group by sample-name prefix |
 | Group color swatches | Show / change group colors |
-| Pick mode toggle | Area Top (apex) ↔ Area Sum (integrated area) |
+| Pick mode toggle | Apex (peak height) ↔ AUC (integrated area) |
 
 ## Untargeted view
 
@@ -96,8 +96,8 @@ Click the floating action button to open. Lists every job from the current sessi
 |---------|--------------|
 | Job row | Status badge + sample count + filename |
 | Progress bar | % complete (live during runs) |
-| **Download** | Open the export dialog with this job's data preselected |
-| **Open** | Load the result into Peak Picking / Untargeted view |
+| **Download** | Save the completed job result |
+| **Open** | Load the result into Analysis or Untargeted |
 | **Cancel** | Stop a running job |
 
 ## Settings (gear icon)

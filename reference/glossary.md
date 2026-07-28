@@ -11,7 +11,7 @@ The ion form a molecule takes during ionization. `M-H` means the molecule lost a
 Adjusting retention times across samples so the same compound peaks at the same RT in every sample. LEAF aligns automatically during peak picking.
 
 **Apex**
-The highest point of a chromatographic peak. "Area Top" pick mode uses the apex intensity.
+The highest point of a chromatographic peak. LEAF calls this **Apex** in the quantitative Results controls.
 
 ## C
 
@@ -39,9 +39,9 @@ Molecular formula of a compound, like `C6H12O6` for glucose. LEAF uses it to com
 ## I
 
 **Integration**
-Calculating the area under a peak. Two modes:
-- **Area Top** — peak height at the apex
-- **Area Sum** — total integrated area across the peak boundary
+Calculating signal from a peak. LEAF exposes two related choices:
+- **Apex** — peak height at the maximum
+- **Area** or **AUC** — integrated signal across the peak boundary
 
 **Isotopologue**
 Same molecule, different number of heavy isotopes. M+0 is the unlabeled form; M+1 has one extra mass unit (one ¹³C, ¹⁵N, etc.); M+2 has two; and so on.
@@ -89,7 +89,7 @@ A SQLite-based spectral library format from Thermo. Used for MS2 identification.
 ## P
 
 **Peak picking**
-Detecting where peaks start and end in a chromatogram, and characterizing their shape. LEAF currently supports the `v4` peak-picking method; older `v1` / `v2` labels may appear in historical UI or CLI surfaces but are not implemented in the current pipeline.
+Detecting where peaks start and end in a chromatogram, and characterizing their shape. LEAF 0.7 provides **Prominence**, **CWT**, and cross-sample **v2d** peak-picking methods.
 
 **Polarity**
 Mass-spectrometer mode — POS (positive) detects positively-charged ions; NEG (negative) detects negatively-charged. Must match your acquisition method.
