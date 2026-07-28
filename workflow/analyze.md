@@ -40,39 +40,87 @@ In **Charts**, choose a row in the metabolite table. The remaining panels update
 
 The table provides the compound identity, observed m/z, retention-time information, detection rate, quality state, and review controls. Use its filters to narrow a large list before manual review.
 
-## EIC Chart, RT Check, and TIC Overlay
+## Inspect the EIC chart
 
-The upper chart area has three views.
+The upper chart area opens on **EIC Chart**. It overlays the extracted-ion chromatograms for the selected samples and active compound.
 
-### EIC Chart
+### EIC toolbar
 
-The extracted-ion chromatogram overlays the selected samples for the active compound.
+| Control | How to use it |
+|---|---|
+| **Per-sample** | Enter single-sample integration. The active trace remains highlighted while the others are dimmed. |
+| **Align RT** | Temporarily show each trace at its aligned retention time. This toolbar choice returns to the saved default after a page reload. |
+| **Peak view** | Zoom to the expected peak region for routine review and integration. |
+| **Global view** | Show the full chromatogram to inspect distant peaks or unexpected signal. |
+| **Chart settings** | Set the chart defaults, display aids, renderer, and peak-marker threshold. |
 
-Use the toolbar to:
+### Chart settings
 
-- Inspect a single sample or the selected set
-- Toggle aligned retention times
-- Switch between peak-focused and global views
-- Show or hide chart details such as KDE groups and merge shading
+![EIC Chart Settings open beside the chromatogram](/screenshots/targeted/targeted-chart-settings.jpg)
 
-### RT Check
+These settings are saved in the browser and reused for later chart sessions.
 
-**RT Check** summarizes retention-time behavior across compounds and helps identify outliers. Select an outlying compound to return to its EIC.
+| Option | How to use it |
+|---|---|
+| **Show Legend** | Show or hide the sample names and trace colors. Hide it when the legend covers the chromatogram. |
+| **Wheel zooms Y** | Make the mouse wheel zoom intensity instead of retention time. When it is off, scroll zooms RT and `Shift` + scroll zooms intensity. |
+| **KDE Groups** | Show or hide consensus peak groups as green triangle labels above the chart. |
+| **Fast Renderer — Preview** | Use the WebGL2 preview for large or slow traces. The option is marked as a preview because its behavior may still change. |
+| **Align RT (default)** | Save whether new chart sessions start with aligned traces. Use the toolbar **Align RT** switch for a temporary override. |
+| **Shade merged peak** | Shade the integrated region after a manual merge. This is available with the fast renderer. |
+| **Default View — Peak / Global** | Choose the view used when a chart session opens. The toolbar view buttons change only the current view. |
+| **Peak Threshold** | Hide auto-detected peak markers below the selected intensity. Click **Reset** to return to `1e6`. The threshold only controls marker visibility; stored measurements stay unchanged. |
 
-### TIC Overlay
+## Integrate one sample at a time
 
-**TIC Overlay** compares total-ion chromatograms across samples. It is available when TIC extraction was enabled for the session.
+Use **Per-sample** mode when different samples need different RT windows.
 
-## Correct a peak manually
+![Per-sample mode with the active sample highlighted and other traces dimmed](/screenshots/targeted/targeted-per-sample-mode.jpg)
 
-To replace the integration window:
+1. Select the samples that require review.
+2. Click **Per-sample** or press `S`. LEAF starts with the first selected sample.
+3. Press `J` / `K` or `↑` / `↓` to move through the selected samples. The active sample name appears in the toolbar.
+4. Drag across the intended RT window for the highlighted trace.
+5. Press `Enter` or click **Merge Sample** to apply the window only to that sample.
+6. Repeat for the remaining samples, then press `Esc` or click the active sample switch to leave the mode.
 
-1. Select the required compound and samples.
-2. Drag across the intended RT region in **EIC Chart**.
-3. Choose **Merge Data** to apply the region across the selected data, or **Merge Sample** when one sample is active.
-4. Use **Undo** to reverse the most recent merge.
+Navigation wraps from the last selected sample to the first. Changing the compound exits Per-sample mode so an edit is not accidentally applied to another compound.
+
+## Integrate the selected samples together
+
+Use the standard mode when the same RT window is correct for all selected samples:
+
+1. Leave **Per-sample** mode.
+2. Select the required compound and samples.
+3. Drag across the intended RT region in **EIC Chart**.
+4. Press `Enter` or click **Merge Data**.
+5. Use **Undo last merge** to reverse the most recent change.
 
 Manual peak edits persist with the session. LEAF keeps the RT alignment state when it recalculates the affected quantification.
+
+## Review RT alignment
+
+Open **RT Check** to review retention-time behavior across compounds.
+
+| Item | What it shows |
+|---|---|
+| **Total compounds** | Number of compounds included in the RT summary |
+| **Outliers** | Count and percentage of compounds outside the expected RT relationship |
+| **R² correlation** | Agreement between the compared retention times |
+| **Mean Δ (min)** | Average retention-time difference in minutes |
+| **Alignment status** | Whether aligned RT information is available and being used |
+
+Select an outlying compound to return to its EIC. A legacy `.msd` may show **No RT data available** if the saved session does not contain the required RT fields.
+
+## Compare total-ion chromatograms
+
+Open **TIC Overlay** to compare total-ion chromatograms across the selected samples. The tab is available when TIC data were saved with the session.
+
+| Control | How to use it |
+|---|---|
+| **Linear / Log** | Use **Linear** to compare absolute signal or **Log** to reveal lower-intensity differences. |
+| **Normalize each trace to max = 1** | Compare trace shape independently of total intensity. Turn it off when absolute signal differences matter. |
+| Sample and point counts | Confirm how many selected samples and TIC points are being displayed. |
 
 ## Re-run peak picking
 
@@ -91,13 +139,19 @@ The **Pick Mode** control in the sidebar changes the chart-level peak calculatio
 
 The **Results** section has its own persisted **Apex / Area** quantification selector for the exported matrix.
 
-## Isotopologue view
+## Inspect isotopologues
 
 The lower-left panel opens on **Isotopologue**.
 
-- Switch between absolute intensity and percentage.
-- Group samples to show group summaries.
-- Open the settings control for correction and display options.
+| Control | How to use it |
+|---|---|
+| **Abs** | Compare measured isotopologue intensities. |
+| **%** | Compare each isotopologue as a percentage of its sample's displayed envelope. |
+| **Group** | Aggregate the bars by the sample groups defined in the sidebar. The control is disabled until groups exist. |
+| **Select All** | Show every available isotopologue channel. |
+| Individual channels | Show or hide **Parent**, **M+1**, **M+2**, and any additional channels present in the session. |
+| **Correction** | Display corrected values when a compatible tracer is configured. |
+| **Configure tracers…** | Set the tracer element and purity used for correction. |
 
 For tracing experiments, percentage mode shows fractional labeling. Natural-abundance correction is configured separately and is only applied when a compatible tracer definition exists.
 
@@ -135,6 +189,23 @@ Treat verdicts as review support, not as a replacement for method validation.
 Use the compound controls to mark important compounds, review status, or exclusions. These states persist in the targeted session.
 
 The **Important only** and compound filters in **Results** define the exported subset. Apply them before downloading the CSV or MS² spectra.
+
+## Chart keyboard shortcuts
+
+Shortcuts work while the chart workspace has focus and a text field is not being edited.
+
+| Key | Standard mode | Per-sample mode |
+|---|---|---|
+| `J` / `K` or `↓` / `↑` | Next / previous compound | Next / previous selected sample |
+| `S` | Enter Per-sample mode | Exit Per-sample mode |
+| `Esc` | Close the active overlay | Exit Per-sample mode |
+| `Enter` | Merge the selected window for all selected samples | Merge the selected window for the active sample |
+| `Space` | Switch between Peak and Global view | Same |
+| `R` | Reset chart zoom | Same |
+| `H` / `L` | Pan left / right | Same |
+| `Shift` + `L` / `Shift` + `H` | Zoom in / out | Same |
+| `G` / `M` / `B` | Mark the compound good / medium / bad | Same |
+| `I` | Toggle the compound's important marker | Same |
 
 ## Next step
 
