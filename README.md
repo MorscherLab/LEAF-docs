@@ -2,7 +2,7 @@
 
 The user-facing documentation site for [LEAF](https://github.com/MorscherLab/LEAF), the LC-MS Extensible Analysis Framework. Built with [VitePress](https://vitepress.dev/), deployed to **leaf-docs.morscherlab.org** via GitHub Pages.
 
-This repository contains the user manual: install, workflow walkthroughs, scripting references, SEED reader docs, UI tour, FAQ, glossary, team, and changelog links. For developer-facing technical docs (full Python API, plugin architecture, frontend internals), see the [LEAF repository](https://github.com/MorscherLab/LEAF/tree/main/docs).
+This repository contains the user manual: install, targeted workflow walkthroughs, scripting references, SEED reader docs, UI tour, FAQ, glossary, team, and changelog links. Untargeted and implementation/API reference pages are intentionally hidden from the built site. For developer-facing technical docs (full Python API, plugin architecture, frontend internals), see the [LEAF repository](https://github.com/MorscherLab/LEAF/tree/main/docs).
 
 ## Layout
 
@@ -23,9 +23,6 @@ LEAF-docs/
     analyze.md
     visualize.md
     tracing.md
-    untargeted.md
-    extract-untargeted.md
-    inspect-features.md
     export.md
   scripting/
     index.md
@@ -35,8 +32,6 @@ LEAF-docs/
   seed/
     index.md
     cli.md
-    python-api.md
-    rust-api.md
     changelog.md
   reference/
     ui-tour.md
@@ -81,7 +76,7 @@ Every push to `main` triggers `.github/workflows/deploy.yml`, which installs Bun
 
 ## Contributing
 
-Edits welcome — every page has an "Edit on GitHub" link in the footer that takes you straight to the source. Or open a PR.
+Documentation updates are managed by the maintainers. Coordinate changes with the Morscher Lab before publishing.
 
 ## License
 

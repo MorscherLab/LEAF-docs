@@ -1,12 +1,13 @@
 # Troubleshooting
 
-If something isn't working, check here first. If your problem isn't listed, [open an issue](https://github.com/MorscherLab/LEAF/issues) with the steps to reproduce.
+Use this page to diagnose common installation, input, extraction, and export problems. If the problem is not listed, [open an issue](https://github.com/MorscherLab/LEAF/issues) with the steps required to reproduce it.
 
 ## Install / launch
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | `command not found: leaf` | Install location not on PATH | `uv tool update-shell` (uv) or add `~/.local/bin` to PATH (pip) |
+| Unsure whether LEAF installed correctly | Missing package, native extension, reader backend, or Web UI bundle | Run `leaf doctor`; add `--strict` when optional checks should fail setup scripts |
 | Port 18008 already in use | Another process is on the port | `leaf webui run --port 18009` |
 | `pythonnet` errors on Windows | Missing .NET 8.0 | Install [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) |
 | Browser shows "Cannot connect" | LEAF crashed or terminal closed | Re-run `leaf webui run`; check the terminal for errors |
@@ -61,26 +62,30 @@ LEAF 0.7 no longer installs a PWA service worker. The unregister step is only ne
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | RAW file fails to load | Unsupported instrument firmware | Try opening the file in Thermo Xcalibur first; if it works there, [report it](https://github.com/MorscherLab/LEAF/issues) |
-| "No samples found in folder" | Folder has no supported input files, or targeted files mix formats | For targeted runs, use `.raw`, `.mzml`, or `.mzml.gz` and keep one format per run. For untargeted runs, use Thermo `.raw` / `.RAW`. |
-| Sample names look weird | Auto-name extraction got confused | Toggle "Organize names" off — uses raw filename instead |
-| Blank files included anyway | "Skip blanks" only matches the word "blank" | Rename your blank files to include "blank", or untoggle "Skip blanks" and remove them after |
+| "No samples found in folder" | Folder has no supported input files, or files mix formats | Use `.raw`, `.mzml`, or `.mzml.gz` and keep one format per run. |
+| Sample names look unexpected | Auto-name extraction parsed the filename incorrectly | Toggle "Organize names" off to use the raw filename |
+| Blank files included anyway | "Skip blanks" only matches the word "blank" | Rename blank files to include "blank", or untoggle "Skip blanks" and remove them after extraction |
 | RAW file fails to load on macOS / Linux | SEED reader hit an unsupported instrument firmware | Switch to a Windows machine and try the `dotnet` backend (`leaf targeted ./samples ./compounds.csv ./outputs --backend dotnet`); if it still fails, [report it](https://github.com/MorscherLab/LEAF/issues) |
+| Unsure whether a CSV / folder is valid | Input preflight not run yet | `leaf validate ./compounds.csv ./raw-folder`; add `--strict` to treat warnings as failures |
 
 ## Compound list
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
-| "Missing column: Metabolite" | CSV header doesn't match | Use one of: `Metabolite`, `Compound`, `Name` |
+| "Missing column: Metabolite" | CSV header does not match a recognized compound-name field | Use one of: `Metabolite`, `Compound`, `Name` |
 | Compounds show as "invalid formula" | Formula has a typo or unsupported element | Check the formula syntax (e.g., `C6H12O6`, not `C₆H₁₂O₆`); only standard atoms allowed |
 | **Start Processing** stays disabled | The list has not passed validation, or an adduct conflicts with the selected polarity | Click **Validate**, correct every highlighted formula, and use negative-mode adducts with **Neg** or positive-mode adducts with **Pos** |
 | All compounds say "no peaks detected" | Wrong polarity | Switch polarity (NEG ↔ POS) and re-run |
-| Some compounds detect, others don't | Mass tolerance too tight or RT off | Loosen mass tolerance to 10 ppm; widen RT window to 1.0 min |
+| Some compounds are detected and others are not | Mass tolerance is too tight or the expected RT is inaccurate | Loosen mass tolerance to 10 ppm; widen RT window to 1.0 min |
 
 ## Extraction
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
-| Extraction is unusually slow | Large dataset processed with the Python backend | Switch to the Rust backend in Settings → Advanced |
+| "backend is unavailable" error | The selected reader backend is not installed or not detected | Run `leaf doctor` to check backend status. For SEED: install the seed wheel. For .NET: install .NET 8 runtime. |
+| Backend disabled in the web UI | LEAF detected that the backend cannot run on this system | Hover the disabled option for details; install the missing dependency or switch to an available backend |
+| MS² extraction ignores backend choice | .NET RawFileReader does not support the MS² extraction surface | Expected behavior — MS² auto-routes to the SEED (Rust) backend |
+| Extraction is unusually slow | Large dataset, slow storage, or non-default reader backend | Use the Rust backend in Settings → Advanced and keep input files on fast local or network storage |
 | Out-of-memory crash | Too many samples in one batch | Process in smaller batches (50 files at a time) |
 | Floating button stuck blue | Job hung — usually a corrupt RAW file | Cancel the job, remove the suspect file, re-run |
 | Job fails silently | Disk full or write permissions issue | Check disk space and the configured Storage path |
@@ -94,7 +99,7 @@ LEAF 0.7 no longer installs a PWA service worker. The unregister step is only ne
 | Many "Poor" verdicts | Mass tolerance too loose, picks up noise | Reduce mass tolerance to 5 ppm |
 | Peaks at wrong RT | RT drift between samples | Increase RT Window to 1.0 min; or use RT alignment |
 | EIC chart is empty | Selected sample has no signal for the compound | Check the compound's mass and adduct; try the m/z manually in Xcalibur |
-| Auto-peaks miss the obvious peak | Peak picker conservative | Widen the RT window, then manually drag-select on the EIC chart if needed |
+| Automatic peak picking misses a visible peak | Peak picker is conservative for the current chromatogram | Widen the RT window, then manually drag-select on the EIC chart if needed |
 | RT check shows huge outliers | Sample truly has different RT (different LC method?) | Verify the sample is from the same method as others |
 
 ## Visualizations
@@ -111,6 +116,7 @@ LEAF 0.7 no longer installs a PWA service worker. The unregister step is only ne
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | `.msd` file won't reopen | Saved with a much newer LEAF version | Update LEAF — see [GitHub Releases](https://github.com/MorscherLab/LEAF/releases) |
+| Need to check what's inside a result archive | File came from another run or collaborator | `leaf inspect ./result.msd` |
 | Export includes unwanted rows | The required filters were not applied in **Results** | Apply the sample, compound, or isotopologue filters before clicking **Download ZIP** |
 | Export is missing isotopologues | Isotopologue filters excluded them | Reopen **Results**, include the required isotopologues, and download the ZIP again |
 | CSV has scientific notation | Excel auto-converts large numbers | Open in a text editor or import as text in Excel |
@@ -119,15 +125,14 @@ LEAF 0.7 no longer installs a PWA service worker. The unregister step is only ne
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
-| "LEAF not visible" after MINT login | No access to the LEAF plugin | Ask your admin to grant the `leaf` plugin role |
-| Files I expect aren't listed | Admin hasn't shared the folder | Ask admin to add the folder to LEAF's allowed paths |
-| Login loops back to login page | Cookies blocked | Allow cookies for the lab domain; reload |
-| "Server error" during extraction | Lab server out of disk or memory | Report to the lab administrator; the issue is server-side |
+| Files I expect are not listed | The administrator has not exposed the folder | Ask the administrator to add the folder to LEAF's allowed paths |
+| Login loops back to the login page | Cookies are blocked | Allow cookies for the lab domain and reload |
+| Server error during extraction | The lab server is out of disk space or memory | Report the failure to the lab administrator |
 | Targeted result cannot be saved | No experiment is selected, or you lack artifact write access | Select the intended experiment in the LEAF top bar and confirm your experiment role |
 | A recently deployed LEAF version looks unchanged | The tab still has an old application shell | Follow [Browser refresh and cache](#browser-refresh-and-cache) |
 
 ## Still stuck?
 
 1. **Check the terminal** (desktop) or browser dev console (`F12` → Console) for error messages.
-2. **Search [GitHub issues](https://github.com/MorscherLab/LEAF/issues)** — someone may have hit it before.
-3. **Open a new issue** with: LEAF version (`leaf --version`), OS, the steps you took, and the error message.
+2. **Search [GitHub issues](https://github.com/MorscherLab/LEAF/issues)** for existing reports.
+3. **Open a new issue** with: LEAF version (`leaf --version`), OS, reproduction steps, and the error message.

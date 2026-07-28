@@ -10,7 +10,7 @@ SEED's crate is not yet published to crates.io. Until the public 0.x release, de
 
 ```toml
 [dependencies]
-seed = { git = "https://github.com/EstrellaXD/oxion-core", default-features = false, features = ["raw", "mzml"] }
+seed = { git = "https://github.com/EstrellaXD/seed-core", default-features = false, features = ["raw", "mzml"] }
 ```
 
 | Feature | Pulls in | Required for |
@@ -421,10 +421,10 @@ Versions cover modern Thermo instruments (LTQ, Orbitrap, Q Exactive, Exploris, A
 This page covers the surface — what types and functions exist and what shape they have. For the full method-by-method reference (every parameter, every return type, every doc comment) generate locally:
 
 ```bash
-cd /path/to/oxion-core
+cd /path/to/seed-core
 cargo doc --open -p seed
 ```
 
 This launches the rustdoc in your browser, served from `target/doc/seed/index.html`.
 
-<!-- Source: oxion-core/docs/rust-api.md (rewritten against current public surface in oxion-core/crates/seed/src/lib.rs and reader.rs); oxion-core/docs/batch-xic.md (Rust API section) -->
+<!-- Source: seed-core/docs/rust-api.md (rewritten against current public surface in seed-core/crates/seed/src/lib.rs and reader.rs); seed-core/docs/batch-xic.md (Rust API section) -->

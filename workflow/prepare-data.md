@@ -1,10 +1,8 @@
-# Prepare Your Data
+# Prepare Data
 
-Before you launch a targeted analysis, you need two things in front of you: your **LC-MS files** and a **metabolite list**. Untargeted analysis only needs the LC-MS files.
+Targeted LEAF analyses require two inputs: a folder of LC-MS files and a compound list. The compound list defines the ions or transitions to extract, while the data folder provides the chromatographic measurements.
 
-## Choose a workflow
-
-Both workflows start with the same instrument files. Choose **Targeted** when you already know which compounds to measure; choose **Untargeted** when you want LEAF to discover features first.
+## Workflow
 
 ```d2
 direction: right
@@ -12,11 +10,6 @@ direction: right
 raw: "LC-MS files\nRAW / mzML" {
   shape: document
   style.fill: "#dbeafe"
-}
-
-choice: "Choose analysis mode" {
-  shape: diamond
-  style.fill: "#f8fafc"
 }
 
 compounds: "Compound list\nCSV / TSV" {
@@ -30,68 +23,53 @@ targeted: "Targeted extraction" {
 analyze: "Analyze"
 visualize: "Visualize"
 
-untargeted: "Untargeted extraction" {
-  style.fill: "#fef3c7"
-}
-inspect: "Inspect features"
-
 export: "Export" {
   shape: package
   style.fill: "#ede9fe"
 }
 
-raw -> choice
 compounds -> targeted
-choice -> targeted: "named compounds"
-choice -> untargeted: "discovery run"
+raw -> targeted
 targeted -> analyze -> visualize -> export
-untargeted -> inspect -> export
 ```
-
-::: tip Targeted path
-Use this for quantifying a defined metabolite panel, checking peak quality compound by compound, and comparing named compounds across sample groups.
-:::
-
-::: info Untargeted path
-Use this when the sample composition is unknown or when you need a feature table for later triage and identification. No metabolite list is required.
-:::
 
 ## LC-MS files
 
-For targeted runs, LEAF reads Thermo Fisher `.raw` files and `.mzml` / `.mzml.gz` directly. Put all the files for one experiment into a single folder. Use one format per extraction — do not mix `.raw` and mzML-family files in the same run.
+LEAF reads targeted inputs from `.raw`, `.mzml`, and `.mzml.gz` files in the web UI and CLI. The Python extractor also supports Shimadzu `.lcd` files when the compound list supplies explicit MRM transitions. Put all files for one experiment in a single folder and use one acquisition format per extraction; mixed formats are rejected.
 
-**Naming**: name your files descriptively — e.g., `WT_rep1.raw`, `WT_rep2.raw`, `KO_rep1.raw`. LEAF can auto-extract clean sample names from the file name and auto-group replicates by name prefix.
+**Naming:** use descriptive filenames such as `WT_rep1.raw`, `WT_rep2.raw`, and `KO_rep1.raw`. LEAF can derive clean sample names from filenames and can group replicates by name prefix during review.
 
-**Blanks**: include them in the folder if you want — LEAF skips files with "blank" in the name by default.
+**Blanks:** include blank injections when they are part of the experiment. LEAF skips files with `blank` in the filename by default during targeted extraction.
 
 ## Metabolite list (CSV / TSV)
 
-A CSV or TSV listing the compounds you want to quantify. **No reformatting required for files coming out of common tools** — drop in any of:
+A CSV or TSV lists the compounds or transitions to quantify. LEAF maps common exported formats into its internal schema based on column headers:
 
 - **LEAF native (RFA)** — minimal columns described below
-- **Skyline transition / target lists** — the same CSV/TSV you'd import into Skyline
-- **El-MAVEN compound databases or peak tables** — both files you'd feed into El-MAVEN and files El-MAVEN exports
+- **Skyline transition / target lists** — CSV/TSV files used for Skyline imports
+- **El-MAVEN compound databases or peak tables** — El-MAVEN input files and El-MAVEN exported peak tables
 
-LEAF maps the columns to its internal schema automatically based on the headers it finds. Tab-delimited (TSV) files are auto-detected from the header line.
+Header matching is case-insensitive and ignores spaces and underscores. For example, `precursor_name`, `Precursor Name`, and `PrecursorName` map to the same field. Tab-delimited files are detected from the header line.
 
 ### What LEAF needs
 
-After column mapping, three fields are required and three more are commonly used:
+After column mapping, LEAF requires a compound name, a retention time, and either a molecular formula or an explicit transition. Formula-based targeted extraction is the common LC-MS metabolomics path; transition rows are used for MRM/SRM datasets such as Shimadzu `.lcd` inputs.
 
 | LEAF field | Required? | LEAF native | Skyline | El-MAVEN |
 |------------|:---:|-------------|---------|----------|
 | Compound name | ✓ | `Metabolite` / `Compound` / `Name` | `Precursor Name` / `Molecule Name` | `compoundName` / `compoundId` |
-| Molecular formula | ✓ | `Formula` | `Precursor Formula` / `Molecular Formula` / `Molecule Formula` | `Formula` |
 | Retention time (min) | ✓ | `RetentionTime` / `RT` | `Explicit Retention Time` | `medRt` / `expectedRt` |
+| Molecular formula | conditional | `Formula` | `Precursor Formula` / `Molecular Formula` / `Molecule Formula` | `Formula` |
+| Transition | conditional | `Transition` | transition columns | — |
 | Adduct | recommended | `Adduct` | `Precursor Adduct` / `Precursor Charge` | `adductName` / `ionName` / `charge` |
 | Exact m/z | optional | `Mass` | `Precursor m/z` | `medMz` |
 | Tracing group | optional | `TracingGroup` / `Group` | `Molecule List Name` | — |
 
-Header matching is case-insensitive and ignores spaces and underscores, so `precursor_name`, `Precursor Name`, and `PrecursorName` all map to **Compound**. If `Adduct` is missing, LEAF fills it with the default for the selected polarity (`M-H` for NEG, `M+H` for POS). If `Mass` is missing, LEAF computes it from formula + adduct.
+If `Adduct` is missing in a formula-based list, LEAF uses the default adduct for the selected polarity (`M-H` for NEG, `M+H` for POS). If `Mass` is missing, LEAF computes the expected m/z from formula and adduct.
 
 ### El-MAVEN isotopologue rows
 
-If the file is an El-MAVEN peak table with per-isotopologue rows (`isotopeLabel` / `label` column with values like `C12 PARENT`, `C13-label-1`, etc.), LEAF keeps only the parent (`C12 PARENT`, `parent`, or `M+0`) row per compound. Configure isotopologue tracking in the [Tracing Editor](/workflow/tracing) on the Extract page instead.
+If an El-MAVEN peak table contains per-isotopologue rows (`isotopeLabel` or `label` values such as `C12 PARENT`, `C13-label-1`, or `M+0`), LEAF keeps the parent row per compound. Isotopologue extraction is configured separately in the [Tracing Editor](/workflow/tracing).
 
 ### Example (LEAF native)
 
@@ -107,17 +85,13 @@ Malate,C4H6O5,6.5,M-H
 Fumarate,C4H4O4,7.0,M-H
 ```
 
-A starter list for primary metabolism is included with LEAF — see [`examples/metabolite-list-primary-metabolism.csv`](https://github.com/MorscherLab/LEAF/blob/main/examples/metabolite-list-primary-metabolism.csv).
-
-## For untargeted analysis
-
-You don't need a metabolite list for untargeted runs. The current untargeted pipeline expects Thermo `.raw` files in the selected folder and discovers features automatically. See [Untargeted analysis](/workflow/untargeted).
+A starter list for primary metabolism is included with LEAF: [`examples/metabolite-list-primary-metabolism.csv`](https://github.com/MorscherLab/LEAF/blob/main/examples/metabolite-list-primary-metabolism.csv).
 
 ## For isotope tracing
 
-Use the same CSV — no extra columns needed. Isotopologues (M+1, M+2, ...) are configured in the Tracing Editor on the Extract page, not in the CSV. See [Isotope tracing](/workflow/tracing).
+Use the same compound CSV. Isotopologues (M+1, M+2, ...) are configured in the Tracing Editor on the Extract page rather than in the CSV. See [Isotope tracing](/workflow/tracing).
 
-## Validating before you launch
+## Validation before extraction
 
 After uploading the CSV, click **Validate** in the compound list editor. LEAF flags:
 
@@ -127,7 +101,7 @@ After uploading the CSV, click **Validate** in the compound list editor. LEAF fl
 - Invalid molecular formulas (typos, unsupported elements)
 - Non-positive retention times
 
-Fix the warnings before you start the extraction.
+Resolve validation errors before starting extraction. Warnings should be reviewed because they may affect quantitative interpretation.
 
 > [Screenshot: compound list editor showing validation warnings]
 

@@ -1,14 +1,14 @@
 # Configuration
 
-LEAF reads configuration from four sources, in increasing order of precedence:
+LEAF reads configuration from five sources, in increasing order of precedence:
 
 1. **Built-in defaults** — used when no other source overrides them.
 2. **`config.json`** — written by the **Settings** dialog in the web UI. The file lives in LEAF's data directory.
 3. **`.env` file** — picked up automatically from the current working directory.
 4. **Environment variables** — `LEAF_`-prefixed; the highest priority.
-5. **Command-line flags** — passed to `leaf webui` (see [`leaf webui`](/scripting/cli/webui)) or to `leaf targeted` / `leaf untargeted`. Flags override everything for that one invocation.
+5. **Command-line flags** — passed to `leaf webui` (see [`leaf webui`](/scripting/cli/webui)) or `leaf targeted`. Flags override everything for that invocation.
 
-For most users, the Settings dialog is the only configuration interface required. Env vars and `config.json` exist for headless deployments (MINT plugin, Docker, S3-backed setups).
+For most users, the Settings dialog is the only configuration interface required. Env vars and `config.json` exist for headless deployments such as Docker or S3-backed setups. The MINT plugin path is under development.
 
 ## Settings dialog
 
@@ -76,11 +76,11 @@ The Settings dialog persists every change to a `config.json` file. The same file
 }
 ```
 
-Only the keys you want to override need to be present. Missing keys fall back to defaults.
+Only override keys need to be present. Missing keys fall back to defaults.
 
 ## Storage backend
 
-LEAF persists `.msd` and `.usd` analysis archives through one of two storage backends. LC-MS input files are read directly from the filesystem regardless of backend — only the results bundle uses the storage backend.
+LEAF persists `.msd` targeted analysis archives through one of two storage backends. LC-MS input files are read directly from the filesystem regardless of backend; only the result archive uses the storage backend.
 
 ### `local` (default)
 
@@ -115,11 +115,11 @@ The Settings → Storage tab has a **Test connection** button that performs a `l
 
 ### What gets stored
 
-Only `.msd` (targeted) and `.usd` (untargeted) result archives are written through the storage backend. The list endpoint filters by extension, so other files in the bucket / directory are ignored.
+Only `.msd` result archives are written through the documented storage backend. The list endpoint filters by extension, so other files in the bucket or directory are ignored.
 
 What stays on the local filesystem regardless of backend:
 
-- LC-MS input files (you point LEAF at them; they're never copied)
+- LC-MS input files (selected in LEAF; never copied)
 - Per-job intermediate state (in-memory + temp files; cleaned up after a job completes)
 - The built-in compound list cache and parsed input-file cache
 
@@ -131,7 +131,13 @@ LEAF reads targeted inputs through the selected reader backend. Selection is per
 |---------|-----------|--------|
 | `auto` (default) | macOS / Linux: SEED. Windows: `dotnet` for `.raw`, SEED for `.mzml` / `.mzml.gz`. | — |
 | `rust` | Bundled SEED reader; no .NET required. | [SEED](/scripting/reader) |
-| `dotnet` | Thermo .NET RawFileReader for Thermo `.raw`; requires .NET 8 runtime and is primarily used on Windows. | Thermo Fisher |
+| `dotnet` | Thermo .NET RawFileReader for Thermo `.raw`; requires .NET 8 runtime on x64. | Thermo Fisher |
+
+### Backend availability gating
+
+LEAF validates that the requested backend is available before starting extraction. If a backend is missing (e.g. SEED not installed, or .NET 8 not present), the CLI exits with a descriptive error and the web UI disables that backend in the selector. Run `leaf doctor` to see the status of each backend.
+
+When MS² extraction is enabled, LEAF automatically routes to the SEED (Rust) backend because the .NET RawFileReader path does not provide the MS² extraction surface. This applies to both the web UI and `leaf targeted --extract-ms2`.
 
 Switching backends does not modify saved results.
 

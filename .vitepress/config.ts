@@ -9,7 +9,19 @@ export default defineConfig({
 
   cleanUrls: true,
   ignoreDeadLinks: false,
-  srcExclude: ['README.md', 'node_modules/**', 'docs/**'],
+  srcExclude: [
+    'README.md',
+    'AGENTS.md',
+    'CLAUDE.md',
+    'node_modules/**',
+    'docs/**',
+    'workflow/untargeted.md',
+    'workflow/extract-untargeted.md',
+    'workflow/inspect-features.md',
+    'scripting/cli/untargeted.md',
+    'seed/python-api.md',
+    'seed/rust-api.md',
+  ],
 
   head: [
     ['link', { rel: 'icon', href: '/leaf-icon.png' }],
@@ -28,7 +40,7 @@ export default defineConfig({
           {
             text: 'Shared setup',
             items: [
-              { text: 'Prepare your data', link: '/workflow/prepare-data' },
+              { text: 'Prepare data', link: '/workflow/prepare-data' },
             ],
           },
           {
@@ -38,14 +50,6 @@ export default defineConfig({
               { text: 'Analyze', link: '/workflow/analyze' },
               { text: 'Visualize', link: '/workflow/visualize' },
               { text: 'Isotope tracing', link: '/workflow/tracing' },
-            ],
-          },
-          {
-            text: 'Untargeted workflow',
-            items: [
-              { text: 'Untargeted overview', link: '/workflow/untargeted' },
-              { text: 'Extract — untargeted', link: '/workflow/extract-untargeted' },
-              { text: 'Inspect features', link: '/workflow/inspect-features' },
             ],
           },
           {
@@ -71,8 +75,8 @@ export default defineConfig({
               { text: 'Overview', link: '/scripting/cli/overview' },
               { text: 'leaf webui', link: '/scripting/cli/webui' },
               { text: 'leaf targeted', link: '/scripting/cli/targeted' },
-              { text: 'leaf untargeted', link: '/scripting/cli/untargeted' },
               { text: 'leaf watch', link: '/scripting/cli/watch' },
+              { text: 'Setup & file tools', link: '/scripting/cli/tools' },
               { text: 'Configuration', link: '/scripting/cli/configuration' },
             ],
           },
@@ -93,7 +97,6 @@ export default defineConfig({
       },
       { text: 'SEED', link: '/seed/' },
       { text: 'Reference', link: '/reference/ui-tour' },
-      { text: 'MINT Docs', link: 'https://mint-docs.morscherlab.org' },
     ],
 
     sidebar: {
@@ -101,11 +104,21 @@ export default defineConfig({
         {
           text: 'Get Started',
           items: [
-            { text: 'Install in MINT (recommended)', link: '/get-started/install-mint' },
+            { text: 'Install in MINT (beta)', link: '/get-started/install-mint' },
             { text: 'Install the wheel + CLI', link: '/get-started/install-cli' },
             { text: 'Desktop app (in development)', link: '/get-started/install-desktop' },
             { text: 'Hands-on targeted analysis', link: '/get-started/quickstart' },
             { text: 'Targeted analysis in MINT', link: '/get-started/mint-targeted' },
+          ],
+        },
+        {
+          text: 'Workflow',
+          items: [
+            { text: 'Prepare data', link: '/workflow/prepare-data' },
+            { text: 'Extract — targeted', link: '/workflow/extract' },
+            { text: 'Analyze', link: '/workflow/analyze' },
+            { text: 'Visualize', link: '/workflow/visualize' },
+            { text: 'Export', link: '/workflow/export' },
           ],
         },
       ],
@@ -113,7 +126,7 @@ export default defineConfig({
         {
           text: 'Shared setup',
           items: [
-            { text: 'Prepare your data', link: '/workflow/prepare-data' },
+            { text: 'Prepare data', link: '/workflow/prepare-data' },
           ],
         },
         {
@@ -123,14 +136,6 @@ export default defineConfig({
             { text: 'Analyze', link: '/workflow/analyze' },
             { text: 'Visualize', link: '/workflow/visualize' },
             { text: 'Isotope tracing (modifier)', link: '/workflow/tracing' },
-          ],
-        },
-        {
-          text: 'Untargeted workflow',
-          items: [
-            { text: 'Untargeted overview', link: '/workflow/untargeted' },
-            { text: 'Extract — untargeted', link: '/workflow/extract-untargeted' },
-            { text: 'Inspect features', link: '/workflow/inspect-features' },
           ],
         },
         {
@@ -185,8 +190,8 @@ export default defineConfig({
             { text: 'Overview', link: '/scripting/cli/overview' },
             { text: 'leaf webui', link: '/scripting/cli/webui' },
             { text: 'leaf targeted', link: '/scripting/cli/targeted' },
-            { text: 'leaf untargeted', link: '/scripting/cli/untargeted' },
             { text: 'leaf watch', link: '/scripting/cli/watch' },
+            { text: 'Setup & file tools', link: '/scripting/cli/tools' },
             { text: 'Configuration', link: '/scripting/cli/configuration' },
           ],
         },
@@ -215,8 +220,6 @@ export default defineConfig({
           text: 'Reference',
           items: [
             { text: 'Command line', link: '/seed/cli' },
-            { text: 'Python API', link: '/seed/python-api' },
-            { text: 'Rust API', link: '/seed/rust-api' },
             { text: 'Changelog', link: '/seed/changelog' },
           ],
         },
@@ -229,18 +232,13 @@ export default defineConfig({
 
     search: { provider: 'local' },
 
-    editLink: {
-      pattern: 'https://github.com/MorscherLab/LEAF-docs/edit/main/:path',
-      text: 'Edit this page on GitHub',
-    },
-
     lastUpdated: {
       text: 'Last updated',
       formatOptions: { dateStyle: 'medium', timeStyle: undefined },
     },
 
     footer: {
-      message: 'LEAF is open source. Made by the Morscher Lab.',
+      message: 'LEAF is developed by the Morscher Lab.',
       copyright: `© ${new Date().getFullYear()} Morscher Lab`,
     },
 

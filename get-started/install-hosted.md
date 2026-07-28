@@ -1,19 +1,12 @@
 ---
-title: Use the hosted version
-description: Page moved — see Install in MINT.
+title: Hosted version (beta)
+description: Hosted LEAF runs as a plugin in configured MINT deployments.
 ---
 
-<script setup>
-import { onMounted } from 'vue'
-import { useRouter } from 'vitepress'
+# Hosted version
 
-onMounted(() => {
-  useRouter().go('/get-started/install-mint')
-})
-</script>
+::: warning Beta deployment
+Hosted LEAF is available only through a lab or organization that has configured the MINT beta.
+:::
 
-# Page moved
-
-This page has moved to **[Install in MINT (recommended)](/get-started/install-mint)**.
-
-If you are not redirected automatically, follow the link above.
+Follow **[Install in MINT](/get-started/install-mint)** for the hosted path, or use **[Install the wheel + CLI](/get-started/install-cli)** for a local installation.
