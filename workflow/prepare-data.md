@@ -89,7 +89,20 @@ A starter list for primary metabolism is included with LEAF: [`examples/metaboli
 
 ## For isotope tracing
 
-Use the same compound CSV. Isotopologues (M+1, M+2, ...) are configured in the Tracing Editor on the Extract page rather than in the CSV. See [Isotope tracing](/workflow/tracing).
+Use the same compound CSV. Configure isotopologue channels in the right-side **Isotope Tracing** panel on **Extract**.
+
+Add an optional `TracingGroup` column to assign compounds during import:
+
+```csv
+Metabolite,Formula,RetentionTime,Adduct,TracingGroup
+Glucose,C6H12O6,5.2,M-H,U-13C
+Lactate,C3H6O3,3.1,M-H,U-13C
+Citrate,C6H8O7,8.5,M-H,default
+```
+
+A blank value or `default` uses the default manual tracing list. A new group name is created as **¹³C Auto from formula**; review its isotope and formula preview in the tracing panel before extraction.
+
+See [Stable-isotope tracing](/workflow/tracing) for panel setup, manual lists, formula-based expansion, and correction limits.
 
 ## Validation before extraction
 

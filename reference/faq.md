@@ -48,7 +48,7 @@ The `.msd` archive is the sharing format. A collaborator with a LEAF installatio
 
 Yes. In a targeted analysis, open the isotopologue chart settings or **Results**, configure the tracer element and purity, then enable natural-abundance correction. Corrected tables download from **Results** as a ZIP containing CSV output.
 
-LEAF 0.7 supports high-resolution correction for uniformly labeled C, H, and N tracers. Position-specific tracers and ¹⁸O correction require a downstream method.
+LEAF 0.7 supports high-resolution correction for one uniformly labeled C, H, or N tracer element at a time. Position-specific tracers, multi-element configurations, and ¹⁸O correction require a validated downstream method.
 
 ## How do I update LEAF?
 

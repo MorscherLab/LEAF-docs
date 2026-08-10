@@ -39,7 +39,7 @@ Calculating signal from a peak. LEAF exposes two related choices:
 - **Area** or **AUC** — integrated signal across the peak boundary
 
 **Isotopologue**
-Same molecule, different number of heavy isotopes. M+0 is the unlabeled form; M+1 has one extra mass unit (one ¹³C, ¹⁵N, etc.); M+2 has two; and so on.
+Same molecule with a different stable-isotope composition. LEAF shows the unlabeled form as **Parent** and labels configured channels M+1, M+2, and so on by labeled-atom count. The exact mass shift depends on the isotope; one ¹⁸O atom shifts the mass by about +2.004245 Da.
 
 **Isotope tracing**
 An experiment in which a labeled substrate (e.g., ¹³C-glucose) is supplied to cells or tissues and label incorporation is measured across metabolism. LEAF measures isotopologue distributions per metabolite.
