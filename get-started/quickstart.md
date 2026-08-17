@@ -2,7 +2,7 @@
 
 This walkthrough takes you from opening LEAF to inspecting a targeted result. It uses your own LC-MS files and the demo primary-metabolism compound list. Allow about 5 minutes for setup, plus processing time.
 
-If you use LEAF inside MINT, follow the separate [targeted MINT workflow](/get-started/mint-targeted) instead. It includes experiment selection and saving the result back to MINT.
+When LEAF is opened inside MINT, select the experiment before starting and save the finished result back to that experiment.
 
 ## What this walkthrough covers
 

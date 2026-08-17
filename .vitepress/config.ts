@@ -18,6 +18,9 @@ export default defineConfig({
     'workflow/untargeted.md',
     'workflow/extract-untargeted.md',
     'workflow/inspect-features.md',
+    'get-started/install-mint.md',
+    'get-started/mint-targeted.md',
+    'get-started/install-hosted.md',
     'scripting/cli/untargeted.md',
     'seed/python-api.md',
     'seed/rust-api.md',
@@ -104,11 +107,9 @@ export default defineConfig({
         {
           text: 'Get Started',
           items: [
-            { text: 'Install in MINT (beta)', link: '/get-started/install-mint' },
             { text: 'Install the wheel + CLI', link: '/get-started/install-cli' },
             { text: 'Desktop app (in development)', link: '/get-started/install-desktop' },
             { text: 'Hands-on targeted analysis', link: '/get-started/quickstart' },
-            { text: 'Targeted analysis in MINT', link: '/get-started/mint-targeted' },
           ],
         },
         {

@@ -2,7 +2,7 @@
 
 The **Visualize** dropdown provides statistical charts derived from the processed targeted dataset. Each chart is rendered with Plotly and supports interactive zoom, hover, and PNG export.
 
-> [Screenshot: PCA plot colored by sample groups]
+![PCA plot colored by sample groups](/screenshots/targeted/pca-sample-groups.jpg)
 
 ## Open a visualization
 
@@ -47,7 +47,7 @@ Volcano needs **exactly two sample groups**. Set them up first:
 
 Compounds passing both thresholds appear as colored points. Hover any point for the compound name and stats.
 
-> [Screenshot: volcano plot with significant compounds highlighted]
+![Volcano plot with significant compounds highlighted](/screenshots/targeted/volcano-significant-compounds.jpg)
 
 ## Network charts
 

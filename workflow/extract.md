@@ -2,7 +2,7 @@
 
 Use **Extract** to choose LC-MS inputs, load a compound list, configure the targeted run, and start processing.
 
-For a minimal first run, follow [Hands-on Targeted Analysis](/get-started/quickstart). MINT users can follow the complete [Targeted Analysis in MINT](/get-started/mint-targeted).
+For a minimal first run, follow [Hands-on Targeted Analysis](/get-started/quickstart). The extraction controls on this page also apply when LEAF is opened inside MINT.
 
 ![Targeted extraction setup with a validated compound list](/screenshots/targeted/targeted-extract-demo-list.jpg)
 

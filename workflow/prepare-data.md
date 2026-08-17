@@ -116,7 +116,7 @@ After uploading the CSV, click **Validate** in the compound list editor. LEAF fl
 
 Resolve validation errors before starting extraction. Warnings should be reviewed because they may affect quantitative interpretation.
 
-> [Screenshot: compound list editor showing validation warnings]
+![Compound list editor showing validation warnings](/screenshots/targeted/compound-validation-warnings.jpg)
 
 ::: details Also from a script
 The compound CSV is identical for the CLI and Python paths — no separate format. Pass it as the second positional argument to `leaf targeted`:

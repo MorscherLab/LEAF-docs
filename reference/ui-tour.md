@@ -2,7 +2,9 @@
 
 This page maps the visible controls in the targeted LEAF workflow.
 
-> [Screenshot: full LEAF window with regions labeled — top bar, sidebar, main content, floating action button]
+![LEAF window with the main interface regions numbered](/screenshots/reference/ui-tour-overview-annotated.svg)
+
+Callouts: **1** top action bar, **2** setup sidebar, **3** Extract workspace, **4** Jobs button.
 
 ## Top action bar
 
@@ -14,7 +16,7 @@ Always visible. Spans the full width.
 | **Page selector** | Switch between Extract, Quick Check, and Analysis |
 | **Visualize dropdown** | Open a statistical chart from a targeted analysis |
 | **Download button** | Save the active targeted analysis as `.msd` |
-| **Settings gear** | Storage paths, theme, advanced options |
+| **Settings gear** | Runtime paths, processing defaults, and appearance |
 
 ## Floating action button
 
@@ -30,15 +32,15 @@ Bottom-right corner. Appears whenever a job is running.
 
 The landing page after loading. Use this to launch new analyses.
 
-> [Screenshot: Extract view fully labeled]
+![LEAF Extract view with the main setup regions numbered](/screenshots/reference/extract-view-annotated.svg)
 
-| Region | Element | What it does |
-|--------|---------|--------------|
-| Left sidebar | Folder selector | Pick the folder of LC-MS files |
-| Left sidebar | Parameters | RT window, peak picking, grouping, instrument settings, backend |
-| Center | Compound list editor | Upload, edit, validate the metabolite CSV (targeted only) |
-| Right | Tracing editor | Configure isotopologues |
-| Bottom-right | Start Processing | Launch the run (turns blue when ready) |
+| Callout | Region | Element | What it does |
+|---:|---|---|---|
+| 1 | Left sidebar | Data source and parameters | Select LC-MS files and configure extraction |
+| 2 | Center | Compound List / Sample Metadata | Upload, edit, and validate inputs |
+| 3 | Right | Isotope Tracing | Configure isotopologues |
+| 4 | Left sidebar footer | Start Processing | Launch the run when the inputs are valid |
+| 5 | Bottom-right | Jobs | Review queued, active, completed, and failed jobs |
 
 ## Analysis workspace (Charts)
 
@@ -110,9 +112,11 @@ Click the floating action button to open. Lists every job from the current sessi
 
 | Tab | Contains |
 |-----|----------|
-| **Storage** | Where LEAF saves intermediate files and results |
-| **Display** | Theme and chart defaults |
-| **Advanced** | Backend selection and worker count |
+| **Plugin** | RAW-file path, job limits, and SEED I/O defaults |
+| **Peak Picking** | Targeted peak-detection defaults |
+| **Untargeted / Volume3D** | Advanced processing defaults |
+| **MS²** | Spectral-matching defaults |
+| **Appearance** | Theme, colour palette, and table density |
 
 ## Keyboard shortcuts
 

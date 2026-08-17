@@ -8,24 +8,24 @@ LEAF reads configuration from five sources, in increasing order of precedence:
 4. **Environment variables** — `LEAF_`-prefixed; the highest priority.
 5. **Command-line flags** — passed to `leaf webui` (see [`leaf webui`](/scripting/cli/webui)) or `leaf targeted`. Flags override everything for that invocation.
 
-For most users, the Settings dialog is the only configuration interface required. Env vars and `config.json` exist for headless deployments such as Docker or S3-backed setups. The MINT plugin path is under development.
+For most users, the Settings dialog covers runtime and processing defaults. Env vars and `config.json` provide server, storage, and headless-deployment settings that are not exposed in the current dialog.
 
 ## Settings dialog
 
-Open the gear icon in the top action bar of the web UI. Three tabs:
+Open the gear icon in the top action bar of the web UI.
 
-| Tab | Section | What it controls |
-|-----|---------|------------------|
-| **Storage** | Backend | `local` filesystem or `s3`-compatible object storage. See [Storage backend](#storage-backend). |
-| **Storage** | Local path / S3 fields | Form fields for the active backend |
-| **Display** | Theme | Light or dark colour scheme for the UI. |
-| **Display** | Chart defaults | Default colormaps and normalization choices applied to new visualizations. |
-| **Advanced** | Backend | `auto`, `rust` (SEED), or `dotnet` (Windows). See [Backend selection](#backend-selection). |
-| **Advanced** | Worker count | Number of parallel workers used during extraction. Default scales with available CPU cores. |
+| Tab | What it controls |
+|---|---|
+| **Plugin** | RAW-file path, concurrent jobs, and SEED I/O defaults |
+| **Peak Picking** | Targeted peak-detection defaults |
+| **Untargeted** | Advanced untargeted-processing defaults |
+| **Volume3D** | Advanced Volume3D defaults |
+| **MS²** | Spectral-matching defaults |
+| **Appearance** | Theme, colour palette, and table density |
 
-> [Screenshot: Settings → Storage tab with the local / S3 backend toggle]
+![Current LEAF Settings dialog showing the Plugin runtime controls](/screenshots/reference/settings-plugin.jpg)
 
-Changes apply to subsequent jobs. Running jobs are not affected. The **Storage** tab supports a hot backend swap — switching from local to S3 (or vice versa) doesn't require a restart.
+Changes apply to subsequent jobs. Running jobs are not affected.
 
 ## Environment variables
 
@@ -94,7 +94,7 @@ Path-traversal protection is enforced — keys that escape the configured direct
 
 ### `s3` — S3-compatible object storage
 
-Stores `.msd` files in any S3-compatible bucket: AWS S3, MinIO, Ceph RGW, or any other endpoint that speaks the S3 API. Set up by switching the backend in **Settings → Storage** or via env vars.
+Stores `.msd` files in any S3-compatible bucket: AWS S3, MinIO, Ceph RGW, or any other endpoint that speaks the S3 API. Configure this backend in `config.json` or with `LEAF_STORAGE__*` environment variables.
 
 | Field | Default | Description |
 |-------|---------|-------------|
@@ -102,16 +102,12 @@ Stores `.msd` files in any S3-compatible bucket: AWS S3, MinIO, Ceph RGW, or any
 | `s3.bucket` | _(empty)_ | Bucket name. Required. |
 | `s3.prefix` | `results/` | Key prefix within the bucket. Use to host multiple deployments in one bucket (e.g. `lab-a/`, `lab-b/`). |
 | `s3.region` | `eu-central-1` | AWS region. Many S3-compatible providers also require this even when irrelevant. |
-| `s3.access_key_id` | _(empty)_ | Access key. Stored in `config.json` if set via the UI. |
+| `s3.access_key_id` | _(empty)_ | Access key. Prefer an environment variable when possible. |
 | `s3.secret_access_key` | _(empty)_ | Secret key. Stored alongside the access key. |
 
 ::: tip Non-AWS endpoints
 LEAF disables payload signing and per-request checksums when an `endpoint_url` is set, to stay compatible with MinIO and Ceph RGW deployments. AWS S3 itself doesn't need these tweaks and works without `endpoint_url`.
 :::
-
-### Testing the connection
-
-The Settings → Storage tab has a **Test connection** button that performs a `list_objects_v2` against the configured bucket and prefix. Use it to confirm credentials and permissions before saving.
 
 ### What gets stored
 
@@ -125,7 +121,7 @@ What stays on the local filesystem regardless of backend:
 
 ## Backend selection
 
-LEAF reads targeted inputs through the selected reader backend. Selection is per-run via the `--backend` flag on `leaf targeted`, or per-installation via the **Settings → Advanced** dialog in the web UI.
+LEAF reads targeted inputs through the selected reader backend. Selection is per-run via the `--backend` flag on `leaf targeted`, or from **Extract → Advanced** in the web UI.
 
 | Backend | When used | Source |
 |---------|-----------|--------|

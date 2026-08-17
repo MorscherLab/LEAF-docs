@@ -41,7 +41,7 @@ features:
 ::: warning MINT integration is in beta
 Labs with a configured MINT deployment can run LEAF as a hosted plugin. Other users should use the wheel + CLI install path.
 
-[Install the wheel + CLI](/get-started/install-cli) · [Install in MINT](/get-started/install-mint)
+[Install the wheel + CLI](/get-started/install-cli)
 :::
 
 ::: info Developer documentation

@@ -1,0 +1,41 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1280" height="720" viewBox="0 0 1280 720" role="img" aria-labelledby="title desc">
+  <title id="title">Standalone LEAF launcher output</title>
+  <desc id="desc">A terminal shows LEAF 0.7.5 starting in standalone mode and serving the web interface at 127.0.0.1 port 8000.</desc>
+  <defs>
+    <filter id="shadow" x="-20%" y="-20%" width="140%" height="150%">
+      <feDropShadow dx="0" dy="18" stdDeviation="24" flood-color="#0f172a" flood-opacity="0.28"/>
+    </filter>
+  </defs>
+  <rect width="1280" height="720" fill="#eef2f7"/>
+  <g filter="url(#shadow)">
+    <rect x="80" y="70" width="1120" height="580" rx="15" fill="#111827"/>
+    <path d="M95 70h1090a15 15 0 0 1 15 15v32H80V85a15 15 0 0 1 15-15z" fill="#1f2937"/>
+  </g>
+  <circle cx="108" cy="94" r="7" fill="#ff5f57"/>
+  <circle cx="132" cy="94" r="7" fill="#febc2e"/>
+  <circle cx="156" cy="94" r="7" fill="#28c840"/>
+  <text x="640" y="99" fill="#cbd5e1" font-family="Arial, Helvetica, sans-serif" font-size="15" font-weight="600" text-anchor="middle">LEAF — Terminal</text>
+  <g font-family="Menlo, Monaco, Consolas, monospace" font-size="18">
+    <text x="112" y="158" fill="#93c5fd">$ ~/.leaf/leaf</text>
+    <text x="112" y="202" fill="#94a3b8">12:18:36</text>
+    <text x="212" y="202" fill="#e5e7eb">leaf.api.services.pathway_compounds_service - INFO -</text>
+    <text x="112" y="232" fill="#e5e7eb">KEGG bundle loaded: 585 pathways, 3219 compounds, 401 link sets</text>
+    <text x="112" y="278" fill="#86efac">INFO</text>
+    <text x="170" y="278" fill="#e5e7eb">Started server process [59097]</text>
+    <text x="112" y="310" fill="#86efac">INFO</text>
+    <text x="170" y="310" fill="#e5e7eb">Waiting for application startup.</text>
+    <text x="112" y="356" fill="#94a3b8">12:18:36</text>
+    <text x="212" y="356" fill="#e5e7eb">leaf.api.plugin - INFO - Applied settings:</text>
+    <text x="112" y="386" fill="#e5e7eb">raw_files_path=./Data, max_concurrent_jobs=2, storage_backend=local</text>
+    <text x="112" y="432" fill="#94a3b8">12:18:36</text>
+    <text x="212" y="432" fill="#e5e7eb">leaf.api.plugin - INFO -</text>
+    <text x="112" y="462" fill="#e5e7eb">LEAF plugin initialized in standalone mode</text>
+    <text x="584" y="462" fill="#67e8f9">(version 0.7.5)</text>
+    <text x="112" y="508" fill="#86efac">INFO</text>
+    <text x="170" y="508" fill="#e5e7eb">Application startup complete.</text>
+    <text x="112" y="554" fill="#86efac">INFO</text>
+    <text x="170" y="554" fill="#e5e7eb">Uvicorn running on</text>
+    <text x="380" y="554" fill="#67e8f9">http://127.0.0.1:8000</text>
+    <text x="112" y="586" fill="#e5e7eb">(Press CTRL+C to quit)</text>
+  </g>
+</svg>

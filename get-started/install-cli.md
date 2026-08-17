@@ -2,7 +2,7 @@
 
 LEAF runs as a local web application. Installation places the LEAF wheel in a Python 3.12 environment; the server is launched from a terminal and accessed in a browser at `127.0.0.1`. All processing and storage remain on the local machine.
 
-> [Screenshot: LEAF home page in a browser after launch]
+![LEAF home page after local launch](/screenshots/get-started/leaf-home.jpg)
 
 ::: warning Not on PyPI
 LEAF is not yet published to PyPI. `pip install leaf` will install an unrelated package. Use one of the install paths below; both install from official LEAF release artifacts on GitHub.
@@ -84,7 +84,7 @@ Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
 
 Open `http://127.0.0.1:8000` in a browser. To launch with the short command `leaf`, add the install directory to `PATH`.
 
-> [Screenshot: terminal showing the standalone launcher startup output]
+![Terminal showing the standalone LEAF launcher output](/screenshots/get-started/standalone-launcher-terminal.svg)
 
 ### Uninstall (Path A)
 
@@ -178,7 +178,3 @@ Press **Ctrl+C** in the terminal window. Closing the browser tab does not stop t
 ## Next step
 
 → [Run a hands-on targeted analysis](/get-started/quickstart) (5 minutes)
-
-Or, if your lab operates a MINT server:
-
-→ [Run the targeted MINT workflow](/get-started/mint-targeted)
