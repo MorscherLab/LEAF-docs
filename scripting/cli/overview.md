@@ -1,52 +1,59 @@
 # Command-Line Interface
 
-The `leaf` command-line interface ships with the LEAF Python package. This manual documents the targeted analysis commands, service commands, and setup / file utilities:
+The `leaf` command ships with the LEAF 0.8 platform wheel.
 
-| Sub-command | Purpose | Reference |
-|-------------|---------|-----------|
-| `leaf webui` | Start / stop the local web application (`run`, `start`, `stop`, `status`) | [Detail](/scripting/cli/webui) |
-| `leaf targeted` | Targeted metabolite extraction, peak picking, and quality scoring (no UI) | [Detail](/scripting/cli/targeted) |
-| `leaf watch` | Real-time folder monitoring; auto-extracts new LC-MS files (`run`, `start`, `stop`, `status`) | [Detail](/scripting/cli/watch) |
-| `leaf doctor` | Check the local Python package, native extensions, reader support, and Web UI assets | [Detail](/scripting/cli/tools#check-an-installation) |
-| `leaf validate` | Preflight a metabolite list and optional RAW / mzML input path | [Detail](/scripting/cli/tools#validate-inputs-before-a-run) |
-| `leaf init` | Create a starter analysis folder | [Detail](/scripting/cli/tools#start-a-new-run-folder) |
-| `leaf inspect` | Summarize saved `.msd` result archives and acquisition files | [Detail](/scripting/cli/tools#inspect-saved-results) |
-| `leaf update` | Upgrade LEAF in the active Python environment | [Detail](/scripting/cli/tools#update-leaf) |
-| `leaf convert` | Convert Thermo RAW folders to mzML | [Detail](/scripting/cli/tools#convert-raw-to-mzml) |
+| Command | Purpose | Reference |
+|---|---|---|
+| `leaf targeted` | Targeted extraction, peak picking, and scoring | [Targeted](/scripting/cli/targeted) |
+| `leaf untargeted` | Untargeted MS1 feature discovery | Run `leaf untargeted --help` |
+| `leaf watch` | Process new files from a watched folder | [Watch](/scripting/cli/watch) |
+| `leaf webui` | Start or stop the local web interface | [Web UI](/scripting/cli/webui) |
+| `leaf doctor` | Check the installation and bundled components | [Setup tools](/scripting/cli/tools#check-an-installation) |
+| `leaf validate` | Validate a compound list and optional data path | [Setup tools](/scripting/cli/tools#validate-inputs-before-a-run) |
+| `leaf init` | Create a starter run folder | [Setup tools](/scripting/cli/tools#start-a-new-run-folder) |
+| `leaf inspect` | Summarize an `.msd`, `.usd`, or acquisition file | [Setup tools](/scripting/cli/tools#inspect-saved-results) |
+| `leaf update` | Install a compatible release wheel | [Setup tools](/scripting/cli/tools#update-leaf) |
+| `leaf downstream` | Run trend or annotation workflows on saved results | [Upstream CLI reference](https://github.com/MorscherLab/LEAF/blob/main/docs/leaf/api/cli.md) |
+| `leaf export` | Export SIRIUS, MGF, or MSP input from saved results | [Export](/scripting/cli/export) |
 
-For programmatic use without a CLI, see the [Python package documentation](/scripting/python/overview).
-
-## Verifying the installation
+## Verify the installation
 
 ```bash
 leaf --version
 leaf doctor
 ```
 
-Expected output:
+Expected version:
 
+```text
+leaf 0.8.6
 ```
-leaf 0.5.7
+
+## LEAF 0.8 command model
+
+Targeted and untargeted analyses are direct commands; there is no `run` subcommand:
+
+```bash
+leaf targeted DATA COMPOUNDS OUT
+leaf untargeted DATA OUT
 ```
 
-If the command is not found, the install location is not on `PATH`. Resolutions are listed in [Install the wheel + CLI — Troubleshooting](/get-started/install-cli#troubleshooting).
+Both use the same input controls: `--metadata`, `--polarity`, `--ppm`, `--align`, `--ms2/--no-ms2`, and `--skip-blank/--no-skip-blank`. The engine and output options depend on the pipeline.
 
-## Legacy aliases
+Advanced settings use one run-config interface:
 
-One console-script shim preserves compatibility with existing watcher scripts:
+```bash
+leaf targeted --init-config targeted.toml
+leaf targeted DATA COMPOUNDS OUT --config targeted.toml
+leaf targeted DATA COMPOUNDS OUT --set peak_picking.intensity_threshold=200000
+```
 
-| Shim | Equivalent to |
-|------|---------------|
-| `leaf-watch` | `leaf watch run` |
+Precedence is: defaults, TOML file, `--set`, then an explicitly supplied typed flag.
 
-The CLI also accepts `leaf analyze` as a hidden deprecated alias for `leaf targeted`. New scripts should use `leaf targeted`.
-
-## Configuration
-
-Persistent settings (storage paths, default backend, worker counts) are configured through the **Settings** dialog in the web UI. Configuration on disk is described in [Configuration](/scripting/cli/configuration).
+The 0.7 aliases and flags, including `leaf targeted run`, `leaf analyze`, `leaf-watch`, `--tolerance`, `--backend`, and `--peak-picking`, were removed. Use the current command names shown by `leaf --help`.
 
 ## Next
 
-→ [`leaf webui`](/scripting/cli/webui) — start the web application
-→ [Setup & file tools](/scripting/cli/tools) — check installs, validate inputs, inspect results
-→ [Configuration](/scripting/cli/configuration) — config files and environment variables
+→ [`leaf targeted`](/scripting/cli/targeted)
+
+→ [Run configuration](/scripting/cli/configuration)

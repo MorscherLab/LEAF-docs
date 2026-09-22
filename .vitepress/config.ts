@@ -79,6 +79,7 @@ export default defineConfig({
               { text: 'leaf webui', link: '/scripting/cli/webui' },
               { text: 'leaf targeted', link: '/scripting/cli/targeted' },
               { text: 'leaf watch', link: '/scripting/cli/watch' },
+              { text: 'leaf export', link: '/scripting/cli/export' },
               { text: 'Setup & file tools', link: '/scripting/cli/tools' },
               { text: 'Configuration', link: '/scripting/cli/configuration' },
             ],
@@ -93,7 +94,7 @@ export default defineConfig({
           {
             text: 'RAW reader',
             items: [
-              { text: 'SEED (macOS / Linux)', link: '/scripting/reader' },
+              { text: 'SEED reader', link: '/scripting/reader' },
             ],
           },
         ],
@@ -192,6 +193,7 @@ export default defineConfig({
             { text: 'leaf webui', link: '/scripting/cli/webui' },
             { text: 'leaf targeted', link: '/scripting/cli/targeted' },
             { text: 'leaf watch', link: '/scripting/cli/watch' },
+            { text: 'leaf export', link: '/scripting/cli/export' },
             { text: 'Setup & file tools', link: '/scripting/cli/tools' },
             { text: 'Configuration', link: '/scripting/cli/configuration' },
           ],
@@ -206,7 +208,7 @@ export default defineConfig({
         {
           text: 'RAW reader',
           items: [
-            { text: 'SEED (macOS / Linux)', link: '/scripting/reader' },
+            { text: 'SEED reader', link: '/scripting/reader' },
           ],
         },
       ],

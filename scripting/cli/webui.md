@@ -40,7 +40,7 @@ INFO:     Uvicorn running on http://127.0.0.1:18008 (Press CTRL+C to quit)
 | `--port`, `-p` | `18008` | TCP port. Use a different value if 18008 is taken. |
 
 ::: warning Network exposure
-`--host 0.0.0.0` exposes LEAF to anyone on the same network and provides no authentication. Use only on trusted networks. The hosted MINT path is under development and should not be treated as an available production deployment option yet.
+`--host 0.0.0.0` exposes standalone LEAF to anyone on the same network and provides no authentication. Use it only on a trusted network.
 :::
 
 ## Daemon mode
@@ -82,4 +82,4 @@ A `200 OK` or `302 Found` response indicates the server is reachable.
 
 ## Next
 
-→ [Configuration](/scripting/cli/configuration) — storage paths, backend selection
+→ [Run configuration](/scripting/cli/configuration) — TOML files, typed flags, and `--set`

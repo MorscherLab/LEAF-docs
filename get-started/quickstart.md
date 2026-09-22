@@ -12,36 +12,23 @@ When LEAF is opened inside MINT, select the experiment before starting and save 
 | Automatic peak picking and quality scoring | Stable |
 | Isotope tracing and natural-abundance correction for ¹³C, ²H, and ¹⁵N | Stable |
 | MS² extraction and spectral-library matching | Stable |
-| MRM transition-list workflows | Not yet supported |
+| MRM transition-list workflows | Supported for `.lcd` inputs with explicit transitions |
 
 | Input | Support |
 |---|---|
 | Thermo `.raw` | Native |
 | `.mzml` / `.mzml.gz` | Native |
+| Shimadzu `.lcd` | Targeted MRM with explicit transitions |
 | Other vendor formats | Convert to mzML first |
 
 ## Before you start
 
-Install and launch LEAF using [the standalone installer or wheel](/get-started/install-cli).
+Install the LEAF platform wheel, then launch the web interface:
 
-::: code-group
-
-```bash [macOS standalone]
-~/.leaf/leaf
-# Open http://127.0.0.1:8000
-```
-
-```powershell [Windows standalone]
-%LOCALAPPDATA%\leaf\leaf.cmd
-# Open http://127.0.0.1:8000
-```
-
-```bash [Manual wheel install]
+```bash
 leaf webui run
 # Open http://127.0.0.1:18008
 ```
-
-:::
 
 Keep the terminal open while you work. The browser should open on the LEAF **Extract** page.
 
@@ -58,11 +45,11 @@ The demo list contains expected retention times. They may not match your chromat
 
 Open **Extract** from the page selector and choose **Targeted** in the mode control.
 
-## Step 2: Select your data folder
+## Step 2: Select the data
 
-In **Data Folder**, click the folder picker and select the folder containing your LC-MS files. LEAF shows the selected path.
+Open **Data Folder** and choose the folder or files to process. The picker reads its cached server listing when opened; click **Refresh** to force a rescan after adding files.
 
-If the operating-system folder dialog does not open, use the path-entry button and paste the absolute folder path.
+In checklist mode, a plain click adds or removes an item and **Shift** extends a range.
 
 ## Step 3: Load and validate the demo list
 
@@ -72,23 +59,25 @@ LEAF displays the parsed compounds in an editable table. Click **Validate**. The
 
 ![Targeted extraction setup with a validated compound list](/screenshots/targeted/targeted-extract-demo-list.jpg)
 
-## Step 4: Check polarity and keep the defaults
+## Step 4: Check the input and engine controls
 
-Set **Polarity** to match the acquisition:
+Leave **Polarity** on **Auto** when the folder name, compound adducts, or scan metadata identify the acquisition. Otherwise force:
 
 - **Neg** for negative-ion data
 - **Pos** for positive-ion data
 
-For this introductory run, keep the remaining LEAF 0.7 defaults:
+For this introductory run, keep the LEAF 0.8 defaults:
 
 | Setting | Default |
 |---|---|
+| Polarity | Auto |
 | Mass tolerance | 5 ppm |
+| Align | Auto |
 | RT window | ±0.3 min |
-| Peak picking | On |
+| Engine | CWT |
 | RT mode | Reference-guided |
-| Quality scoring | On |
-| MS² capture | On |
+| MS² spectra | On |
+| Skip blanks | On |
 
 You do not need to configure sample metadata, isotope tracing, or advanced parameters for the first run.
 
@@ -134,7 +123,7 @@ The export follows the filters currently applied in **Results**.
 
 For MS² data, enable capture during extraction, then use the **MS²** tab in **Charts** to inspect spectra and configure library matching.
 
-For non-Thermo instruments, convert the vendor data to mzML with the vendor converter or ProteoWizard before starting.
+For unsupported vendor formats, convert the data to mzML with the vendor converter or ProteoWizard before starting.
 
 ## Troubleshooting
 

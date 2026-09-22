@@ -1,180 +1,110 @@
-# Install the wheel + CLI
+# Install the wheel and CLI
 
-LEAF runs as a local web application. Installation places the LEAF wheel in a Python 3.12 environment; the server is launched from a terminal and accessed in a browser at `127.0.0.1`. All processing and storage remain on the local machine.
+LEAF 0.8 ships as one platform wheel containing the Python package, web interface, Rust extensions, and SEED reader. The former standalone installer archives and private `~/.leaf` launcher are no longer used.
 
 ![LEAF home page after local launch](/screenshots/get-started/leaf-home.jpg)
-
-::: warning Not on PyPI
-LEAF is not yet published to PyPI. `pip install leaf` will install an unrelated package. Use one of the install paths below; both install from official LEAF release artifacts on GitHub.
-:::
-
-## Choose an installation path
-
-| | Standalone installer | Manual wheel install |
-|---|---|---|
-| **Who** | Individual researchers, first-time setup | Power users, custom Python environments, Linux servers |
-| **Installation result** | Bundles `uv`, Python 3.12, the LEAF wheel, and SEED into `~/.leaf` (or `%LOCALAPPDATA%\leaf`) | Installs the platform wheel into a user-managed Python 3.12 venv |
-| **Default port** | `8000` (hardcoded in the launcher script) | `18008` (LEAF CLI default) |
-| **Platforms** | macOS (Apple Silicon), Windows (x64) | macOS, Windows, Linux x86_64 |
-
-For most first-time local installations, the **standalone installer** is the recommended path. It does not modify system Python.
 
 ## Requirements
 
 | | |
 |---|---|
-| **Operating system** | macOS (Apple Silicon), Linux (x86_64), or Windows (x64). On macOS / Linux, targeted RAW and mzML-family files are read via the bundled [SEED](/scripting/reader) Rust reader — no .NET required. |
-| **Disk** | ~500 MB for LEAF, plus space for LC-MS data files |
-| **RAM** | 8 GB minimum, 16 GB recommended for large datasets |
-| **Browser** | Any modern browser (Chrome, Firefox, Safari, Edge) |
-| **Python** (manual path only) | 3.12 — [download from python.org](https://www.python.org/downloads/) |
+| **Operating system** | macOS 14+ (Apple Silicon), Windows x64, or Linux x86_64 |
+| **Python** | CPython 3.12, managed automatically by `uv tool install` |
+| **Disk** | About 500 MB for LEAF, plus space for LC-MS data |
+| **RAM** | 8 GB minimum; 16 GB recommended for large datasets |
+| **Browser** | Current Chrome, Edge, Firefox, or Safari |
 
-::: tip Windows users
-Windows uses Thermo's .NET RawFileReader by default and additionally needs the **.NET 8 runtime**. The standalone installer prompts for installation when the runtime is missing. For the manual path, install with `winget install Microsoft.DotNet.Runtime.8` or [download .NET 8](https://dotnet.microsoft.com/download/dotnet/8.0).
-:::
+## Install
 
-## Path A — Standalone installer
-
-Download the bundle for the operating system from the [latest LEAF release](https://github.com/MorscherLab/LEAF/releases/latest). The bundle is a zip containing `install.sh` (or `install.ps1`) and a `wheels/` directory.
+1. Install [`uv`](https://docs.astral.sh/uv/getting-started/installation/) if it is not already available.
+2. Download the wheel for your operating system and Python 3.12 from the [latest LEAF release](https://github.com/MorscherLab/LEAF/releases/latest).
+   Since 0.8.4, automatic releases provide the Linux wheel and MINT bundle. macOS and Windows wheels are built separately for stable tags; check the release assets for your platform.
+3. Install it as an isolated command-line tool:
 
 ::: code-group
 
-```bash [macOS (Apple Silicon)]
-unzip leaf-*-macos-arm64.zip
-cd leaf-*-macos-arm64
-bash install.sh
+```bash [macOS / Linux]
+uv tool install --python 3.12 ./leaf-*.whl
+uv tool update-shell
 ```
 
-```powershell [Windows (x64)]
-Expand-Archive leaf-*-windows-x64.zip
-cd leaf-*-windows-x64
-powershell -ExecutionPolicy Bypass -File install.ps1
+```powershell [Windows PowerShell]
+uv tool install --python 3.12 (Get-ChildItem .\leaf-*-win_amd64.whl -File).FullName
+uv tool update-shell
 ```
 
 :::
 
-The installer creates a private Python 3.12 environment under `~/.leaf` (macOS) or `%LOCALAPPDATA%\leaf` (Windows) and installs `uv` if it is not already present. System Python is not modified.
-
-**Custom install location:**
+Restart the terminal after `uv tool update-shell`, then verify the installation:
 
 ```bash
-LEAF_HOME=/opt/leaf bash install.sh                 # macOS
-$env:LEAF_HOME="D:\leaf"; .\install.ps1             # Windows
+leaf --version
+leaf doctor
 ```
 
-### Launch (Path A)
+The expected version for this documentation is `leaf 0.8.6`. `leaf doctor` checks the Python package, native extension, SEED reader, server dependencies, and bundled web interface.
 
-::: code-group
-
-```bash [macOS]
-~/.leaf/leaf
-```
-
-```powershell [Windows]
-%LOCALAPPDATA%\leaf\leaf.cmd
-```
-
+::: warning Install the release wheel
+LEAF is not distributed through the public PyPI package named `leaf`. Install the wheel downloaded from the LEAF release page.
 :::
 
-The launcher prints a uvicorn banner ending in:
-
-```
-Uvicorn running on http://127.0.0.1:8000 (Press CTRL+C to quit)
-```
-
-Open `http://127.0.0.1:8000` in a browser. To launch with the short command `leaf`, add the install directory to `PATH`.
-
-![Terminal showing the standalone LEAF launcher output](/screenshots/get-started/standalone-launcher-terminal.svg)
-
-### Uninstall (Path A)
-
-::: code-group
-
-```bash [macOS]
-rm -rf ~/.leaf
-```
-
-```powershell [Windows]
-Remove-Item -Recurse "$env:LOCALAPPDATA\leaf"
-```
-
-:::
-
-The bundled `uv` stays installed. Remove it with `rm -rf ~/.local/bin/uv` (macOS) or `Remove-Item "$env:USERPROFILE\.local\bin\uv.exe"` (Windows) if no other project requires it.
-
-## Path B — Manual wheel install
-
-Use this path when LEAF should be installed into an existing Python environment, such as a `uv` project, Conda environment, Linux server, or environment shared with other scientific Python tools.
-
-Each LEAF release ships platform-specific wheels. Match the wheel filename to the operating system, CPU architecture, and Python version. SEED ships as a separate wheel from the [seed-core releases](https://github.com/EstrellaXD/seed-core/releases) on macOS and Linux; on Windows, LEAF uses the .NET reader by default and the SEED wheel is optional.
-
-### Install
-
-```bash
-# Create a fresh Python 3.12 environment (uv example)
-uv venv --python 3.12
-source .venv/bin/activate           # macOS / Linux
-# .venv\Scripts\Activate.ps1        # Windows
-
-# Install LEAF; select the wheel matching the platform and Python version
-pip install ./leaf-*.whl
-
-# macOS / Linux: install the matching SEED wheel from the seed-core release
-pip install ./seed-*.whl
-```
-
-With a native `uv` installation, `uv pip install ./leaf-*.whl ./seed-*.whl` is equivalent.
-
-### Launch (Path B)
+## Launch the web interface
 
 ```bash
 leaf webui run
 ```
 
-Default port is **18008**. Override with `--port`:
+Open `http://127.0.0.1:18008`. Keep the terminal open while using LEAF; press **Ctrl+C** to stop the server.
+
+![Terminal showing LEAF Web UI startup output](/screenshots/get-started/standalone-launcher-terminal.svg)
+
+Use another port when 18008 is already occupied:
 
 ```bash
-leaf webui run --port 8000
+leaf webui run --port 18009
 ```
 
-The full output ends with:
-
-```
-Uvicorn running on http://127.0.0.1:18008 (Press CTRL+C to quit)
-```
-
-To run LEAF in the background instead, use `leaf webui start` and `leaf webui stop`. See [`leaf webui`](/scripting/cli/webui) for full options.
-
-### Check the install
-
-After either install path, run:
+For a background process:
 
 ```bash
-leaf doctor
+leaf webui start
+leaf webui status
+leaf webui stop
 ```
 
-This checks the LEAF package, Python version, native extensions, reader backend availability (SEED and .NET RawFileReader), and optional Web UI assets. For manual installations, `leaf validate ./compounds.csv ./raw` preflights a compound list and input folder before a long run. See [Setup & file tools](/scripting/cli/tools).
+See [`leaf webui`](/scripting/cli/webui) for all service commands.
 
-::: tip Install as a standalone app
-The LEAF Web UI supports Progressive Web App (PWA) installation. In Chrome or Edge, click the install icon in the address bar to add LEAF as a standalone desktop app. The PWA provides an app-like experience without the browser chrome.
-:::
+## Update
 
-## Stop
+Preview the update before installing it:
 
-Press **Ctrl+C** in the terminal window. Closing the browser tab does not stop the LEAF server — it keeps running until the terminal is stopped (Path A) or the CLI is interrupted (Path B).
+```bash
+leaf update --dry-run
+leaf update
+```
+
+To install a wheel downloaded manually:
+
+```bash
+leaf update --package ./downloaded-leaf-wheel.whl
+```
+
+## Uninstall
+
+```bash
+uv tool uninstall leaf
+```
 
 ## Troubleshooting
 
 | Problem | Fix |
-|---------|-----|
-| `command not found: leaf` (Path B) | The Python venv's `bin/` is not on `PATH`. Activate the venv (`source .venv/bin/activate`) or invoke `./.venv/bin/leaf webui run` directly. |
-| `pip install leaf` succeeded but doesn't run | That is the unrelated PyPI `leaf` package. Uninstall (`pip uninstall leaf`) and install from the GitHub release wheel instead. |
-| Install seems incomplete | Run `leaf doctor` to check Python, LEAF, native extensions, reader backend availability, and Web UI assets. |
-| Port already in use | Path A: edit the launcher script's `--port 8000`. Path B: run `leaf webui run --port 18009` (or any free port). |
-| `pythonnet` errors on Windows | .NET 8 runtime missing. Install with `winget install Microsoft.DotNet.Runtime.8` or [the .NET installer](https://dotnet.microsoft.com/download/dotnet/8.0). |
-| `seed` import fails on macOS (Path A) | The installer rewrites the dylib linkage automatically. If it failed, re-run `bash install.sh` and check the output for "Patching seed dylib linkage". |
-| RAW file fails to load | The Thermo file may be from an unsupported instrument firmware. See [Troubleshooting](/reference/troubleshooting). |
+|---|---|
+| `command not found: leaf` | Run `uv tool update-shell`, restart the terminal, and check `uv tool dir --bin`. |
+| Port already in use | Run `leaf webui run --port 18009`. |
+| Install seems incomplete | Run `leaf doctor`; use `leaf doctor --strict` in setup scripts. |
+| RAW file fails to load | Confirm the file opens in the vendor software, then see [Troubleshooting](/reference/troubleshooting). |
+| Browser shows an old interface | Follow [Browser refresh and cache](/reference/troubleshooting#browser-refresh-and-cache). |
 
 ## Next step
 
-→ [Run a hands-on targeted analysis](/get-started/quickstart) (5 minutes)
+→ [Run a hands-on targeted analysis](/get-started/quickstart)

@@ -84,7 +84,7 @@ A SQLite-based spectral library format from Thermo. Used for MS2 identification.
 ## P
 
 **Peak picking**
-Detecting peak positions and boundaries in a chromatogram. LEAF 0.7 provides **Prominence**, **CWT**, and cross-sample **v2d** peak-picking methods.
+Detecting peak positions and boundaries in a chromatogram. LEAF 0.8 provides **CWT** (default), **Prominence**, and cross-sample **v2d** methods; **Off** extracts EICs without picking peaks.
 
 **Polarity**
 Mass-spectrometer mode — POS (positive) detects positively charged ions; NEG (negative) detects negatively charged ions. The setting must match the acquisition method.
@@ -111,7 +111,7 @@ Compensating for small RT shifts between samples (column aging, temperature drif
 ## S
 
 **SEED** (Spectral Extraction & Encoding Driver)
-The Rust library LEAF uses to read `.raw` and mzML-family files, especially on macOS and Linux where it is the default reader backend. It replaces the legacy `oxion` codename. See [SEED](/scripting/reader).
+The reader bundled into `leaf.core` for `.raw`, mzML-family, and supported `.lcd` inputs on macOS, Windows, and Linux. See [SEED](/scripting/reader).
 
 **SEM** (Standard Error of the Mean)
 Error bars in the isotopologue chart show mean ± SEM per sample group.

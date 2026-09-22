@@ -29,27 +29,30 @@ print(version("leaf"))
 
 ## Public surface
 
-The package re-exports four classes intended for scripted use:
+Use the run objects for complete analyses and the step-wise classes for custom pipelines:
 
 ```python
-from leaf.analyzer import Samples, Extractor, PeakPicking, QCReport
+from leaf import Targeted, Untargeted
+from leaf.analyzer import TargetedExperiment, TargetedExtractor, PeakPicker, score_experiment
 ```
 
 | Name | Role |
 |------|------|
-| `Samples` | Central data container — sparse intensity tensors, sample/metabolite indices, peak dictionary. The result of every extraction. Persisted via `Samples.load(path)` / `samples.save(path)`. |
-| `Extractor` | RAW / mzML extraction. Constructor takes a folder or file list plus a metabolite CSV; `extract_metabolites(...)` returns a `Samples`. |
-| `PeakPicking` | Peak detection on an existing `Samples`. Constructor takes the `Samples`; `run(...)` returns a quantification DataFrame. |
-| `QCReport` | EQC / IQC sample analysis (separate from the per-compound verdicts produced by `leaf.analyzer.score`). |
+| `Targeted` | Complete targeted run with the same front-panel controls as `leaf targeted`. |
+| `Untargeted` | Complete untargeted run with the same controls as `leaf untargeted`. |
+| `TargetedExperiment` | Targeted result container; load and save `.msd` archives. |
+| `TargetedExtractor` | Step-wise RAW, mzML, and LCD targeted extraction. |
+| `PeakPicker` | Peak detection and quantification on a `TargetedExperiment`. |
+| `score_experiment` | Score peaks and produce per-compound quality verdicts. |
 
 For per-compound quality verdicts (good / warning / poor — the same colours the web UI shows), use the orchestrator in `leaf.analyzer.score`:
 
 ```python
-from leaf.analyzer.score import score_dataset, ScoringConfig
+from leaf.analyzer import score_experiment
 ```
 
 ::: info Public surface
-The names above are stable as of LEAF 0.5; signatures and module paths may change before 1.0. The formal class reference (parameters, return types, methods) lives upstream in [LEAF's developer docs](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api). This manual covers usage patterns only — see [Recipes](/scripting/python/recipes) for runnable examples.
+The names above are the LEAF 0.8 public surface. Signatures may change before 1.0. The formal class reference lives upstream in [LEAF's developer docs](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api).
 :::
 
 ## Next

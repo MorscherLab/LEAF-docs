@@ -1,84 +1,115 @@
 # `leaf targeted`
 
-Headless targeted extraction runs the same processing path as the [Extract](/workflow/extract) page without opening a browser. It writes a result CSV and, by default, a `.msd` archive for reopening in LEAF.
+`leaf targeted` runs the targeted extraction pipeline without opening a browser. It writes a result CSV and, by default, an `.msd` archive that can be reopened in LEAF.
 
 ## Synopsis
 
 ```bash
-leaf targeted INPUT_PATH COMPOUND_LIST OUTPUT_DIR [OPTIONS]
+leaf targeted DATA COMPOUNDS OUT [OPTIONS]
 ```
-
-## Required arguments
 
 | Argument | Description |
 |---|---|
-| `INPUT_PATH` | A single `.raw`, `.mzml`, or `.mzml.gz` file, or a folder containing one supported format |
-| `COMPOUND_LIST` | Path to the metabolite CSV (see [Prepare Data](/workflow/prepare-data) for the schema) |
-| `OUTPUT_DIR` | Directory where LEAF writes result files |
+| `DATA` | MS data file, vendor directory, or folder of supported files |
+| `COMPOUNDS` | Compound-list CSV; see [Prepare Data](/workflow/prepare-data) |
+| `OUT` | Output directory |
 
-## Common flags
+The paths may be passed as arguments or supplied in the top-level `[targeted]` TOML table. `--init-config` does not require input paths.
 
-| Flag | Default | Description |
+## Front-panel options
+
+| Option | Default | Description |
 |---|---|---|
-| `--polarity {NEG,POS}` | `NEG` | MS polarity for mass calculation. Must match the acquisition. |
-| `--tolerance INT` | `5` | m/z tolerance in ppm for EIC extraction. |
-| `--rt-window FLOAT` | `0.3` | Retention-time search window in minutes. |
-| `--backend {auto,rust,dotnet}` | `auto` | Input-file reader. `rust` uses [SEED](/scripting/reader); `dotnet` uses Thermo's RawFileReader for `.raw` files. |
-| `--parallel / --no-parallel` | off | Use the .NET parallel extraction path when `--backend dotnet` is selected. |
-| `--max-workers INT` | `4` | Parallel extraction threads. |
-| `--skip-blank / --no-skip-blank` | on | Skip files whose name contains "blank". |
-| `--organize-name / --no-organize-name` | on | Auto-parse clean sample names from file names. |
-| `--tracing-path PATH` | (none) | Path to a JSON tracing config (export from the web UI's Tracing Editor). See [Isotope tracing](/workflow/tracing). |
-| `--correct / --no-correct` | off | Apply natural-abundance isotope correction after scoring. |
-| `--tracer ELEMENT:PURITY` | (none) | Tracer element and purity for correction, repeatable. Example: `--tracer 13C:0.99`. Current correction allowlist: C, H, N. |
-| `--high-res / --low-res` | high-res | High-resolution correction mode. Low-resolution mode is rejected in the current correction path. |
-| `--extract-ms2 / --no-extract-ms2` | on | Extract MS² spectra when present. MS² extraction uses the SEED backend. |
-| `--save-extract / --no-save-extract` | on | Write the extracted `.msd` bundle. |
+| `--metadata FILE` | none | CSV/TSV sample sheet. Required by `--engine volume2d`. |
+| `--polarity {auto,pos,neg}` | `auto` | Detect from the folder name, compound adducts, or scan metadata; or force a polarity. |
+| `--ppm FLOAT` | `5` | m/z tolerance in ppm. |
+| `--align {auto,on,off}` | `auto` | Per-block RT alignment. Auto activates for a multi-block sample sheet. |
+| `--ms2 / --no-ms2` | `--ms2` | Extract DDA MS² spectra with MS1 chromatograms. |
+| `--skip-blank / --no-skip-blank` | `--skip-blank` | Drop files whose name contains `blank`. |
+| `--engine {cwt,prominence,volume2d,off}` | `cwt` | Peak picker. `off` extracts EICs without peak picking or scoring. |
+| `--rt-window FLOAT` | `0.3` | Peak-search window around the compound-list RT, in minutes. |
+| `--report / --no-report` | `--no-report` | Write a PDF report with EIC plots. |
+| `--verbose`, `-v` | off | Enable verbose logging. |
 
-For the full flag set, run `leaf targeted --help`.
+## Run configuration
 
-## Recipe — minimal targeted run
+| Option | Description |
+|---|---|
+| `--init-config FILE` | Write a commented TOML template containing every setting, then exit. |
+| `--config FILE` | Read the `[targeted]` table from a TOML run config. |
+| `--set PATH=VALUE` | Override one config value using TOML syntax; repeat as needed. |
 
-```bash
-leaf targeted ./samples ./compounds.csv ./outputs --polarity NEG --tolerance 5
-```
+Typed flags override `--set`, which overrides `--config`.
 
-Writes a result CSV and `.msd` archive into `./outputs`. Use `--no-save-extract` only when the archive is not required.
-
-## Recipe — tracing run
+## Minimal run
 
 ```bash
-leaf targeted ./samples ./compounds.csv ./outputs \
-  --polarity NEG --tolerance 5 \
-  --tracing-path ./tracing-13C.json \
-  --save-extract
+leaf targeted ./samples ./compounds.csv ./outputs
 ```
 
-The tracing JSON is produced by the web UI's Tracing Editor (Export button) or hand-written — see [Isotope tracing](/workflow/tracing).
+LEAF detects polarity, uses 5 ppm, skips filenames containing `blank`, extracts MS² when present, and runs the CWT peak picker.
 
-## Recipe — natural-abundance corrected tracing output
+Specify the front-panel choices when they should be fixed for a reproducible script:
 
 ```bash
 leaf targeted ./samples ./compounds.csv ./outputs \
-  --polarity NEG --tolerance 5 \
-  --tracing-path ./tracing-13C.json \
-  --correct --tracer 13C:0.99 \
-  --save-extract
+  --polarity neg \
+  --ppm 5 \
+  --engine cwt \
+  --rt-window 0.3
 ```
 
-This writes the standard result CSV plus a corrected CSV. When correction is enabled, LEAF also saves an `.msd` archive carrying the tracer configuration.
+## Volume2D run
 
-## Recipe — overriding the backend
+Volume2D uses cross-sample coherence and requires a sample sheet:
 
 ```bash
-# Force the Thermo .NET reader on Windows when SEED cannot decode a file:
-leaf targeted ./samples ./compounds.csv ./outputs --backend dotnet
+leaf targeted ./samples ./compounds.csv ./outputs \
+  --metadata ./samples.csv \
+  --engine volume2d
 ```
 
-## Hidden alias
+## Advanced settings
 
-`leaf analyze` is a hidden alias for `leaf targeted`. New scripts should use the canonical name.
+Generate the complete template instead of passing many flags:
+
+```bash
+leaf targeted --init-config targeted.toml
+leaf targeted ./samples ./compounds.csv ./outputs --config targeted.toml
+```
+
+For one advanced override:
+
+```bash
+leaf targeted ./samples ./compounds.csv ./outputs \
+  --set peak_picking.intensity_threshold=200000
+```
+
+## Tracing and correction
+
+Tracing groups and natural-abundance correction now live in the run config. Example:
+
+```toml
+[targeted.extraction]
+tracing = { "M+1" = 1.003355, "M+2" = 2.00671 }
+tracing_groups = []
+
+[targeted.result.correction]
+enabled = true
+tracer = ["13C:0.99"]
+high_res = true
+```
+
+Run it with:
+
+```bash
+leaf targeted ./samples ./compounds.csv ./outputs --config tracing.toml
+```
+
+The removed 0.7 flags `--tracing-path`, `--correct`, `--tracer`, and `--high-res` are not accepted by LEAF 0.8.
 
 ## Next
 
-→ [Configuration](/scripting/cli/configuration) — backend selection on disk
+→ [Run configuration](/scripting/cli/configuration)
+
+→ [Stable-isotope tracing](/workflow/tracing)

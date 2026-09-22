@@ -7,15 +7,14 @@ Use this page to diagnose common installation, input, extraction, and export pro
 | Problem | Cause | Fix |
 |---------|-------|-----|
 | `command not found: leaf` | Install location not on PATH | `uv tool update-shell` (uv) or add `~/.local/bin` to PATH (pip) |
-| Unsure whether LEAF installed correctly | Missing package, native extension, reader backend, or Web UI bundle | Run `leaf doctor`; add `--strict` when optional checks should fail setup scripts |
+| Unsure whether LEAF installed correctly | Missing package, native extension, SEED reader, or Web UI bundle | Run `leaf doctor`; add `--strict` when optional checks should fail setup scripts |
 | Port 18008 already in use | Another process is on the port | `leaf webui run --port 18009` |
-| `pythonnet` errors on Windows | Missing .NET 8.0 | Install [.NET 8.0 SDK](https://dotnet.microsoft.com/download/dotnet/8.0) |
 | Browser shows "Cannot connect" | LEAF crashed or terminal closed | Re-run `leaf webui run`; check the terminal for errors |
 | LEAF starts but has no logo, styles, or current controls | Browser has an old application shell | Follow [Browser refresh and cache](#browser-refresh-and-cache) |
 
 ## Browser refresh and cache
 
-LEAF 0.7 checks for a newer deployed version when you return to an open tab. If **LEAF update available** appears in the lower-left corner, click **Reload**.
+LEAF checks for a newer deployed version when you return to an open tab. If **LEAF update available** appears, click **Reload**.
 
 A normal reload should obtain the current application shell. If the page remains stale, blank, or partly styled, force the browser to bypass its cached copy:
 
@@ -55,7 +54,7 @@ Clearing site data removes the MINT session for that site and may sign you out. 
 2. Choose **Develop → Empty Caches**, or press **⌥⌘E**.
 3. Reload with **⌥⌘R**.
 
-LEAF 0.7 no longer installs a PWA service worker. The unregister step is only needed when a browser retains a worker from an older LEAF release.
+LEAF 0.8 does not install a PWA service worker. The unregister step is only needed when a browser retains a worker from an older release.
 
 ## Input files
 
@@ -65,7 +64,7 @@ LEAF 0.7 no longer installs a PWA service worker. The unregister step is only ne
 | "No samples found in folder" | Folder has no supported input files, or files mix formats | Use `.raw`, `.mzml`, or `.mzml.gz` and keep one format per run. |
 | Sample names look unexpected | Auto-name extraction parsed the filename incorrectly | Toggle "Organize names" off to use the raw filename |
 | Blank files included anyway | "Skip blanks" only matches the word "blank" | Rename blank files to include "blank", or untoggle "Skip blanks" and remove them after extraction |
-| RAW file fails to load on macOS / Linux | SEED reader hit an unsupported instrument firmware | Switch to a Windows machine and try the `dotnet` backend (`leaf targeted ./samples ./compounds.csv ./outputs --backend dotnet`); if it still fails, [report it](https://github.com/MorscherLab/LEAF/issues) |
+| RAW file fails to load on any platform | SEED does not support the file or instrument firmware | Run `leaf inspect FILE` and `leaf doctor`, then [report the reader error](https://github.com/MorscherLab/LEAF/issues) |
 | Unsure whether a CSV / folder is valid | Input preflight not run yet | `leaf validate ./compounds.csv ./raw-folder`; add `--strict` to treat warnings as failures |
 
 ## Compound list
@@ -82,13 +81,12 @@ LEAF 0.7 no longer installs a PWA service worker. The unregister step is only ne
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
-| "backend is unavailable" error | The selected reader backend is not installed or not detected | Run `leaf doctor` to check backend status. For SEED: install the seed wheel. For .NET: install .NET 8 runtime. |
-| Backend disabled in the web UI | LEAF detected that the backend cannot run on this system | Hover the disabled option for details; install the missing dependency or switch to an available backend |
-| MS² extraction ignores backend choice | .NET RawFileReader does not support the MS² extraction surface | Expected behavior — MS² auto-routes to the SEED (Rust) backend |
-| Extraction is unusually slow | Large dataset, slow storage, or non-default reader backend | Use the Rust backend in Settings → Advanced and keep input files on fast local or network storage |
+| SEED is unavailable | The bundled native extension cannot load | Run `leaf doctor`; reinstall the wheel that matches the operating system and CPython 3.12. |
+| Newly shared folders are absent | The cached file listing is stale | Reopen the file picker and click **Refresh** to force a server rescan. |
+| Extraction is unusually slow | Large dataset or slow storage | Keep input files on fast local or network storage and process fewer files per run. |
 | Out-of-memory crash | Too many samples in one batch | Process in smaller batches (50 files at a time) |
 | Floating button stuck blue | Job hung — usually a corrupt RAW file | Cancel the job, remove the suspect file, re-run |
-| Job fails silently | Disk full or write permissions issue | Check disk space and the configured Storage path |
+| Job fails silently | Disk full or write permissions issue | Check disk space and the selected output or server storage location. |
 | Job remains queued in MINT | The server's concurrent-job limit is in use | Leave the tab open or return later; the job starts when a worker becomes available |
 | Local no-upload run stops during browser decoding | A selected file is unsupported or too large for browser memory | Use a smaller batch or select a server folder; local no-upload is intended for supported browser-decodable files |
 
@@ -115,7 +113,7 @@ LEAF 0.7 no longer installs a PWA service worker. The unregister step is only ne
 
 | Problem | Cause | Fix |
 |---------|-------|-----|
-| `.msd` file won't reopen | Saved with a much newer LEAF version | Update LEAF — see [GitHub Releases](https://github.com/MorscherLab/LEAF/releases) |
+| `.msd` file won't reopen | Unsupported archive schema | Update LEAF. LEAF 0.8 requires `.msd` schema 5 or newer. |
 | Need to check what's inside a result archive | File came from another run or collaborator | `leaf inspect ./result.msd` |
 | Export includes unwanted rows | The required filters were not applied in **Results** | Apply the sample, compound, or isotopologue filters before clicking **Download ZIP** |
 | Export is missing isotopologues | Isotopologue filters excluded them | Reopen **Results**, include the required isotopologues, and download the ZIP again |

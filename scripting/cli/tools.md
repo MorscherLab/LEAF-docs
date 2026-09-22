@@ -1,17 +1,16 @@
-# Setup & File Tools
-
-LEAF includes utility commands for installation checks, input preflight, starter folders, result inspection, updates, and RAW conversion. They are useful before a web UI run and in scripts where invalid inputs should fail before processing starts.
+# Setup and File Tools
 
 ## Command summary
 
 | Command | Purpose |
-|---------|------------|
-| `leaf doctor` | Check the installed LEAF package, Python version, native extensions, reader backend availability (SEED and .NET RawFileReader), optional Web UI assets. |
-| `leaf validate` | Validate a metabolite CSV and optionally confirm that a data file or folder contains supported RAW / mzML inputs. |
-| `leaf init` | Create a starter run folder with `raw/`, `results/`, `metabolites.csv`, and a tracing example. |
-| `leaf inspect` | Print a compact summary of a saved `.msd` archive or supported acquisition file. |
-| `leaf update` | Upgrade LEAF inside the currently active Python environment, with a dry-run mode for checking the exact command first. |
-| `leaf convert` | Convert a folder of Thermo RAW files to mzML through the bundled reader workflow. |
+|---|---|
+| `leaf doctor` | Check Python, LEAF, native extensions, SEED, server dependencies, and Web UI assets. |
+| `leaf validate` | Validate a compound list and optional data path before extraction. |
+| `leaf init` | Create a starter targeted-run folder. |
+| `leaf inspect` | Summarize an `.msd`, `.usd`, or supported acquisition file. |
+| `leaf update` | Install a compatible LEAF release wheel. |
+
+`leaf convert` was removed in 0.8. Use the instrument vendor converter or ProteoWizard when mzML conversion is required.
 
 ## Check an installation
 
@@ -19,13 +18,11 @@ LEAF includes utility commands for installation checks, input preflight, starter
 leaf doctor
 ```
 
-Use strict mode in setup scripts when optional components should also be treated as required:
+The report includes the LEAF version, Python version, `leaf.core`, SEED reader, FastAPI/Uvicorn, and bundled Web UI. Use strict mode when optional warnings should fail an installation check:
 
 ```bash
 leaf doctor --strict
 ```
-
-`leaf doctor` reports warnings for optional pieces such as the Web UI bundle, SEED reader, or .NET RawFileReader, and fails when core requirements such as the `leaf` package or Python 3.12 are missing. Reader backend rows show the detected version (e.g. `reader:rust ok 0.10.2`) or a reason when unavailable (e.g. `.NET 8 runtime is not installed`).
 
 ## Validate inputs before a run
 
@@ -33,7 +30,7 @@ leaf doctor --strict
 leaf validate ./compounds.csv ./raw
 ```
 
-This checks that the compound list can be parsed and that the data path contains `.raw` or `.mzml` inputs. Add `--strict` if warnings should stop the run:
+This checks the compound-list schema and confirms that the data path contains supported inputs. Add `--strict` to treat warnings as failures:
 
 ```bash
 leaf validate ./compounds.csv ./raw --strict
@@ -45,73 +42,55 @@ leaf validate ./compounds.csv ./raw --strict
 leaf init ./leaf-run
 ```
 
-The starter folder includes:
+The directory contains:
 
-- `raw/` — LC-MS input files
-- `results/` — suggested output folder
-- `metabolites.csv` — small primary-metabolism example list
-- `tracing-labels.json` — example tracing label config
-- `README.md` — minimal command-line recipe
+- `raw/`
+- `results/`
+- `metabolites.csv`
+- `tracing-labels.json`
+- `README.md`
 
-If starter files already exist, LEAF skips them unless `--force` is passed.
+Existing starter files are preserved unless `--force` is supplied.
 
 ## Inspect saved results
 
 ```bash
 leaf inspect ./results/example.msd
+leaf inspect ./results/example.usd
 ```
 
-For `.msd` files, the summary includes sample count, compound count, RT points, result table presence, quality scores, MS² spectra, and MS² matches. For acquisition files (`.raw`, `.mzml`, `.mzml.gz`, `.lcd`), `leaf inspect` reports available metadata when the corresponding reader is available.
+The summary reports the archive type, dimensions, result tables, quality information, and available MS² or annotation data. Acquisition files can also be inspected when SEED supports the format.
 
 ## Update LEAF
 
-By default, `leaf update` resolves the latest compatible wheel from [GitHub Releases](https://github.com/MorscherLab/LEAF/releases), matching the current platform and Python version:
-
-```bash
-leaf update
-```
-
-Preview the resolved wheel without installing:
+Preview the release source and selector:
 
 ```bash
 leaf update --dry-run
 ```
 
-For local release wheels or a specific release tag:
+Install the latest compatible release:
 
 ```bash
-leaf update --package ./leaf-0.5.7-*.whl
-leaf update --github-release v0.5.7
+leaf update
+```
+
+Use a specific local wheel or pin a tag when required:
+
+```bash
+leaf update --package ./downloaded-leaf-wheel.whl
+leaf update --github-release v0.8.0
 ```
 
 | Option | Effect |
-|--------|--------|
-| `--dry-run` | Print the resolved wheel and install command without running it. |
-| `--package PATH_OR_URL` | Skip GitHub resolution; install this wheel directly. |
-| `--github-release TAG` | Pin to a specific release tag (default: `latest`). |
-| `--github-repo OWNER/NAME` | Resolve from a different repo (default: `MorscherLab/LEAF`). |
-| `--github-token TOKEN` | Authenticate for private releases. Also reads `LEAF_UPDATE_GITHUB_TOKEN`, `GITHUB_TOKEN`, or `GH_TOKEN` from the environment. |
-| `--force-reinstall` | Reinstall even if the resolved version matches the installed one. |
-
-## Convert RAW to mzML
-
-::: warning Requires .NET
-`leaf convert` uses the .NET RawFileReader backend. It requires .NET 8 runtime and is available only on Windows x64 (or other x64 systems with .NET installed). LEAF validates backend availability before starting and exits with an error if .NET is missing.
-:::
-
-```bash
-leaf convert ./raw ./mzml
-```
-
-Common options:
-
-| Option | Effect |
-|--------|--------|
-| `--include-ms2` | Include MS² spectra in the mzML output. |
-| `--filter-threshold INT` | Drop peaks below an intensity threshold. |
-| `--include-blank` | Include files whose names contain "blank". |
-| `--workers INT` | Set the number of parallel conversion workers. |
+|---|---|
+| `--dry-run` | Show the update source and release selector without installing. With `--package`, also print the concrete install command. |
+| `--package PATH_OR_URL` | Install this wheel, URL, or package specifier instead of resolving a release. |
+| `--github-release TAG` | Use `latest` or an exact tag. |
+| `--github-repo OWNER/NAME` | Resolve releases from another repository. |
+| `--github-token TOKEN` | Authenticate for a private release. Environment variables are also supported. |
+| `--force-reinstall` | Reinstall when the selected version already matches. |
 
 ## Next
 
-→ [`leaf targeted`](/scripting/cli/targeted) — run targeted extraction without the browser
+→ [`leaf targeted`](/scripting/cli/targeted)

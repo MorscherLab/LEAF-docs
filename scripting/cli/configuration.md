@@ -1,142 +1,119 @@
-# Configuration
+# Run Configuration
 
-LEAF reads configuration from five sources, in increasing order of precedence:
+LEAF 0.8 uses one typed run-config contract across the CLI, Web UI, and Python run objects.
 
-1. **Built-in defaults** — used when no other source overrides them.
-2. **`config.json`** — written by the **Settings** dialog in the web UI. The file lives in LEAF's data directory.
-3. **`.env` file** — picked up automatically from the current working directory.
-4. **Environment variables** — `LEAF_`-prefixed; the highest priority.
-5. **Command-line flags** — passed to `leaf webui` (see [`leaf webui`](/scripting/cli/webui)) or `leaf targeted`. Flags override everything for that invocation.
+## Precedence
 
-For most users, the Settings dialog covers runtime and processing defaults. Env vars and `config.json` provide server, storage, and headless-deployment settings that are not exposed in the current dialog.
+For `leaf targeted`, `leaf untargeted`, and `leaf watch`, values are resolved in this order:
 
-## Settings dialog
+1. Built-in defaults
+2. `--config FILE`
+3. Repeatable `--set PATH=VALUE` overrides
+4. Typed flags explicitly supplied on the command line
 
-Open the gear icon in the top action bar of the web UI.
+An omitted typed flag does not replace a value read from the TOML file.
+
+## Generate a template
+
+```bash
+leaf targeted --init-config targeted.toml
+leaf untargeted --init-config untargeted.toml
+leaf watch run --init-config watch.toml
+```
+
+The targeted and untargeted templates contain every field, default, description, and required path. The watch template omits paths; pass its folder, compound list, and output through the watch command.
+
+## Minimal targeted config
+
+```toml
+[targeted]
+file_path = "./samples"
+list_path = "./compounds.csv"
+output_path = "./outputs"
+
+[targeted.input]
+polarity = "auto"
+ppm = 5.0
+align = "auto"
+skip_blank = true
+ms2 = true
+
+[targeted.peak_picking]
+enabled = true
+mode = "cwt"
+rt_window = 0.3
+
+[targeted.result]
+save_extract = true
+```
+
+Run it with:
+
+```bash
+leaf targeted --config targeted.toml
+```
+
+Paths can instead be passed as positional arguments; command-line paths take precedence over the `[targeted]` table.
+
+## Shared input fields
+
+The targeted and untargeted contracts both use an `input` table.
+
+| Field | Default | Purpose |
+|---|---|---|
+| `input.metadata_path` | none | Sample sheet used by design-aware engines. |
+| `input.polarity` | `auto` | Auto-detect, or force `pos` or `neg`. |
+| `input.ppm` | `5.0` | m/z tolerance. |
+| `input.align` | `auto` | Per-block RT alignment: `auto`, `on`, or `off`. |
+| `input.align_by` | `[]` | Sample-sheet factors defining acquisition blocks. |
+| `input.align_reference` | none | Reference block label. |
+| `input.skip_blank` | targeted `true`; untargeted `false` | Drop filenames containing `blank` before reading. |
+| `input.ms2` | targeted `true`; untargeted `false` | Extract DDA MS² spectra. |
+| `input.acquisition_mode` | `auto` | Detect or force acquisition routing. |
+
+## Override one value
+
+`--set` parses the value as TOML:
+
+```bash
+leaf targeted ./samples ./compounds.csv ./outputs \
+  --set peak_picking.intensity_threshold=200000 \
+  --set result.report.enabled=true
+```
+
+Unknown paths and values with the wrong type are rejected before processing.
+
+## Tracing and correction
+
+```toml
+[targeted.extraction]
+tracing = { "M+1" = 1.003355, "M+2" = 2.00671 }
+tracing_groups = []
+
+[targeted.result.correction]
+enabled = true
+tracer = ["13C:0.99"]
+high_res = true
+```
+
+The 0.7 keys `extraction.polarity`, `extraction.tolerance`, `extraction.extract_ms2`, `extraction.skip_blank`, `common.*`, `design.*`, and `volume3d.ppm_bin` are not migrated automatically. Generate a new 0.8 template and copy the intended values into the current paths.
+
+## Web UI settings
+
+The gear icon opens runtime and scientific defaults. In MINT, server-wide **Plugin** settings are visible only to platform administrators; standalone LEAF shows them to the local operator.
 
 | Tab | What it controls |
 |---|---|
-| **Plugin** | RAW-file path, concurrent jobs, and SEED I/O defaults |
+| **Plugin** | RAW-file path, concurrent jobs, and SEED I/O settings |
 | **Peak Picking** | Targeted peak-detection defaults |
-| **Untargeted** | Advanced untargeted-processing defaults |
-| **Volume3D** | Advanced Volume3D defaults |
+| **Untargeted / Volume3D** | Untargeted processing defaults |
 | **MS²** | Spectral-matching defaults |
 | **Appearance** | Theme, colour palette, and table density |
 
 ![Current LEAF Settings dialog showing the Plugin runtime controls](/screenshots/reference/settings-plugin.jpg)
 
-Changes apply to subsequent jobs. Running jobs are not affected.
-
-## Environment variables
-
-LEAF picks up env vars prefixed with `LEAF_`. Nested config keys use a double-underscore separator. Examples:
-
-```bash
-# Server
-export LEAF_SERVER__HOST=127.0.0.1
-export LEAF_SERVER__PORT=18008
-
-# Storage — switch to S3
-export LEAF_STORAGE__BACKEND=s3
-export LEAF_STORAGE__S3__BUCKET=leaf-results
-export LEAF_STORAGE__S3__PREFIX=lab-a/
-export LEAF_STORAGE__S3__REGION=eu-central-1
-export LEAF_STORAGE__S3__ENDPOINT_URL=https://s3.example.org
-export LEAF_STORAGE__S3__ACCESS_KEY_ID=AKIAEXAMPLE
-export LEAF_STORAGE__S3__SECRET_ACCESS_KEY=secret123
-
-# Logging
-export LEAF_LOG_LEVEL=INFO
-```
-
-A `.env` file in the working directory is read automatically with the same key names (no `export`).
-
-## `config.json`
-
-The Settings dialog persists every change to a `config.json` file. The same file can be hand-edited or shipped with a deployment. Schema (defaults shown):
-
-```json
-{
-  "deploy_mode": "local",
-  "server": { "host": "127.0.0.1", "port": 18008 },
-  "extraction": { "max_concurrent_jobs": 2 },
-  "storage": {
-    "backend": "local",
-    "local": { "results_path": "./Data/results" },
-    "s3": {
-      "endpoint_url": "",
-      "bucket": "",
-      "prefix": "results/",
-      "region": "eu-central-1",
-      "access_key_id": "",
-      "secret_access_key": ""
-    }
-  },
-  "log_level": "INFO"
-}
-```
-
-Only override keys need to be present. Missing keys fall back to defaults.
-
-## Storage backend
-
-LEAF persists `.msd` targeted analysis archives through one of two storage backends. LC-MS input files are read directly from the filesystem regardless of backend; only the result archive uses the storage backend.
-
-### `local` (default)
-
-Stores `.msd` files under a local directory.
-
-| Field | Default | Description |
-|-------|---------|-------------|
-| `local.results_path` | `./Data/results` | Filesystem path where archives are written. Relative paths resolve against the LEAF working directory. |
-
-Path-traversal protection is enforced — keys that escape the configured directory are rejected.
-
-### `s3` — S3-compatible object storage
-
-Stores `.msd` files in any S3-compatible bucket: AWS S3, MinIO, Ceph RGW, or any other endpoint that speaks the S3 API. Configure this backend in `config.json` or with `LEAF_STORAGE__*` environment variables.
-
-| Field | Default | Description |
-|-------|---------|-------------|
-| `s3.endpoint_url` | _(empty — uses AWS)_ | Custom endpoint for non-AWS providers. Leave blank for AWS S3. |
-| `s3.bucket` | _(empty)_ | Bucket name. Required. |
-| `s3.prefix` | `results/` | Key prefix within the bucket. Use to host multiple deployments in one bucket (e.g. `lab-a/`, `lab-b/`). |
-| `s3.region` | `eu-central-1` | AWS region. Many S3-compatible providers also require this even when irrelevant. |
-| `s3.access_key_id` | _(empty)_ | Access key. Prefer an environment variable when possible. |
-| `s3.secret_access_key` | _(empty)_ | Secret key. Stored alongside the access key. |
-
-::: tip Non-AWS endpoints
-LEAF disables payload signing and per-request checksums when an `endpoint_url` is set, to stay compatible with MinIO and Ceph RGW deployments. AWS S3 itself doesn't need these tweaks and works without `endpoint_url`.
-:::
-
-### What gets stored
-
-Only `.msd` result archives are written through the documented storage backend. The list endpoint filters by extension, so other files in the bucket or directory are ignored.
-
-What stays on the local filesystem regardless of backend:
-
-- LC-MS input files (selected in LEAF; never copied)
-- Per-job intermediate state (in-memory + temp files; cleaned up after a job completes)
-- The built-in compound list cache and parsed input-file cache
-
-## Backend selection
-
-LEAF reads targeted inputs through the selected reader backend. Selection is per-run via the `--backend` flag on `leaf targeted`, or from **Extract → Advanced** in the web UI.
-
-| Backend | When used | Source |
-|---------|-----------|--------|
-| `auto` (default) | macOS / Linux: SEED. Windows: `dotnet` for `.raw`, SEED for `.mzml` / `.mzml.gz`. | — |
-| `rust` | Bundled SEED reader; no .NET required. | [SEED](/scripting/reader) |
-| `dotnet` | Thermo .NET RawFileReader for Thermo `.raw`; requires .NET 8 runtime on x64. | Thermo Fisher |
-
-### Backend availability gating
-
-LEAF validates that the requested backend is available before starting extraction. If a backend is missing (e.g. SEED not installed, or .NET 8 not present), the CLI exits with a descriptive error and the web UI disables that backend in the selector. Run `leaf doctor` to see the status of each backend.
-
-When MS² extraction is enabled, LEAF automatically routes to the SEED (Rust) backend because the .NET RawFileReader path does not provide the MS² extraction surface. This applies to both the web UI and `leaf targeted --extract-ms2`.
-
-Switching backends does not modify saved results.
-
 ## Next
 
-→ [Python package overview](/scripting/python/overview) — using LEAF programmatically
+→ [`leaf targeted`](/scripting/cli/targeted)
+
+→ [`leaf watch`](/scripting/cli/watch)

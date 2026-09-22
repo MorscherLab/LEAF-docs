@@ -30,11 +30,11 @@ Yes, if the instrument data are exported as mzML. LEAF targeted runs accept `.mz
 
 ## How big a dataset can LEAF handle?
 
-It depends on file size, storage speed, reader backend, compound count, and whether MS² extraction is enabled. Targeted runs scale mainly with the number of compounds and samples.
+It depends on file size, storage speed, compound count, and whether MS² extraction is enabled. Targeted runs scale mainly with the number of compounds and samples.
 
 For a rough check, start with a small folder and watch the floating progress button. If a modest targeted run takes much longer than expected, see [Troubleshooting](/reference/troubleshooting#extraction).
 
-For very large datasets (1000+ samples), use the Rust backend (Settings → Advanced) and run on a machine with 32 GB+ RAM.
+For very large datasets (1000+ samples), use a machine with at least 32 GB RAM and split the run when memory is limited. LEAF 0.8 uses SEED on every platform.
 
 ## What is an `.msd` file?
 
@@ -42,13 +42,13 @@ An `.msd` file is LEAF's native targeted result archive. It stores the processed
 
 ## How are analyses shared with collaborators?
 
-The `.msd` archive is the sharing format. A collaborator with a LEAF installation using the same major version can open the archive and view the stored charts, parameters, peaks, and quality scores without re-extraction.
+The `.msd` archive is the sharing format. A collaborator with a compatible LEAF version can open the archive and view the stored charts, parameters, peaks, and quality scores without re-extraction.
 
 ## Does LEAF do natural-abundance correction for tracing?
 
 Yes. In a targeted analysis, open the isotopologue chart settings or **Results**, configure the tracer element and purity, then enable natural-abundance correction. Corrected tables download from **Results** as a ZIP containing CSV output.
 
-LEAF 0.7 supports high-resolution correction for one uniformly labeled C, H, or N tracer element at a time. Position-specific tracers, multi-element configurations, and ¹⁸O correction require a validated downstream method.
+LEAF 0.8 supports high-resolution correction for one uniformly labeled C, H, or N tracer element at a time. Position-specific tracers, multi-element configurations, and ¹⁸O correction require a validated downstream method.
 
 ## How do I update LEAF?
 
@@ -57,12 +57,13 @@ leaf update --dry-run
 leaf update
 ```
 
-`leaf update` resolves the latest compatible wheel from [GitHub Releases](https://github.com/MorscherLab/LEAF/releases) for the current operating system and Python version. Use `--dry-run` to preview the resolved wheel before installing. For a specific release or local wheel:
+`leaf update` resolves the latest compatible wheel from [GitHub Releases](https://github.com/MorscherLab/LEAF/releases) for the current operating system and Python version. Use `--dry-run` to preview the release source and selector before installing. For a specific release or local wheel:
 
 ```bash
-leaf update --github-release v0.5.7
-leaf update --package ./leaf-0.5.7-*.whl
+leaf update --github-release v0.8.0
 ```
+
+For a downloaded wheel, pass its exact filename to `leaf update --package`.
 
 ## Can I access the source code?
 

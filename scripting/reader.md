@@ -1,19 +1,20 @@
-# SEED — the LEAF reader backend
+# SEED — the LEAF reader
 
-LEAF reads targeted `.raw`, `.mzml`, and `.mzml.gz` inputs through SEED on macOS and Linux (the `rust` backend in [`leaf --backend`](/scripting/cli/configuration#backend-selection)). On Windows, targeted `.raw` files default to Thermo's `dotnet` reader while mzML-family files use SEED.
+LEAF 0.8 reads supported mass-spectrometry inputs through the bundled SEED implementation in `leaf.core` on macOS, Windows, and Linux. The former `.NET RawFileReader` backend and `--backend` CLI option were removed.
 
-SEED is a separate project with its own user manual:
+Supported Web UI and CLI inputs include Thermo `.raw`, `.mzml`, and `.mzml.gz`. Shimadzu `.lcd` is supported for targeted MRM workflows with explicit transitions.
 
-→ [SEED — Overview](/seed/)
-→ [Command line](/seed/cli) · [Changelog](/seed/changelog)
+SEED has a separate user manual:
 
-## When the backend choice matters
+→ [SEED overview](/seed/)
 
-- **macOS / Linux** — `auto` routes targeted inputs through SEED.
-- **Windows** — `auto` uses `dotnet` for targeted `.raw` files and SEED for mzML-family files. Override to `rust` (`--backend rust` or **Settings → Advanced**) when SEED parsing is preferred for `.raw`; override to `dotnet` for Thermo files SEED cannot decode.
+→ [SEED command line](/seed/cli)
 
-## Reporting RAW files SEED cannot read
+## If a file cannot be read
 
-1. Confirm Thermo's Xcalibur opens the file.
-2. On Windows, retry with `--backend dotnet`.
-3. If neither works, [open a LEAF issue](https://github.com/MorscherLab/LEAF/issues) with the LEAF version, the instrument model, and the firmware version.
+1. Confirm the file opens in the instrument vendor software.
+2. Run `leaf inspect FILE` to reproduce the reader error without starting an analysis.
+3. Run `leaf doctor` and record the LEAF and SEED status.
+4. [Open a LEAF issue](https://github.com/MorscherLab/LEAF/issues) with the LEAF version, instrument model, firmware version, and error message.
+
+Convert unsupported vendor formats to mzML with the vendor converter or ProteoWizard.

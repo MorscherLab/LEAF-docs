@@ -4,7 +4,7 @@ title: Changelog
 
 # Changelog
 
-LEAF follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Every release ships a single Python wheel per platform.
+LEAF follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Stable releases ship platform wheels; MINT deployments use the `.mint` plugin bundle.
 
 ## Latest releases
 
@@ -14,24 +14,17 @@ LEAF follows [Semantic Versioning](https://semver.org/spec/v2.0.0.html). Every r
 
 ## Current documentation snapshot
 
-This manual is synced with the local LEAF `0.5.7` checkout. User-facing updates now covered here:
+This manual documents LEAF `0.8.6`, including the [Results export workflow](/workflow/export) and [command-line export reference](/scripting/cli/export). Release details remain in the upstream changelog.
 
-- **`leaf update` resolves from GitHub Releases.** Running `leaf update` automatically finds the latest compatible wheel for the current platform. Supports `--github-release`, `--github-token`, and `--dry-run`.
-- **Reader backend gating.** LEAF now validates that the selected reader backend (SEED or .NET RawFileReader) is available before starting extraction. The web UI disables unavailable backends, and `leaf doctor` shows per-backend status.
-- **MS² extraction auto-routes to SEED.** Enabling MS² now forces the Rust backend because the .NET reader does not provide the MS² extraction surface.
-- **Progressive Web App.** The LEAF Web UI can be installed as a standalone desktop app from Chrome or Edge.
-- **Plugin bundles use `.mint` format.** Release bundles are now `leaf-webui-bundle-*.mint` (previously `.mld`).
-- CLI setup and file commands: `leaf doctor`, `leaf validate`, `leaf init`, `leaf inspect`, `leaf update`, and `leaf convert`.
-- Natural-abundance correction for targeted tracing in the web UI and `leaf targeted --correct --tracer ...`.
-- MINT terminology updates, while hosted MINT deployment remains under development for general users.
+The installation guide reflects the separate macOS and Windows wheel builds introduced in 0.8.4. Multi-element natural-abundance correction is under development and is not part of the 0.8.6 instructions.
 
 ## How LEAF versions work
 
-- **Major** (`1.x.x`) — breaking changes to the API or file formats
-- **Minor** (`0.5.x`) — new features that don't break existing data
-- **Patch** (`0.5.0` → `0.5.1`) — bug fixes only
+- **Major** (`1.x.x`) — major compatibility changes
+- **Minor** (`0.8.x`) — features and, before 1.0, possible breaking changes
+- **Patch** (`0.8.0` → `0.8.1`) — compatible fixes
 
-`.msd` files written by an older minor version should reopen in newer versions of the same major. Files written by a newer major version may not open in older clients.
+LEAF 0.8 reads `.msd` schema 5 or newer and `.usd` schema 9 or newer. Newer archives may require a newer LEAF version.
 
 ## Need help upgrading?
 

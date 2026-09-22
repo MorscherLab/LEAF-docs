@@ -23,5 +23,6 @@ Both interfaces operate on the same targeted result format as the web UI: a `.ms
 - [`leaf webui`](/scripting/cli/webui) — start the web UI from a terminal (most common)
 - [`leaf targeted`](/scripting/cli/targeted) — targeted extraction headless
 - [`leaf watch`](/scripting/cli/watch) — auto-extract new LC-MS files as they land in a folder
+- [`leaf export`](/scripting/cli/export) — prepare SIRIUS, MGF, or MSP files from saved results
 - [Python recipes](/scripting/python/recipes) — common scripted-analysis tasks
-- [SEED](/scripting/reader) — the Rust reader powering LEAF on macOS / Linux
+- [SEED](/scripting/reader) — the reader powering LEAF on macOS, Windows, and Linux

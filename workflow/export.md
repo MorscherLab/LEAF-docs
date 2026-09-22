@@ -1,6 +1,6 @@
 # Export Targeted Results
 
-LEAF 0.7 separates the complete analysis session from spreadsheet and spectrum exports.
+LEAF 0.8 separates the complete analysis session from spreadsheet, spectrum, and external-annotation exports.
 
 ## Save the complete analysis
 
@@ -57,6 +57,8 @@ The table and downloaded files follow these selections.
 | **Precision** | Set 0–6 displayed digits. |
 | **Show empty isotopologues** | Include rows that have no signal in any sample. It is off by default; higher-order channels that contain signal remain visible. Turning it on loads the full isotopologue envelope. |
 
+Display format and precision affect the on-screen table only. CSV exports contain numeric Apex or Area values, without percentage conversion or display rounding.
+
 ### Choose the CSV layout
 
 | Layout | Result |
@@ -73,7 +75,12 @@ For **Long/Tidy**, select any additional metadata columns required downstream: *
 3. Set the metabolite, isotopologue, display, and export options.
 4. Click **Download ZIP**.
 
-The ZIP contains the requested CSV output and follows the selections active when it is downloaded.
+The ZIP contains one CSV and follows the sample, metabolite, and isotopologue selections active when it is downloaded. Filenames include the layout and metric, for example `results_wide_area.zip`; corrected exports add `_corrected`, and an experiment name is prefixed when available.
+
+- **Wide** columns are `Metabolite`, `Isotopologue`, `RetentionTime`, then one column per selected sample.
+- **Long/Tidy** columns are `Metabolite`, `Isotopologue`, the selected metadata columns, `Sample`, and `Value`.
+- Retention times are in minutes. Wide output uses the mean picked retention time across selected samples; long output uses the sample's picked retention time. Where a picked time is unavailable, the compound-list retention time is used.
+- Missing or non-finite quantitative values are empty cells.
 
 ::: tip Check before exporting
 If a sample or compound should not be in the final table, hide or exclude it in **Results** before clicking **Download ZIP**.
@@ -83,7 +90,7 @@ If a sample or compound should not be in the final table, hide or exclude it in 
 
 For isotope-tracing analyses with a valid tracer configuration, LEAF can apply natural-abundance correction before export.
 
-1. Review the tracer element and purity settings.
+1. Review the tracer element and purity settings. LEAF 0.8.6 supports one C, H, or N tracer with uniform labeling and high-resolution data; see [correction scope](/workflow/tracing#apply-natural-abundance-correction).
 2. Click **Configure tracers…** if the tracer has not been defined.
 3. Enable **Natural-abundance correction** in **Results**.
 4. Click **Download Corrected ZIP**.
@@ -100,6 +107,8 @@ In **Spectra (MS²)**, choose:
 - **MSP** for spectral-library tools
 
 Enable **Only matched spectra** to exclude spectra without a library match. Click **Download MS²** to download the selected spectrum format. Sample and metabolite filters also apply to the MS² export.
+
+For headless workflows, `leaf export sirius`, `leaf export mgf`, and `leaf export msp` create inputs for external annotation tools. Annotation layers are managed with `leaf downstream annotate`; see the [command-line export guide](/scripting/cli/export).
 
 ## Save the result in MINT
 

@@ -32,7 +32,7 @@ The left sidebar lists the samples in the session.
 - Create groups manually or use the smart-group control.
 - Collapse the sidebar when more chart space is needed.
 
-Sample groups affect grouped isotope bars and statistical visualizations. LEAF 0.7 stores group changes in the `.msd`, so they are restored when the result is reopened.
+Sample groups affect grouped isotope bars and statistical visualizations. LEAF 0.8 stores group changes in the `.msd`, so they are restored when the result is reopened.
 
 ## Select a compound
 

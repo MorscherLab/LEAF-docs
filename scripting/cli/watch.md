@@ -1,60 +1,81 @@
 # `leaf watch`
 
-Real-time folder monitoring runs targeted extraction as new `.raw`, `.mzml`, or `.mzml.gz` files arrive in a folder. This is useful on acquisition computers where samples are written continuously.
+`leaf watch` runs targeted extraction when new `.raw`, `.mzml`, or `.mzml.gz` inputs appear in a folder.
 
-## Synopsis
+## Commands
 
 ```bash
 leaf watch run    FOLDER [OPTIONS]   # foreground
-leaf watch start  FOLDER [OPTIONS]   # detached daemon
-leaf watch stop                       # terminate the daemon
-leaf watch status                     # show daemon state
+leaf watch start  FOLDER [OPTIONS]   # background daemon
+leaf watch status                    # show daemon state
+leaf watch stop                      # stop the daemon
 ```
 
-## Required argument
+Omit `FOLDER` from `run` or `start` to use the interactive setup.
 
-| Argument | Description |
-|---|---|
-| `FOLDER` | Folder to monitor for new `.raw`, `.mzml`, or `.mzml.gz` files |
+## Watcher options
 
-## Common flags
-
-| Flag | Default | Description |
+| Option | Default | Description |
 |---|---|---|
-| `--list-path PATH` | (auto-discovered if omitted) | Compound list CSV — same schema as [`leaf targeted`](/scripting/cli/targeted). |
-| `-o, --output PATH` | (sibling of FOLDER) | Where to write per-file `.msd` archives. |
-| `--polarity {NEG,POS}` | `NEG` | MS polarity. |
-| `--tolerance INT` | `5` | m/z tolerance in ppm. |
-| `--rt-window FLOAT` | `0.3` | Retention-time search window. |
-| `--idle-timeout FLOAT` | `60` | Stop watching after N minutes with no new files. |
-| `--poll-interval FLOAT` | `10` | Seconds between filesystem polls. |
-| `--stability-time FLOAT` | `10` | Wait N seconds after a file stops growing before processing (avoids partial reads). |
-| `--multi / --no-multi` | off | Watch multiple sub-folders concurrently. |
+| `--output`, `-o` | `<folder>_results` | Output directory for processed results. |
+| `--list-path PATH` | auto-discover | Compound-list CSV. |
+| `--idle-timeout FLOAT` | `60` | Finalize after this many inactive minutes. |
+| `--poll-interval FLOAT` | `10` | Seconds between folder scans. |
+| `--stability-time FLOAT` | `10` | Seconds a file size must remain unchanged before processing. |
+| `--multi` | off | Treat each subfolder as a separate experiment. |
 
-For the full flag set, run `leaf watch run --help`.
+## Extraction options
 
-## Recipe — foreground watch
+| Option | Default | Description |
+|---|---|---|
+| `--polarity {auto,pos,neg}` | `auto` | Detect polarity or force a value. |
+| `--ppm FLOAT` | `5` | m/z tolerance in ppm. |
+| `--skip-blank / --no-skip-blank` | `--skip-blank` | Drop files whose name contains `blank`. |
+| `--engine {cwt,prominence,volume2d,off}` | `cwt` | Targeted peak-picking engine. |
+| `--rt-window FLOAT` | `0.3` | Peak-search window in minutes. |
+| `--verbose`, `-v` | off | Enable verbose logging. |
+
+Volume2D needs sample metadata. Supply `input.metadata_path` through `--config` or `--set`.
+
+## Run configuration
+
+The watcher accepts the 0.8 run-config format for advanced picker, scoring, metadata, and alignment settings:
 
 ```bash
-leaf watch run /path/to/inbox --list-path ./compounds.csv -o /path/to/outputs
+leaf watch run --init-config watch.toml
+leaf watch run /path/to/inbox --config watch.toml
+leaf watch run /path/to/inbox --set peak_picking.intensity_threshold=200000
 ```
 
-Stops with `Ctrl+C`.
+Precedence is: defaults, TOML file, `--set`, then an explicitly supplied typed flag.
 
-## Recipe — daemon
+Incremental watch runs do not apply the run config's MS², tracing, or correction fields. Use `leaf targeted` for those workflows.
+
+## Foreground recipe
 
 ```bash
-leaf watch start /path/to/inbox --list-path ./compounds.csv -o /path/to/outputs
+leaf watch run /path/to/inbox \
+  --list-path ./compounds.csv \
+  --output /path/to/results
+```
+
+Stop with **Ctrl+C**.
+
+## Daemon recipe
+
+```bash
+leaf watch start /path/to/inbox \
+  --list-path ./compounds.csv \
+  --output /path/to/results
+
 leaf watch status
 leaf watch stop
 ```
 
-The daemon survives terminal close. Use `leaf watch status` to verify it is running and to see the last-processed file.
-
-## Legacy shim
-
-`leaf-watch` is a console-script shim equivalent to `leaf watch run`.
+The 0.7 `leaf targeted watch` command and `leaf-watch` console script were removed.
 
 ## Next
 
-→ [`leaf targeted`](/scripting/cli/targeted) — same extraction pipeline, one-shot
+→ [`leaf targeted`](/scripting/cli/targeted)
+
+→ [Run configuration](/scripting/cli/configuration)

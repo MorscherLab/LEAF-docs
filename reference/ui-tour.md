@@ -37,10 +37,23 @@ The landing page after loading. Use this to launch new analyses.
 | Callout | Region | Element | What it does |
 |---:|---|---|---|
 | 1 | Left sidebar | Data source and parameters | Select LC-MS files and configure extraction |
-| 2 | Center | Compound List / Sample Metadata | Upload, edit, and validate inputs |
+| 2 | Center | Compound List / Sample Metadata / Presets | Define inputs, sample factors, or load a saved setup |
 | 3 | Right | Isotope Tracing | Configure isotopologues |
 | 4 | Left sidebar footer | Start Processing | Launch the run when the inputs are valid |
 | 5 | Bottom-right | Jobs | Review queued, active, completed, and failed jobs |
+
+### Presets tab
+
+| Element | What it does |
+|---|---|
+| **Private / Shared / Lab** | In MINT, filter by who can see the preset; standalone LEAF shows private presets only |
+| Search and mode filters | Find Targeted, v3d, or ROI setups |
+| Preset list | Select a saved setup and review its contents |
+| **Save current as preset** | Store the open extraction setup |
+| **Load preset** | Show the diff, then replace the open setup |
+| **Undo** | Restore the setup that existed before the last load |
+
+→ [Save, load, and share presets](/workflow/extract#presets)
 
 ## Analysis workspace (Charts)
 
