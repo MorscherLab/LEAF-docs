@@ -62,7 +62,7 @@ LEAF 0.8 does not install a PWA service worker. The unregister step is only need
 |---------|-------|-----|
 | RAW file fails to load | Unsupported instrument firmware | Try opening the file in Thermo Xcalibur first; if it works there, [report it](https://github.com/MorscherLab/LEAF/issues) |
 | "No samples found in folder" | Folder has no supported input files, or files mix formats | Use `.raw`, `.mzml`, or `.mzml.gz` and keep one format per run. |
-| Sample names look unexpected | Auto-name extraction parsed the filename incorrectly | Toggle "Organize names" off to use the raw filename |
+| Sample names look unexpected | Auto-name extraction parsed the filename incorrectly | Open **Advanced** in the **Input** card and turn **Organize names** off to use the raw filename |
 | Blank files included anyway | "Skip blanks" only matches the word "blank" | Rename blank files to include "blank", or untoggle "Skip blanks" and remove them after extraction |
 | RAW file fails to load on any platform | SEED does not support the file or instrument firmware | Run `leaf inspect FILE` and `leaf doctor`, then [report the reader error](https://github.com/MorscherLab/LEAF/issues) |
 | Unsure whether a CSV / folder is valid | Input preflight not run yet | `leaf validate ./compounds.csv ./raw-folder`; add `--strict` to treat warnings as failures |

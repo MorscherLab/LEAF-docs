@@ -90,7 +90,7 @@ If a sample or compound should not be in the final table, hide or exclude it in 
 
 For isotope-tracing analyses with a valid tracer configuration, LEAF can apply natural-abundance correction before export.
 
-1. Review the tracer element and purity settings. LEAF 0.8.6 supports one C, H, or N tracer with uniform labeling and high-resolution data; see [correction scope](/workflow/tracing#apply-natural-abundance-correction).
+1. Review the tracer element and purity settings. LEAF 0.8.7 supports C, H, and N tracers, alone or combined, with uniform labeling and high-resolution data; see [correction scope](/workflow/tracing#apply-natural-abundance-correction).
 2. Click **Configure tracers…** if the tracer has not been defined.
 3. Enable **Natural-abundance correction** in **Results**.
 4. Click **Download Corrected ZIP**.

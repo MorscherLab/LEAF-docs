@@ -26,7 +26,7 @@ leaf doctor
 Expected version:
 
 ```text
-leaf 0.8.6
+leaf 0.8.7
 ```
 
 ## LEAF 0.8 command model

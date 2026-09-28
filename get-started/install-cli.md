@@ -42,7 +42,7 @@ leaf --version
 leaf doctor
 ```
 
-The expected version for this documentation is `leaf 0.8.6`. `leaf doctor` checks the Python package, native extension, SEED reader, server dependencies, and bundled web interface.
+The expected version for this documentation is `leaf 0.8.7`. `leaf doctor` checks the Python package, native extension, SEED reader, server dependencies, and bundled web interface.
 
 ::: warning Install the release wheel
 LEAF is not distributed through the public PyPI package named `leaf`. Install the wheel downloaded from the LEAF release page.

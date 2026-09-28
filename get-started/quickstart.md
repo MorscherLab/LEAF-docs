@@ -47,7 +47,7 @@ Open **Extract** from the page selector and choose **Targeted** in the mode cont
 
 ## Step 2: Select the data
 
-Open **Data Folder** and choose the folder or files to process. The picker reads its cached server listing when opened; click **Refresh** to force a rescan after adding files.
+Click **Choose data…** and select the folder or files to process, then click **Use selection**. The picker reads its cached server listing when opened; click **Refresh** to force a rescan after adding files.
 
 In checklist mode, a plain click adds or removes an item and **Shift** extends a range.
 

@@ -104,8 +104,8 @@ After extraction, open **Charts → Isotopologue** in the targeted **Analysis** 
 
 Open the Isotopologue settings gear and select **Configure tracers…**, or open the same configuration from **Results**.
 
-1. Add one tracer element: **C**, **H**, or **N**.
-2. Enter purity as a fraction from `0.001` to `1`. For 99% tracer purity, enter `0.99`.
+1. Add each tracer element used in the experiment: **C**, **H**, and/or **N**.
+2. For each element, enter purity as a fraction from `0.001` to `1`. For 99% tracer purity, enter `0.99`.
 3. Click **Done**.
 4. Enable **Correction** for the Isotopologue chart.
 5. Enable **Natural-abundance correction** separately in **Results** when a corrected download is required.
@@ -113,7 +113,7 @@ Open the Isotopologue settings gear and select **Configure tracers…**, or open
 ![Tracer correction modal with element and purity controls](/screenshots/targeted/targeted-tracer-correction.jpg)
 
 ::: danger Correction scope
-The current correction workflow requires high-resolution data and uniform labeling, where every atom of the selected element is potentially labelable. Configure one C, H, or N tracer element at a time. Position-specific tracers such as 1-¹³C glucose, multi-element tracer configurations, and ¹⁸O tracing require a validated downstream correction method.
+The current correction workflow requires high-resolution data and uniform labeling, where every atom of the selected element is potentially labelable. C, H, and N tracers can be combined, for example for ¹³C/¹⁵N experiments. Position-specific tracers such as 1-¹³C glucose and ¹⁸O tracing require a validated downstream correction method.
 :::
 
 The chart reports the applied state:

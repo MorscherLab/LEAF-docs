@@ -39,7 +39,7 @@ Search by name and filter by pipeline: **Targeted**, **v3d**, or **ROI**. When s
 
 Select a preset to review its parameters, compound count, owner, and creation date.
 
-> [Screenshot: Presets tab with the list filtered to Targeted and one preset selected in the detail pane]
+![Presets tab filtered to Targeted with one preset selected in the detail pane](/screenshots/targeted/presets-tab.jpg)
 
 ## Load a preset
 

@@ -41,7 +41,7 @@ Click **Validate** after parsing. Invalid formulas, missing required values, and
 | **Align** | Auto | Enable per-block RT alignment when the sample sheet has multiple batch, matrix, or tissue blocks. |
 | **MS² spectra** | On | Extract DDA spectra with MS1 chromatograms. |
 | **Skip blanks** | On | Drop filenames containing `blank` before reading. |
-| **Organize names** | On | Remove common filename prefixes and suffixes from sample labels. |
+| **Organize names** | On | Under **Advanced**; remove common filename prefixes and suffixes from sample labels. |
 
 ## Engine
 
