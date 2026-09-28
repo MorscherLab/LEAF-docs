@@ -62,33 +62,9 @@ Metadata is required for v2d and for automatic block alignment. It is not stored
 
 ## Presets
 
-The **Presets** tab stores reusable extraction setups in LEAF's preset database.
+The **Presets** tab saves the current extraction setup under a name and loads saved setups back. A targeted preset stores all extraction parameters, the compound list, and tracing groups; sample metadata is not included. **Load preset** shows a diff before replacing the open setup, and **Undo** restores the previous setup.
 
-### Save the current setup
-
-1. Configure the input controls, compound list, and tracing groups.
-2. Open **Presets** and select **Save current as preset**.
-3. Enter a unique name and optional description.
-4. Choose visibility when sharing is available:
-   - **Private** — only you
-   - **Shared** — selected collaborators have read-only access
-   - **Lab** — visible to every lab user
-
-A targeted preset stores all extraction parameters, the compound list, and tracing groups. Sample metadata remains with the experiment and is not included.
-
-### Find and load a preset
-
-In standalone LEAF, search your private presets by name and filter by pipeline: **Targeted**, **v3d**, or **ROI**. When sharing is available, **Private**, **Shared**, and **Lab** filters narrow the list by visibility. Select a preset to review its parameters and bundled content.
-
-**Load preset** shows a diff before replacing the open setup. Choose **Save current first** when the current settings must be retained. After loading, the confirmation bar provides one-step **Undo**.
-
-A preset from another pipeline cannot load into the current mode. **Switch to … and load** changes modes. Switching between targeted and untargeted preserves the setup in the mode you leave; switching between v3d and ROI replaces the current untargeted setup, which one-step **Undo** can restore.
-
-### Maintain presets
-
-Owners can rename, change visibility, manage collaborators, update the stored snapshot from the current setup, or delete a preset. Non-owners can load and edit the applied setup, but cannot modify the stored preset; **Save as copy** creates a private copy owned by the current user.
-
-Presets saved with the 0.7 run-config vocabulary may be unreadable in 0.8. Recreate them from a current setup or generated 0.8 config.
+→ [Save, load, and share presets](/workflow/presets)
 
 ## Isotope tracing
 

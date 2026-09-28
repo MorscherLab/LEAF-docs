@@ -44,6 +44,7 @@ export default defineConfig({
             text: 'Shared setup',
             items: [
               { text: 'Prepare data', link: '/workflow/prepare-data' },
+              { text: 'Presets', link: '/workflow/presets' },
             ],
           },
           {
@@ -129,6 +130,7 @@ export default defineConfig({
           text: 'Shared setup',
           items: [
             { text: 'Prepare data', link: '/workflow/prepare-data' },
+            { text: 'Presets', link: '/workflow/presets' },
           ],
         },
         {

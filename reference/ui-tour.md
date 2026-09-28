@@ -53,7 +53,7 @@ The landing page after loading. Use this to launch new analyses.
 | **Load preset** | Show the diff, then replace the open setup |
 | **Undo** | Restore the setup that existed before the last load |
 
-→ [Save, load, and share presets](/workflow/extract#presets)
+→ [Save, load, and share presets](/workflow/presets)
 
 ## Analysis workspace (Charts)
 
