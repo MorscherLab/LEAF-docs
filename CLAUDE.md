@@ -70,3 +70,10 @@ The public pages in `seed/` are derived from upstream files but should remain us
 - `ignoreDeadLinks: false` — broken internal links fail the build, so verify links resolve before committing.
 - The home page (`index.md`) uses VitePress's `layout: home` frontmatter with `hero` + `features`; don't convert it to a regular markdown page.
 - For anything related to the LEAF app's internals, link out to the LEAF repo rather than restating it here.
+
+## Comments and lint
+
+- Write no comment unless the code cannot say it: a license header, behavior forced by an external dependency or protocol, a public API doc comment, or an issue/RFC link. In `.vitepress/` TypeScript and CI scripts, rename or extract a surprise instead. No commented-out code.
+- When a mistake recurs, add a check that fails on it instead of a note here or in the code. This repo has two checks: the retired-CLI grep gate in `.github/workflows/deploy.yml` and the VitePress build (`ignoreDeadLinks: false`). Extend one of them.
+- Use no lint suppression unless a rule is wrong for that line.
+- There are no tests. If you add one, make it assert behavior a caller can observe, not internals. A check that a type, a lint rule or the build already makes needs no test.
