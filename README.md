@@ -8,8 +8,9 @@ This repository contains the user manual: install, targeted workflow walkthrough
 
 ```
 LEAF-docs/
-  package.json          # vitepress (Bun-managed)
-  bunfig.toml           # forces hoisted node_modules
+  package.json          # vitepress (pnpm via Vite+)
+  pnpm-workspace.yaml   # Vite+ catalog and vite override
+  vite.config.ts        # Vite+ fmt and lint settings
   index.md              # home page
   changelog.md          # links to GitHub releases
   get-started/
@@ -50,18 +51,19 @@ LEAF-docs/
 
 ## Local development
 
-Install [D2](https://d2lang.com/tour/install/) before building; VitePress renders `d2` code fences into inline SVG diagrams at build time.
+Install [D2](https://d2lang.com/tour/install/) and [Vite+](https://viteplus.dev/) (`vp`) before building; VitePress renders `d2` code fences into inline SVG diagrams at build time.
 
 ```bash
-bun install
-bun run dev      # http://localhost:17173/
-bun run build    # outputs to .vitepress/dist/
-bun run preview  # serve the built site
+vp install
+vp run dev      # http://localhost:17173/
+vp run build    # outputs to .vitepress/dist/
+vp run preview  # serve the built site
+vp check        # format, lint, and type checks
 ```
 
 ## Deploy
 
-Every push to `main` triggers `.github/workflows/deploy.yml`, which installs Bun dependencies, installs D2, builds the site, and publishes to GitHub Pages. The CNAME file ships in the build artifact.
+Every push to `main` triggers `.github/workflows/deploy.yml`, which installs dependencies, installs D2, builds the site, builds the `archive/v0.5` branch into `/v0.5/`, and publishes to GitHub Pages. The CNAME file ships in the build artifact. After a change on `archive/v0.5`, run the workflow manually (`gh workflow run deploy.yml --ref main`).
 
 **One-time DNS setup**:
 

@@ -10,16 +10,21 @@ This repo contains the **user-facing manual**: install, workflow walkthroughs, s
 
 ## Commands
 
-Bun-managed (see `bunfig.toml` — `linker = "hoisted"` is required for VitePress).
+Managed with Vite+ (`vp`) on pnpm. VitePress is on `2.0.0-alpha.21` because Vite+ needs Vite 7+; VitePress 1.x pins Vite 5.
 
 ```bash
-bun install
-bun run dev      # http://localhost:17173/  (strictPort, will fail if taken)
-bun run build    # outputs to .vitepress/dist/
-bun run preview  # serve the built site
+vp install
+vp run dev      # http://localhost:17173/  (strictPort, will fail if taken)
+vp run build    # outputs to .vitepress/dist/
+vp run preview  # serve the built site
+vp check        # oxfmt + oxlint + type check on code files
 ```
 
-There are no tests, linters, or formatters configured. CI installs dependencies, installs D2 for diagram rendering, runs the retired-CLI grep gate, then runs `bun run build`.
+There are no tests. `vp check` formats and lints the TypeScript, CSS, YAML and JSON files; `vite.config.ts` excludes Markdown and `docs/**` from formatting. CI installs dependencies, installs D2 for diagram rendering, runs the retired-CLI grep gate, `vp check`, `vp run build`, then builds the v0.5 archive.
+
+## v0.5 archive
+
+The `archive/v0.5` branch holds the frozen LEAF 0.5 manual (from commit `3bba696`). CI builds it with `vitepress build --base /v0.5/` and copies the output into `.vitepress/dist/v0.5/`. Fix an archive page on that branch, not on `main`, then run `gh workflow run deploy.yml --ref main`: the archive branch has no workflow, so its pushes do not deploy. The version menu in `nav` links to it by absolute URL, because `/v0.5/` is not a page in this build.
 
 D2 diagrams are rendered from fenced `d2` blocks by `vitepress-plugin-d2`. Local builds need the `d2` executable on `PATH` (`brew install d2` on macOS, or the upstream install script from the D2 docs).
 

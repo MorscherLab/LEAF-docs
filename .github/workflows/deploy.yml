@@ -21,15 +21,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0  # needed for VitePress lastUpdated git timestamps
+          fetch-depth: 0 # needed for VitePress lastUpdated git timestamps
 
-      - name: Setup Bun
-        uses: oven-sh/setup-bun@v2
+      - name: Setup Vite+ and install dependencies
+        uses: voidzero-dev/setup-vp@v1.22.0
         with:
-          bun-version: latest
-
-      - name: Install dependencies
-        run: bun install --frozen-lockfile
+          node-version: '24'
+          cache: true
 
       - name: Install D2
         run: curl -fsSL https://d2lang.com/install.sh | sh -s --
@@ -47,8 +45,25 @@ jobs:
             exit 1
           fi
 
+      - name: Check format, lint, and types
+        run: vp check
+
       - name: Build VitePress site
-        run: bun run build
+        run: vp run build
+
+      - name: Checkout v0.5 archive
+        uses: actions/checkout@v4
+        with:
+          ref: archive/v0.5
+          path: _archive/v0.5
+          fetch-depth: 0
+
+      - name: Build v0.5 archive into /v0.5/
+        working-directory: _archive/v0.5
+        run: |
+          vp install --frozen-lockfile
+          vp exec vitepress build --base /v0.5/
+          cp -R .vitepress/dist "$GITHUB_WORKSPACE/.vitepress/dist/v0.5"
 
       - name: Setup Pages
         uses: actions/configure-pages@v5

@@ -25,9 +25,7 @@ function closeZoom() {
 function openZoom(diagram: HTMLElement) {
   closeZoom()
 
-  lastFocusedElement = document.activeElement instanceof HTMLElement
-    ? document.activeElement
-    : null
+  lastFocusedElement = document.activeElement instanceof HTMLElement ? document.activeElement : null
 
   const overlay = document.createElement('div')
   overlay.className = ZOOM_CLASS
