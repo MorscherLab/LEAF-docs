@@ -10,16 +10,17 @@ This repo contains the **user-facing manual**: install, targeted workflow walkth
 
 ## Commands
 
-Bun-managed (see `bunfig.toml` — `linker = "hoisted"` is required for VitePress).
+Managed with Vite+ (`vp`) on pnpm. VitePress is on `2.0.0-alpha.21` because Vite+ needs Vite 7+; VitePress 1.x pins Vite 5.
 
 ```bash
-bun install
-bun run dev      # http://localhost:17173/  (strictPort, will fail if taken)
-bun run build    # outputs to .vitepress/dist/
-bun run preview  # serve the built site
+vp install
+vp run dev      # http://localhost:17173/  (strictPort, will fail if taken)
+vp run build    # outputs to .vitepress/dist/
+vp run preview  # serve the built site
+vp check        # oxfmt + oxlint + type check on code files
 ```
 
-There are no tests, linters, or formatters configured. CI only runs `bun install --frozen-lockfile` + `bun run build`.
+There are no tests. CI runs the retired-CLI grep gate, `vp check`, `vp run build`, then builds the `archive/v0.5` branch into `/v0.5/`. Fix a v0.5 archive page on that branch, not on `main`.
 
 ## Architecture
 

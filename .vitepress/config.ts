@@ -4,7 +4,8 @@ import { FileType, Layout, Theme } from 'vitepress-plugin-d2/dist/config'
 
 export default defineConfig({
   title: 'LEAF',
-  description: 'LC-MS Extensible Analysis Framework — user manual for the LEAF metabolomics web app',
+  description:
+    'LC-MS Extensible Analysis Framework — user manual for the LEAF metabolomics web app',
   lang: 'en-US',
 
   cleanUrls: true,
@@ -58,9 +59,7 @@ export default defineConfig({
           },
           {
             text: 'Shared output',
-            items: [
-              { text: 'Export', link: '/workflow/export' },
-            ],
+            items: [{ text: 'Export', link: '/workflow/export' }],
           },
         ],
       },
@@ -69,9 +68,7 @@ export default defineConfig({
         items: [
           {
             text: 'Overview',
-            items: [
-              { text: 'When to use scripting', link: '/scripting/' },
-            ],
+            items: [{ text: 'When to use scripting', link: '/scripting/' }],
           },
           {
             text: 'Command line',
@@ -94,14 +91,16 @@ export default defineConfig({
           },
           {
             text: 'RAW reader',
-            items: [
-              { text: 'SEED reader', link: '/scripting/reader' },
-            ],
+            items: [{ text: 'SEED reader', link: '/scripting/reader' }],
           },
         ],
       },
       { text: 'SEED', link: '/seed/' },
       { text: 'Reference', link: '/reference/ui-tour' },
+      {
+        text: 'Latest',
+        items: [{ text: 'v0.5 (archived)', link: 'https://leaf-docs.morscherlab.org/v0.5/' }],
+      },
     ],
 
     sidebar: {
@@ -144,9 +143,7 @@ export default defineConfig({
         },
         {
           text: 'Shared output',
-          items: [
-            { text: 'Export', link: '/workflow/export' },
-          ],
+          items: [{ text: 'Export', link: '/workflow/export' }],
         },
       ],
       '/cli/': [
@@ -184,9 +181,7 @@ export default defineConfig({
       '/scripting/': [
         {
           text: 'Overview',
-          items: [
-            { text: 'When to use scripting', link: '/scripting/' },
-          ],
+          items: [{ text: 'When to use scripting', link: '/scripting/' }],
         },
         {
           text: 'Command line',
@@ -209,17 +204,13 @@ export default defineConfig({
         },
         {
           text: 'RAW reader',
-          items: [
-            { text: 'SEED reader', link: '/scripting/reader' },
-          ],
+          items: [{ text: 'SEED reader', link: '/scripting/reader' }],
         },
       ],
       '/seed/': [
         {
           text: 'SEED',
-          items: [
-            { text: 'Overview', link: '/seed/' },
-          ],
+          items: [{ text: 'Overview', link: '/seed/' }],
         },
         {
           text: 'Reference',
@@ -231,9 +222,7 @@ export default defineConfig({
       ],
     },
 
-    socialLinks: [
-      { icon: 'github', link: 'https://github.com/MorscherLab/LEAF' },
-    ],
+    socialLinks: [{ icon: 'github', link: 'https://github.com/MorscherLab/LEAF' }],
 
     search: { provider: 'local' },
 
