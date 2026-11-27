@@ -10,9 +10,9 @@ The previous `/cli/` section has been folded into the Scripting pillar. Old book
 
 <script setup>
 import { onMounted } from 'vue'
-import { useRouter } from 'vitepress'
+import { useRouter, withBase } from 'vitepress'
 
 onMounted(() => {
-  useRouter().go('/scripting/cli/overview')
+  useRouter().go(withBase('/scripting/cli/overview'))
 })
 </script>

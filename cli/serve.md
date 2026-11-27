@@ -8,6 +8,6 @@ title: "Moved → Scripting / CLI / leaf webui"
 
 <script setup>
 import { onMounted } from 'vue'
-import { useRouter } from 'vitepress'
-onMounted(() => { useRouter().go('/scripting/cli/webui') })
+import { useRouter, withBase } from 'vitepress'
+onMounted(() => { useRouter().go(withBase('/scripting/cli/webui')) })
 </script>

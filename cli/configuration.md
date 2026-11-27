@@ -8,6 +8,6 @@ title: "Moved → Scripting / CLI / Configuration"
 
 <script setup>
 import { onMounted } from 'vue'
-import { useRouter } from 'vitepress'
-onMounted(() => { useRouter().go('/scripting/cli/configuration') })
+import { useRouter, withBase } from 'vitepress'
+onMounted(() => { useRouter().go(withBase('/scripting/cli/configuration')) })
 </script>

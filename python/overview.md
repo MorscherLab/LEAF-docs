@@ -8,6 +8,6 @@ title: "Moved → Scripting / Python / Overview"
 
 <script setup>
 import { onMounted } from 'vue'
-import { useRouter } from 'vitepress'
-onMounted(() => { useRouter().go('/scripting/python/overview') })
+import { useRouter, withBase } from 'vitepress'
+onMounted(() => { useRouter().go(withBase('/scripting/python/overview')) })
 </script>
