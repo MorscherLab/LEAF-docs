@@ -23,12 +23,6 @@ features:
     link: /workflow/extract
     linkText: Extraction parameters
 
-  - icon: 🔍
-    title: Untargeted analysis
-    details: Without a predefined compound list, LEAF detects features across samples, aligns them by m/z and retention time, and produces a feature table for downstream filtering and identification.
-    link: /workflow/untargeted
-    linkText: Untargeted workflow
-
   - icon: 🧬
     title: Isotope tracing
     details: Supports ¹³C, ¹⁵N, ²H, ¹⁸O, and ³⁴S labeling. Reports per-isotopologue intensities as absolute values or fractional labeling, summarized as mean ± SEM by group.
@@ -45,7 +39,7 @@ features:
 ::: warning MINT integration under development
 Hosted LEAF through MINT is not enabled for general use yet. Use the wheel + CLI install path for current analyses.
 
-[Install the wheel + CLI](/get-started/install-cli) · [MINT status](/get-started/install-mint)
+[Install the wheel + CLI](/get-started/install-cli)
 :::
 
 ::: info Developer documentation

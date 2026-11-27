@@ -116,4 +116,3 @@ Common options:
 ## Next
 
 → [`leaf targeted`](/scripting/cli/targeted) — run targeted extraction without the browser
-→ [`leaf untargeted`](/scripting/cli/untargeted) — run untargeted feature detection without the browser

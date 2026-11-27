@@ -124,7 +124,3 @@ leaf targeted ./samples ./compounds.csv ./outputs \
 → [`leaf targeted` reference](/scripting/cli/targeted)
 Or in Python: [Recipe 4 — Tracing in a script](/scripting/python/recipes#recipe-4-tracing-in-a-script)
 :::
-
-## Next step
-
-→ [Untargeted feature discovery](/workflow/untargeted) — for hypothesis-free analyses

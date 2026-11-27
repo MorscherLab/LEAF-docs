@@ -81,5 +81,4 @@ leaf targeted ./samples ./compounds.csv ./outputs --backend dotnet
 
 ## Next
 
-→ [`leaf untargeted`](/scripting/cli/untargeted) — untargeted feature discovery
 → [Configuration](/scripting/cli/configuration) — backend selection on disk

@@ -72,10 +72,6 @@ Drag the `.msd` file onto the LEAF window from anywhere — Extract page, home p
 LEAF can persist `.msd` archives directly to an S3-compatible bucket (AWS S3, MinIO, Ceph RGW) so results are reachable from any LEAF instance without manual copying. Configure under **Settings → Storage** or via env vars — see [Storage backend](/scripting/cli/configuration#storage-backend).
 :::
 
-## Untargeted exports
-
-The Untargeted view exports `.usd` files (same format family as `.msd`) plus per-feature CSVs of intensities, retention times, and m/z values. See [Untargeted analysis](/workflow/untargeted).
-
 ::: details Also from a script
 Saving and reopening a `.msd` from Python:
 

@@ -10,7 +10,7 @@ You should already have LEAF installed via:
 
 - [Install the wheel + CLI](/get-started/install-cli) — launch the local server and open it in your browser.
 
-Hosted MINT access is [under development](/get-started/install-mint) and not yet available for general use.
+Hosted MINT access is under development and not yet available for general use.
 
 For a local install, launch LEAF in a terminal:
 
@@ -122,7 +122,6 @@ The walkthrough has covered extraction, peak picking, quality scoring, and resul
 - **Visualization** — open the **Visualize** dropdown for PCA, heatmaps, volcano plots, and additional chart types. See [Visualize](/workflow/visualize).
 - **Export** — click the download button to save a `.msd` archive (full bundle) or a `.csv` (intensity matrix). See [Export](/workflow/export).
 - **Isotope tracing** — for ¹³C and other labeling experiments, see [Isotope tracing](/workflow/tracing).
-- **No metabolite list?** Switch the Extract page to the **Untargeted** mode for de-novo feature detection — see [Untargeted overview](/workflow/untargeted).
 
 ## Troubleshooting
 

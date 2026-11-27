@@ -9,7 +9,19 @@ export default defineConfig({
 
   cleanUrls: true,
   ignoreDeadLinks: false,
-  srcExclude: ['README.md', 'node_modules/**', 'docs/**'],
+  srcExclude: [
+    'README.md',
+    'node_modules/**',
+    'docs/**',
+    'workflow/untargeted.md',
+    'workflow/extract-untargeted.md',
+    'workflow/inspect-features.md',
+    'get-started/install-mint.md',
+    'get-started/install-hosted.md',
+    'scripting/cli/untargeted.md',
+    'seed/python-api.md',
+    'seed/rust-api.md',
+  ],
 
   head: [
     ['link', { rel: 'icon', href: '/leaf-icon.png' }],
@@ -41,14 +53,6 @@ export default defineConfig({
             ],
           },
           {
-            text: 'Untargeted workflow',
-            items: [
-              { text: 'Untargeted overview', link: '/workflow/untargeted' },
-              { text: 'Extract — untargeted', link: '/workflow/extract-untargeted' },
-              { text: 'Inspect features', link: '/workflow/inspect-features' },
-            ],
-          },
-          {
             text: 'Shared output',
             items: [
               { text: 'Export', link: '/workflow/export' },
@@ -71,7 +75,6 @@ export default defineConfig({
               { text: 'Overview', link: '/scripting/cli/overview' },
               { text: 'leaf webui', link: '/scripting/cli/webui' },
               { text: 'leaf targeted', link: '/scripting/cli/targeted' },
-              { text: 'leaf untargeted', link: '/scripting/cli/untargeted' },
               { text: 'leaf watch', link: '/scripting/cli/watch' },
               { text: 'Setup & file tools', link: '/scripting/cli/tools' },
               { text: 'Configuration', link: '/scripting/cli/configuration' },
@@ -94,6 +97,10 @@ export default defineConfig({
       },
       { text: 'SEED', link: '/seed/' },
       { text: 'Reference', link: '/reference/ui-tour' },
+      {
+        text: 'v0.5 (archived)',
+        items: [{ text: 'Latest', link: 'https://leaf-docs.morscherlab.org/' }],
+      },
     ],
 
     sidebar: {
@@ -101,7 +108,6 @@ export default defineConfig({
         {
           text: 'Get Started',
           items: [
-            { text: 'Install in MINT (under development)', link: '/get-started/install-mint' },
             { text: 'Install the wheel + CLI', link: '/get-started/install-cli' },
             { text: 'Desktop app (in development)', link: '/get-started/install-desktop' },
             { text: 'First analysis (5 min)', link: '/get-started/quickstart' },
@@ -115,14 +121,6 @@ export default defineConfig({
             { text: 'Analyze', link: '/workflow/analyze' },
             { text: 'Visualize', link: '/workflow/visualize' },
             { text: 'Export', link: '/workflow/export' },
-          ],
-        },
-        {
-          text: 'Untargeted workflow',
-          items: [
-            { text: 'Untargeted overview', link: '/workflow/untargeted' },
-            { text: 'Extract — untargeted', link: '/workflow/extract-untargeted' },
-            { text: 'Inspect features', link: '/workflow/inspect-features' },
           ],
         },
       ],
@@ -140,14 +138,6 @@ export default defineConfig({
             { text: 'Analyze', link: '/workflow/analyze' },
             { text: 'Visualize', link: '/workflow/visualize' },
             { text: 'Isotope tracing (modifier)', link: '/workflow/tracing' },
-          ],
-        },
-        {
-          text: 'Untargeted workflow',
-          items: [
-            { text: 'Untargeted overview', link: '/workflow/untargeted' },
-            { text: 'Extract — untargeted', link: '/workflow/extract-untargeted' },
-            { text: 'Inspect features', link: '/workflow/inspect-features' },
           ],
         },
         {
@@ -202,7 +192,6 @@ export default defineConfig({
             { text: 'Overview', link: '/scripting/cli/overview' },
             { text: 'leaf webui', link: '/scripting/cli/webui' },
             { text: 'leaf targeted', link: '/scripting/cli/targeted' },
-            { text: 'leaf untargeted', link: '/scripting/cli/untargeted' },
             { text: 'leaf watch', link: '/scripting/cli/watch' },
             { text: 'Setup & file tools', link: '/scripting/cli/tools' },
             { text: 'Configuration', link: '/scripting/cli/configuration' },
@@ -233,8 +222,6 @@ export default defineConfig({
           text: 'Reference',
           items: [
             { text: 'Command line', link: '/seed/cli' },
-            { text: 'Python API', link: '/seed/python-api' },
-            { text: 'Rust API', link: '/seed/rust-api' },
             { text: 'Changelog', link: '/seed/changelog' },
           ],
         },

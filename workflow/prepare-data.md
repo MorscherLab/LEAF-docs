@@ -109,10 +109,6 @@ Fumarate,C4H4O4,7.0,M-H
 
 A starter list for primary metabolism is included with LEAF — see [`examples/metabolite-list-primary-metabolism.csv`](https://github.com/MorscherLab/LEAF/blob/main/examples/metabolite-list-primary-metabolism.csv).
 
-## For untargeted analysis
-
-You don't need a metabolite list for untargeted runs. The current untargeted pipeline expects Thermo `.raw` files in the selected folder and discovers features automatically. See [Untargeted analysis](/workflow/untargeted).
-
 ## For isotope tracing
 
 Use the same CSV — no extra columns needed. Isotopologues (M+1, M+2, ...) are configured in the Tracing Editor on the Extract page, not in the CSV. See [Isotope tracing](/workflow/tracing).

@@ -6,7 +6,6 @@ The `leaf` command-line interface ships with the LEAF Python package. It include
 |-------------|---------|-----------|
 | `leaf webui` | Start / stop the local web application (`run`, `start`, `stop`, `status`) | [Detail](/scripting/cli/webui) |
 | `leaf targeted` | Targeted metabolite extraction, peak picking, and quality scoring (no UI) | [Detail](/scripting/cli/targeted) |
-| `leaf untargeted` | Untargeted MS1 feature discovery (no UI) | [Detail](/scripting/cli/untargeted) |
 | `leaf watch` | Real-time folder monitoring; auto-extracts new LC-MS files (`run`, `start`, `stop`, `status`) | [Detail](/scripting/cli/watch) |
 | `leaf doctor` | Check the local Python package, native extensions, reader support, and Web UI assets | [Detail](/scripting/cli/tools#check-an-installation) |
 | `leaf validate` | Preflight a metabolite list and optional RAW / mzML input path | [Detail](/scripting/cli/tools#validate-inputs-before-a-run) |

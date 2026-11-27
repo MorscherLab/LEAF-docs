@@ -104,8 +104,6 @@ Internal timing after file open — measures only the operation itself:
 ## Where to next
 
 - → [Command line](/seed/cli) — `seed` subcommand reference
-- → [Python API](/seed/python-api) — `import seed` (with `batch_xic` deep dive)
-- → [Rust API](/seed/rust-api) — `use seed::…`
 - → [Changelog](/seed/changelog) — release history
 
 ---

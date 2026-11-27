@@ -178,7 +178,3 @@ Press **Ctrl+C** in the terminal window. Closing the browser tab does not stop t
 ## Next step
 
 → [Run your first analysis](/get-started/quickstart) (5 minutes)
-
-The shared MINT deployment path is still under development:
-
-→ [Install in MINT (under development)](/get-started/install-mint)

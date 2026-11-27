@@ -87,7 +87,7 @@ seed batch-xic --files data/*.RAW --mz 524.26 --ppm 5 -o tensor.csv
 seed batch-xic --files data/*.RAW --mz-file targets.txt --ppm 5 -o tensor.csv
 ```
 
-Output is one CSV row per `(file, target, RT)` triple. For Python integration with NumPy tensors, use the [Python `batch_xic`](/seed/python-api#batch-xic-multi-file-extraction) — same algorithm, but returns a 3D `(n_samples, n_targets, n_timepoints)` `ndarray`.
+Output is one CSV row per `(file, target, RT)` triple.
 
 ### 4 — Quick file inspection and benchmark
 

@@ -20,7 +20,6 @@ The desktop app shares the LEAF core with all other install paths: extraction pa
 Use one of the existing install paths:
 
 - **[Install the wheel + CLI](/get-started/install-cli)** — local single-user install on macOS / Windows / Linux. The standalone installer (`bash install.sh` / `install.ps1`) is the closest current equivalent to the desktop app: it produces a single `leaf` launcher you run from a terminal.
-- **[Install in MINT](/get-started/install-mint)** — shared-server path, under development.
 
 ## Track progress
 

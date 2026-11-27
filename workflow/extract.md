@@ -1,6 +1,6 @@
 # Extract — Targeted
 
-The **Extract** page is where you configure parameters and launch a targeted processing run. For untargeted mode (no compound list), see [Extract — Untargeted](/workflow/extract-untargeted).
+The **Extract** page is where you configure parameters and launch a targeted processing run.
 
 The page has a **Targeted / Untargeted** toggle at the top; this guide covers the Targeted side.
 

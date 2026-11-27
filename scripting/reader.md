@@ -5,7 +5,7 @@ LEAF reads targeted `.raw`, `.mzml`, and `.mzml.gz` inputs through SEED on macOS
 SEED is a separate project with its own user manual:
 
 → [SEED — Overview](/seed/)
-→ [Command line](/seed/cli) · [Python API](/seed/python-api) · [Rust API](/seed/rust-api)
+→ [Command line](/seed/cli)
 
 ## When the backend choice matters
 

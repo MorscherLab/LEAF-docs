@@ -125,10 +125,6 @@ peak_rt_idxs = samples.peaks_dict.get((samples.sample_index["WT_rep1"], glucose_
 
 The exact accessor set is documented upstream — `Samples.get_data`, `Samples.get_area`, `Samples.get_batch_intensities` cover the common shapes; see the [model reference](https://github.com/MorscherLab/LEAF/tree/main/docs/leaf/api/model.md).
 
-## Untargeted analysis
-
-The Python entry point for untargeted runs is being stabilised. Until it lands here, drive untargeted runs from the CLI (`leaf untargeted --help`) and read back the resulting `.usd` archive — see [Untargeted overview](/workflow/untargeted).
-
 ## Reproducibility
 
 Every `.msd` and `.usd` carries the full parameter set used during extraction. Pin a LEAF version, save your inputs alongside the archive, and the result is byte-reproducible across machines.
